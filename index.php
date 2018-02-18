@@ -8,7 +8,8 @@ error_reporting(-1);
 ini_set("display_errors", 1);
 
 $content = include_template('templates/index.php', [
-    'categories' => $categories, 'lots' => $lots]);
+    'categories' => $categories, 'lots' => $lots, 'difference_hours' => $difference_hours
+]);
 
 print include_template('templates/layout.php', [
     'content' => $content, 'title' => $title, 'is_auth' => $is_auth,
