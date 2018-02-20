@@ -47,7 +47,7 @@
                         <tr class="history__item">
                             <td class="history__name"><?= $index['name'] ?></td>
                             <td class="history__price"><?= $index['price'] ?> р</td>
-                            <td class="history__time"><? print(convertTimeStamp($index['ts'])); ?></td>
+                            <td class="history__time"><?= $index['ts'] ?></td>
                         </tr>
                     <? endforeach; ?>
 

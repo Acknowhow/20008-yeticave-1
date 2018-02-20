@@ -40,7 +40,7 @@
     </div>
 </header>
 
-<main <?if(isset($index)) :?>class="container"<?endif; ?>><?= $content ?></main>
+<main <?if(!empty($index)) :?>class="container"<?endif; ?>><?= $content ?></main>
 
 <footer class="main-footer">
     <nav class="nav">

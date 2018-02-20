@@ -1,13 +1,13 @@
 <?php
+date_default_timezone_set('Europe/Moscow');
 $is_auth = (bool)rand(0, 1);
 
 $user_name = 'Константин';
 $user_avatar = 'img/user.jpg';
 
-date_default_timezone_set('Europe/Moscow');
+$date_now = new DateTime('now');
+$date_tomorrow = new DateTime('tomorrow midnight');
 
-$today = new DateTime('now');
-$tomorrow = new DateTime('tomorrow midnight');
+$date_difference = $date_now->diff($date_tomorrow);
+$time_left = $date_difference->format('%h:%i');
 
-$difference = $today->diff($tomorrow);
-$time_remaining = $difference->format('%h:%i');

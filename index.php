@@ -1,9 +1,10 @@
 <?php
-require 'functions.php';
 require 'data/data.php';
+require 'functions.php';
 
-require 'defaults/var.php';
 require 'defaults/config.php';
+require 'defaults/var.php';
+
 
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -30,8 +31,7 @@ if(isset($_GET['id']) && empty($lots[$id])) {
 }
 
 $content = include_template('templates/index.php', [
-    'categories' => $categories,
-    'lots' => $lots, 'time_remaining' => $time_remaining
+    'categories' => $categories, 'lots' => $lots
 ]);
 
 print include_template('templates/layout.php', [
