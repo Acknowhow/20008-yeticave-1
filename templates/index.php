@@ -16,26 +16,26 @@
         <h2>Открытые лоты</h2>
     </div>
     <ul class="lots__list">
-        <?php foreach ($lots as $lot => $index) : ?>
+        <?php foreach ($lots as $lot => $key) : ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?= htmlspecialchars($index['lot_img_url']) ?>"
+                    <img src="<?= htmlspecialchars($key['lot_img_url']) ?>"
                          width="350"
                          height="260"
-                         alt="<?= htmlspecialchars($index['lot_img_alt']) ?>">
+                         alt="<?= htmlspecialchars($key['lot_img_alt']) ?>">
                 </div>
                 <div class="lot__info">
-                    <span class="lot__category"><?= $index['lot_category'] ?></span>
+                    <span class="lot__category"><?= $key['lot_category'] ?></span>
                     <h3 class="lot__title">
                         <a class="text-link"
-                           href="index.php?id=<?= $lot_id ?>"><?= htmlspecialchars($index['lot_name']); ?>
+                           href="index.php?id=<?= $lot ?>"><?= htmlspecialchars($key['lot_name']); ?>
                         </a>
                     </h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost">
-                                <?= convertNum(htmlspecialchars($index['lot_value'])); ?>
+                                <?= convertNum(htmlspecialchars($key['lot_value'])); ?>
                                 <b class="rub">р</b>
                             </span>
                         </div>

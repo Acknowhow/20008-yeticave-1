@@ -1,9 +1,9 @@
 <?php
-require 'data/data.php';
-require 'functions.php';
-
 require 'defaults/config.php';
 require 'defaults/var.php';
+
+require 'data/data.php';
+require 'functions.php';
 
 error_reporting(-1);
 ini_set("display_errors", 1);
@@ -20,6 +20,7 @@ if (isset($_GET['id']) && !isset($lots[$lot_id])) {
         ]);
 } elseif (isset($_GET['id']) && isset($lots[$lot_id])) {
     $lot = $lots[$lot_id];
+    var_dump($lot);
     $content = include_template('templates/lot.php',
 
         [
@@ -28,7 +29,6 @@ if (isset($_GET['id']) && !isset($lots[$lot_id])) {
             'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
             'lot_img_alt' => $lot['lot_img_alt'], 'lot_description' => $lot['lot_description']
         ]);
-
 }
 $content = include_template('templates/index.php',
     [
