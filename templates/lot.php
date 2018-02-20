@@ -1,21 +1,21 @@
 <nav class="nav">
     <ul class="nav__list container">
-        <?foreach ($categories as $category => $value) :?>
+        <? foreach ($categories as $category => $index) : ?>
             <li class="nav__item">
-                <a href=""><?=$value;?></a>
+                <a href=""><?= $index ?></a>
             </li>
-        <?endforeach;?>
+        <? endforeach; ?>
     </ul>
 </nav>
 <section class="lot-item container">
-    <h2><?=$lot['name']?></h2>
+    <h2><?= $name ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">
-                <img src="<?=$lot['img_url']?>" width="730" height="548" alt="<?=$lot['img_alt']?>">
+                <img src="<?= $img_url ?>" width="730" height="548" alt="<?= $img_alt ?>">
             </div>
-            <p class="lot-item__category">Категория: <span><?=$lot['category_name']?></span></p>
-            <p class="lot-item__description"><?=$lot_text[0]?></p>
+            <p class="lot-item__category">Категория: <span><?= $category ?></span></p>
+            <p class="lot-item__description"><?= $description ?></p>
         </div>
         <div class="lot-item__right">
             <div class="lot-item__state">
@@ -43,11 +43,11 @@
                 <h3>История ставок (<span>4</span>)</h3>
                 <table class="history__list">
 
-                    <? foreach ($bets as $bet => $value) :?>
+                    <? foreach ($bets as $bet => $index) : ?>
                         <tr class="history__item">
-                            <td class="history__name"><?=$value['name'] ?></td>
-                            <td class="history__price"><?=$value['price'] ?> р</td>
-                            <td class="history__time"><?print(convertTimeStamp($value['ts'])) ?></td>
+                            <td class="history__name"><?= $index['name'] ?></td>
+                            <td class="history__price"><?= $index['price'] ?> р</td>
+                            <td class="history__time"><? print(convertTimeStamp($index['ts'])); ?></td>
                         </tr>
                     <? endforeach; ?>
 

@@ -10,4 +10,4 @@ $today = new DateTime('now');
 $tomorrow = new DateTime('tomorrow midnight');
 
 $difference = $today->diff($tomorrow);
-$lot_time_remaining = $difference->format('%h:%i');
+$time_remaining = $difference->format('%h:%i');
