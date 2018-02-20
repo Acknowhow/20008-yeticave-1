@@ -1,42 +1,44 @@
 <?php
-
 require 'functions.php';
-require 'config.php';
 require 'data.php';
+
+require 'defaults/var.php';
+require 'defaults/config.php';
 
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-if(isset($_GET['id'])){
-    $index = null;
-    $id = $_GET['id'];
+$index = true;
+$id = isset($_GET['id']) ? $_GET['id'] : null;
+$lot = &$id;
+$content = [];
 
-    $lot = $lots[$id];
-    if(!$lot['name']) {
-        $title = $error_title;
+if(!empty($id)){
+    $index = false;
+    $lot['name'] = $error_title;
 
-        http_response_code(404);
-        $content = include_template('templates/404.php', [
+    http_response_code(404);
+    $content = include_template('templates/404.php', [
 
             'container' => $container
         ]);
     } else {
-
-        $title = $lot['name'];
         $content = include_template('templates/lot.php', [
 
-            'categories' => $categories, 'lot' => $lot, 'lot_text' => $lot_text, 'bets' => $bets
+            'categories' => $categories, 'lot' => $lot,
+            'lot_default_description' => $lot_default_description,
+            'bets' => $bets
         ]);
     }
 }
 
 $content = include_template('templates/index.php', [
-    'categories' => $categories, 'lots' => $lots, 'difference_hours' => $difference_hours
+    'categories' => $categories, 'lots' => $lots,
+    'difference_hours' => $lot_time_remaining
 ]);
 
 print include_template('templates/layout.php', [
     'content' => $content, 'title' => $title, 'is_auth' => $is_auth,
-
     'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories
 ]);
 
