@@ -8,14 +8,14 @@
     </ul>
 </nav>
 <section class="lot-item container">
-    <h2><?= $name ?></h2>
+    <h2><?= $lot_name ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
             <div class="lot-item__image">
-                <img src="<?= $img_url ?>" width="730" height="548" alt="<?= $img_alt ?>">
+                <img src="<?= $lot_img_url ?>" width="730" height="548" alt="<?= $lot_img_alt ?>">
             </div>
-            <p class="lot-item__category">Категория: <span><?= $category ?></span></p>
-            <p class="lot-item__description"><?= $description ?></p>
+            <p class="lot-item__category">Категория: <span><?= $lot_category ?></span></p>
+            <p class="lot-item__description"><?= $lot_description ?></p>
         </div>
         <div class="lot-item__right">
             <div class="lot-item__state">
@@ -25,7 +25,7 @@
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">
                         <span class="lot-item__amount">Текущая цена</span>
-                        <span class="lot-item__cost">11 500</span>
+                        <span class="lot-item__cost"><?= $lot_value ?></span>
                     </div>
                     <div class="lot-item__min-cost">
                         Мин. ставка <span>12 000 р</span>
@@ -45,9 +45,9 @@
 
                     <? foreach ($bets as $bet => $index) : ?>
                         <tr class="history__item">
-                            <td class="history__name"><?= $index['name'] ?></td>
-                            <td class="history__price"><?= $index['price'] ?> р</td>
-                            <td class="history__time"><?= $index['ts'] ?></td>
+                            <td class="history__name"><?= $index['user_name'] ?></td>
+                            <td class="history__price"><?= $index['bet_value'] ?> р</td>
+                            <td class="history__time"><?= $index['bet_ts'] ?></td>
                         </tr>
                     <? endforeach; ?>
 

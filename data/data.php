@@ -16,9 +16,13 @@ $lot_description_default = '
     от Шона Кливера еще никого не оставляла равнодушным.';
 
 
-$categories = ['boards' => 'Доски и лыжи', 'attachment' =>
+$categories = [
+
+    'boards' => 'Доски и лыжи', 'attachment' =>
     'Крепления', 'boots' => 'Ботинки', 'clothing' => 'Одежда',
-    'tools' => 'Инструменты', 'other' => 'Разное'];
+    'tools' => 'Инструменты', 'other' => 'Разное'
+
+];
 
 $lots = [
     [

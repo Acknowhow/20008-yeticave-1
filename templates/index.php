@@ -28,7 +28,7 @@
                     <span class="lot__category"><?= $index['lot_category'] ?></span>
                     <h3 class="lot__title">
                         <a class="text-link"
-                           href="index.php?=<?= $id ?>"><?= htmlspecialchars($index['lot_name']) ?>
+                           href="index.php?id=<?= $lot_id ?>"><?= htmlspecialchars($index['lot_name']); ?>
                         </a>
                     </h3>
                     <div class="lot__state">
