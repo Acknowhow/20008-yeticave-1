@@ -1,10 +1,10 @@
 <nav class="nav">
     <ul class="nav__list container">
-        <? foreach ($categories as $category => $index) : ?>
+        <?php foreach ($categories as $category) : ?>
             <li class="nav__item">
-                <a href=""><?= $index ?></a>
+                <a href=""><?= $category ?></a>
             </li>
-        <? endforeach; ?>
+        <?php endforeach; ?>
     </ul>
 </nav>
 <section class="lot-item container">
@@ -43,13 +43,13 @@
                 <h3>История ставок (<span>4</span>)</h3>
                 <table class="history__list">
 
-                    <? foreach ($bets as $bet => $index) : ?>
+                    <?php foreach ($bets as $bet => $index) : ?>
                         <tr class="history__item">
                             <td class="history__name"><?= $index['user_name'] ?></td>
                             <td class="history__price"><?= $index['bet_value'] ?> р</td>
                             <td class="history__time"><?= $index['bet_ts'] ?></td>
                         </tr>
-                    <? endforeach; ?>
+                    <?php endforeach; ?>
 
                 </table>
             </div>

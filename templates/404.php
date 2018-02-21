@@ -1,9 +1,17 @@
+<?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache"); ?>
 <div class="pict">
     <style>
         .pict {
             display: flex;
             position: relative;
             margin: 20% 25%;
+        },
+        html, body {
+            height: 100%;
+            margin: 0;
         }
     </style>
     <svg height="355" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 827.57 354.99">
@@ -13,5 +21,7 @@
     </svg>
 </div>
 <style>
-    main {background-color: #dbe6e9;}
+    main {
+        background-color: #dbe6e9;
+    }
 </style>
