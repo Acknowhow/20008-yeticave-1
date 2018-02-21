@@ -31,7 +31,7 @@
                 <ul class="user-menu__list">
                     <li class="user-menu__item">
                         <a href="#">Регистрация</a>
-                    </li>git s
+                    </li>
                     <li class="user-menu__item">
                         <a href="#">Вход</a>
                     </li>
@@ -47,7 +47,7 @@
         <ul class="nav__list container">
             <?php foreach ($categories as $category) : ?>
                 <li class="nav__item">
-                    <a href="all-lots.html"><?= htmlspecialchars($category); ?></a>
+                    <a href="all-lots.html"><?= htmlspecialchars($category) ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
