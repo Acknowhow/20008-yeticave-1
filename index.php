@@ -5,11 +5,6 @@ require 'defaults/var.php';
 require 'data/data.php';
 require 'functions.php';
 
-error_reporting(-1);
-ini_set("display_errors", 1);
-
-ob_start();
-
 if (isset($_GET['id'])) {
     $index = false;
     $title = $error_title;
@@ -42,7 +37,6 @@ if ($index === true) {
         ]);
 }
 
-ob_end_flush();
 print include_template('templates/layout.php',
     [
         'is_auth' => $is_auth, 'index' => $index,
