@@ -1,11 +1,11 @@
 <div class="pict">
     <style>
-        /*.pict {*/
-            /*position: relative;*/
-        /*}*/
+        .pict {
+            position: relative;
+            min-height: 650px;
+        }
         html, body {
             height: 100%;
-            margin: 0;
         }
     </style>
     <svg class="error" height="355" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 827.57 354.99">
@@ -17,20 +17,20 @@
 <div class="push"></div>
 <style>
     .error {
-        display: block;
-        padding-top: 100px;
-        margin: 0px auto 50px;
+        position: absolute;
+        margin: 50px auto 0;
+        top: 100px;
+        left: calc(50% - 434px)
     }
     .push {
-        height: 322px;
+        height: 100px;
     }
     main {
         background-color: #dbe6e9;
         min-height: 100%;
+    }
+    .main-footer {
+        margin-top: -203px;
+    }
 
-        margin-bottom: -322px;
-    }
-    footer {
-        content: 'Bla'
-    }
 </style>
