@@ -8,7 +8,6 @@ require 'functions.php';
 error_reporting(-1);
 ini_set("display_errors", 1);
 
-$start = microtime(true);
 if (isset($_GET['id'])) {
     $index = false;
     $title = $error_title;
@@ -33,10 +32,6 @@ if (isset($_GET['id'])) {
 
     }
 }
-$time_elapsed_secs = microtime(true) - $start;
-//float(9.5367431640625E-7)
-//float(1.1920928955078E-6)
-var_dump($time_elapsed_secs);
 
 $content = include_template('templates/index.php',
     [
