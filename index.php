@@ -4,31 +4,8 @@ require 'defaults/var.php';
 
 require 'data/data.php';
 require 'functions.php';
+require 'lot.php';
 
-if (isset($_GET['id'])) {
-    $index = false;
-    $title = $error_title;
-
-    if (!isset($lots[$lot_id])) {
-        http_response_code(404);
-        $content = include_template('templates/404.php',
-            [
-                'container' => $container
-            ]);
-    } else {
-        $lot = $lots[$lot_id];
-        $content = include_template('templates/lot.php',
-
-            [
-                'categories' => $categories, 'bets' => $bets,
-                'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
-
-                'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
-                'lot_img_alt' => $lot['lot_img_alt'], 'lot_description' => $lot['lot_description']
-            ]);
-
-    }
-}
 if ($index === true) {
     $content = include_template('templates/index.php',
         [
