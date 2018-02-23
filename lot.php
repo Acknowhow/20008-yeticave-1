@@ -2,27 +2,10 @@
 // Some dynamic logic goes here
 $lot_id = isset($_GET['lot-id']) ? $_GET['lot-id'] : null;
 
-class Lot {
-    var $lot_id;
 
-    // Sets id derived from $_GET['id']
-    function set_id($new_id) {
-        $this->lot_id = $new_id;
-    }
+//if (isset($lot_($lot_id)) {
+//}
 
-
-    function get_id($new_id) {
-        return $this->lot_id = $new_id;
-    }
-}
-class myLot{
-
-}
-
-
-if (isset($_GET['id'])) {
-    $index = false;
-    $title = $error_title;
 
     if (!isset($lots[$lot_id])) {
         http_response_code(404);
@@ -43,4 +26,4 @@ if (isset($_GET['id'])) {
             ]);
 
     }
-}
+

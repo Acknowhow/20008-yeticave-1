@@ -11,7 +11,8 @@ if ($index === true) {
         [
             'categories' => $categories,
             'lots' => $lots, 'time_left' => $time_left
-        ]);
+        ]
+    );
 }
 
 print include_template('templates/layout.php',
@@ -19,4 +20,5 @@ print include_template('templates/layout.php',
         'is_auth' => $is_auth, 'index' => $index,
         'title' => $title, 'user_name' => $user_name,
         'user_avatar' => $user_avatar, 'content' => $content, 'categories' => $categories
-    ]);
+    ]
+);
