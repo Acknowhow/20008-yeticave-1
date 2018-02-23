@@ -1,4 +1,0 @@
-<?php
-$index = true;
-$content = '';
-
