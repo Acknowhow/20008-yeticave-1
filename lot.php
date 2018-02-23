@@ -1,6 +1,6 @@
 <?php
 // Some dynamic logic goes here
-$lot_id = isset($_GET['id']) ? $_GET['id'] : null;
+$lot_id = isset($_GET['lot-id']) ? $_GET['lot-id'] : null;
 
 class Lot {
     var $lot_id;
