@@ -1,15 +1,20 @@
 <?php
+session_start();
 require 'data/data.php';
 require 'functions.php';
 require 'defaults/config.php';
 
 $index = true;
-$content = include_template('templates/index.php',
+if (isset($_GET['lot'])) {
+    $content = $_SESSION['lot'];
+} else {
+    $content = include_template('templates/index.php',
         [
             'categories' => $categories,
             'lots' => $lots, 'time_left' => $time_left
         ]
-);
+    );
+}
 
 print include_template('templates/layout.php',
     [

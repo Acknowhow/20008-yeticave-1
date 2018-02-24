@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'data/data.php';
 require 'functions.php';
 require 'defaults/config.php';
@@ -20,13 +21,9 @@ if (isset($lot_id)) {
                 'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
                 'lot_img_alt' => $lot['lot_img_alt'], 'lot_description' => $lot['lot_description']
             ]);
-        print include_template('templates/layout.php',
-            [
-                'is_auth' => $is_auth, 'index' => $index,
-                'title' => $title, 'user_name' => $user_name,
-                'user_avatar' => $user_avatar, 'content' => $content, 'categories' => $categories
-            ]
-        );
+
+        $_SESSION['lot'] = $content;
+        header('Location: index.php?lot=true');
     }
     else {
         $error = true;
