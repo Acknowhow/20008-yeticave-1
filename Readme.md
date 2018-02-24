@@ -1,7 +1,7 @@
 # Личный проект «YetiCave»
 
 * Студент: [Вадим Корабельник](https://up.htmlacademy.ru/php/4/user/20008).
-* Наставник: [Сергей Дорошенков](https://htmlacademy.ru/profile/id451863).
+* Наставник: [Николай Пойманов](https://htmlacademy.ru/profile/id451863).
 
 
 ---

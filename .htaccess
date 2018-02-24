@@ -1,0 +1,18 @@
+AllowOverride All
+
+<IfModule mod_headers.c>
+    Header unset ETag
+    <filesMatch "\.*$">
+        Header set Cache-Control "no-store, no-cache, must-revalidate"
+        Header set Cache"max-age=0, post-check=0 pre-check=0, replace=false"
+        Header set Pragma "no-cache"
+    </filesMatch>
+</IfModule>
+
+FileETag None
+
+php_flag display_startup_errors on
+php_flag display_errors on
+php_flag html_errors on
+php_flag log_errors on
+php_value error_log /usr/local/var/log/nginx/error.log

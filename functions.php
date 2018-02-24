@@ -1,5 +1,5 @@
 <?php
-function convertNum($num){
+function convertNum($num) {
     $num = ceil($num);
 
     if ($num > 1000) {
@@ -12,7 +12,7 @@ function convertNum($num){
     return $num;
 }
 
-function include_template($templatePath, $templateData){
+function include_template($templatePath, $templateData) {
     if(!file_exists($templatePath)) {
 
         return '';

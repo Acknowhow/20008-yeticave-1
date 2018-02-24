@@ -1,21 +1,21 @@
 <?php
-
+require 'data/data.php';
 require 'functions.php';
-require 'config.php';
-require 'data.php';
+require 'defaults/config.php';
 
-error_reporting(-1);
-ini_set("display_errors", 1);
+$index = true;
+$content = include_template('templates/index.php',
+        [
+            'categories' => $categories,
+            'lots' => $lots, 'time_left' => $time_left
+        ]
+);
 
-$content = include_template('templates/index.php', [
-    'categories' => $categories, 'lots' => $lots, 'difference_hours' => $difference_hours
-]);
-
-print include_template('templates/layout.php', [
-    'content' => $content, 'title' => $title, 'is_auth' => $is_auth,
-
-    'user_avatar' => $user_avatar, 'user_name' => $user_name, 'categories' => $categories
-]);
-
-
+print include_template('templates/layout.php',
+    [
+        'is_auth' => $is_auth, 'index' => $index,
+        'title' => $title, 'user_name' => $user_name,
+        'user_avatar' => $user_avatar, 'content' => $content, 'categories' => $categories
+    ]
+);
 

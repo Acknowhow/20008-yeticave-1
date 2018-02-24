@@ -40,14 +40,14 @@
     </div>
 </header>
 
-<main class="container"><?= $content ?></main>
+<main <?php if ($index === true) :?>class="container"<?php endif; ?>><?= $content ?></main>
 
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
             <?php foreach ($categories as $category) : ?>
                 <li class="nav__item">
-                    <a href="all-lots.html"><?= htmlspecialchars($category); ?></a>
+                    <a href="all-lots.html"><?= htmlspecialchars($category) ?></a>
                 </li>
             <?php endforeach; ?>
         </ul>
