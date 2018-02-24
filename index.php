@@ -6,6 +6,7 @@ require 'defaults/config.php';
 
 $index = true;
 if (isset($_GET['lot'])) {
+    $index = false;
     $content = $_SESSION['lot'];
 } else {
     $content = include_template('templates/index.php',

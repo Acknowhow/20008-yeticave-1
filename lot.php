@@ -23,7 +23,7 @@ if (isset($lot_id)) {
             ]);
 
         $_SESSION['lot'] = $content;
-        header('Location: index.php?lot=true');
+        header('Location: index.php?lot=' . $lot_id);
     }
     else {
         $error = true;
