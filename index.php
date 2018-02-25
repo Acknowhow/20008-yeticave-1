@@ -5,6 +5,7 @@ require 'functions.php';
 require 'defaults/config.php';
 
 $index = true;
+$nav = '';
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
@@ -23,6 +24,14 @@ if (isset($_GET['error'])) {
     ]);
 
 }
+
+if (isset($_GET['lot']) || isset($_GET['add-lot'])) {
+    $nav = include_template('templates/nav.php', [
+
+        'categories' => $categories
+    ]);
+}
+
 if (isset($_GET['lot'])) {
     $index = false;
     $content = $_SESSION['lot'];
@@ -30,7 +39,7 @@ if (isset($_GET['lot'])) {
 
 print include_template('templates/layout.php',
     [
-        'is_auth' => $is_auth, 'index' => $index,
+        'is_auth' => $is_auth, 'index' => $index, 'nav' => $nav,
         'title' => $title, 'user_name' => $user_name,
         'user_avatar' => $user_avatar, 'content' => $content, 'categories' => $categories
     ]

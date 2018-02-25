@@ -40,7 +40,7 @@
     </div>
 </header>
 
-<main <?php if ($index === true) :?>class="container"<?php endif; ?>><?= $content ?></main>
+<main <?php if ($index === true) :?>class="container"<?php endif; ?>><?= $nav ?><?= $content ?></main>
 
 <footer class="main-footer">
     <nav class="nav">
