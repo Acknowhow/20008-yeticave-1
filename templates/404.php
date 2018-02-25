@@ -32,5 +32,4 @@
     .main-footer {
         margin-top: -203px;
     }
-
 </style>

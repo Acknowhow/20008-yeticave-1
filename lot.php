@@ -3,6 +3,7 @@ session_start();
 require 'data/data.php';
 require 'functions.php';
 require 'defaults/config.php';
+$nav = require 'templates/nav.php';
 
 $error = false;
 $content = '';
@@ -14,7 +15,7 @@ if (isset($lot_id)) {
     if(array_key_exists($lot_id, $lots) === true) {
         $lot = $lots[$lot_id];
         $content = include_template('templates/lot.php',
-            [
+            [   'nav' => $nav,
                 'categories' => $categories, 'bets' => $bets,
                 'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
 
