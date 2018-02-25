@@ -5,7 +5,6 @@ require 'functions.php';
 require 'defaults/config.php';
 $nav = require 'templates/nav.php';
 
-$error = false;
 $content = '';
 $lot_id = isset($_GET['lot-id']) ? $_GET['lot-id'] : null;
 $lot = [];
@@ -27,7 +26,7 @@ if (isset($lot_id)) {
         header('Location: index.php?lot=' . $lot_id);
     }
     else {
-        $error = true;
+        header('Location: index.php?error=404');
     }
 }
 
