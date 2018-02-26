@@ -75,7 +75,7 @@ function validateLotValue($lotRate) {
     $is_positive = $_lotRate > 0;
 
     if (!$is_numeric) {
-        return 'Введите числовое значение';
+        return 'Введите целое числовое значение больше 0';
 
     } elseif (!$is_positive) {
         return 'Введите число больше нуля';

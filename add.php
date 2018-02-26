@@ -20,17 +20,16 @@ $lot_rate = $_POST['lot_rate'] ?? '';
 $lot_step = $_POST['lot_step'] ?? '';
 $lot_date = $_POST['lot_date'] ?? '';
 
-$url_param = '';
 $check_key = '';
 $key = '';
 
 $required = [
     'lot_name', 'lot_category',
-    'lot_description', 'lot_rate', 'lot_step', 'lot_date'
+    'lot_description', 'lot_value', 'lot_step', 'lot_date'
 ];
 
 $rules = [
-    'lot_rate' => 'validateLotValue',
+    'lot_value' => 'validateLotValue',
     'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
 
