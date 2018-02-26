@@ -15,7 +15,6 @@ $lot_description_default = '
     посмотрите на Вашу доску и улыбнитесь, крутая графика 
     от Шона Кливера еще никого не оставляла равнодушным.';
 
-
 $categories = [
 
     'boards' => 'Доски и лыжи', 'attachment' =>
@@ -81,4 +80,9 @@ $bets = [
         'user_name' => 'Семён', 'bet_value' => 10000,
         'bet_ts' => strtotime('last week')
     ]
+];
+
+$layout = [
+    'is_auth' => $is_auth, 'title' => $title, 'user_name' => $user_name,
+    'user_avatar' => $user_avatar, 'categories' => $categories
 ];

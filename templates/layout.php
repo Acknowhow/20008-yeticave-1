@@ -11,14 +11,14 @@
 <header class="main-header">
     <div class="main-header__container container">
         <h1 class="visually-hidden">YetiCave</h1>
-        <a class="main-header__logo">
+        <a class="main-header__logo" href="index.php">
             <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
         <form class="main-header__search" method="get" action="https://echo.htmlacademy.ru">
             <input type="search" name="search" placeholder="Поиск лота">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <a class="main-header__add-lot button" href="add-lot.html">Добавить лот</a>
+        <a class="main-header__add-lot button" href="./../add.php?lot_add=true">Добавить лот</a>
         <nav class="user-menu">
             <?php if ($is_auth === true): ?>
                 <div class="user-menu__image">
@@ -40,7 +40,7 @@
     </div>
 </header>
 
-<main <?php if ($index === true) :?>class="container"<?php endif; ?>><?= $content ?></main>
+<main <?php if ($index === true) :?>class="container"<?php endif; ?>><?= $nav ?><?= $content ?></main>
 
 <footer class="main-footer">
     <nav class="nav">

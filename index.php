@@ -1,21 +1,20 @@
 <?php
+session_start();
+require 'defaults/config.php';
+require 'defaults/var.php';
 require 'data/data.php';
 require 'functions.php';
-require 'defaults/config.php';
 
-$index = true;
+require 'markup/markup.php';
 $content = include_template('templates/index.php',
-        [
-            'categories' => $categories,
-            'lots' => $lots, 'time_left' => $time_left
-        ]
-);
-
-print include_template('templates/layout.php',
     [
-        'is_auth' => $is_auth, 'index' => $index,
-        'title' => $title, 'user_name' => $user_name,
-        'user_avatar' => $user_avatar, 'content' => $content, 'categories' => $categories
+        'categories' => $categories,
+        'lots' => $lots, 'time_left' => $time_left
     ]
 );
 
+$markup = new Markup('templates/layout.php',
+                       array_merge_recursive($layout, [
+                           'content' => $content, 'index' => $index, 'nav' => $nav
+                       ]));
+$markup->get_layout();
