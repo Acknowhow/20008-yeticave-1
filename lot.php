@@ -7,6 +7,10 @@ require 'functions.php';
 
 require 'markup/markup.php';
 $lot_id = isset($_GET['lot-id']) ? $_GET['lot-id'] : null;
+
+if (isset($_GET['lot-id']) && isset($_GET['lot-added'])) {
+    print 'yea';
+}
 if (isset($lot_id)) {
     if (array_key_exists($lot_id, $lots) === true) {
         $index = false;

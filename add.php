@@ -30,9 +30,11 @@ $required = [
 ];
 
 $rules = [
-    'lot_rate' => 'validateLotRate',
+    'lot_rate' => 'validateLotValue',
     'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
+
+$lot = $form_defaults['lot_add'];
 
 if (isset($_POST['lot_add'])) {
     $check_key = 'lot_add';
@@ -43,8 +45,9 @@ if(isset($_POST['category'])) {
         $_POST['category'] = '' : $_POST['category'];
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_FILES['lot_img'])) {
+    if (!empty($_FILES['lot_img']['size'])) {
 
         $file = $_FILES['lot_img'];
 
@@ -97,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $errors[$key] = $result;
             }
 
-        } $form_data[$key] = $value;
+        } $lot[$key]['input'] = $value;
     }
 }
 
@@ -105,15 +108,14 @@ $index = false;
 $nav = include_template('templates/nav.php', [
     'categories' => $categories
 ]);
-$lot = $form_defaults['lot_add'];
 
-var_dump($errors);
-//if (empty($errors)) {
-//    array_push($lots, $lot);
-//
-//    $lot_id = count($lots) - 1;
-//    header('Location: lot.php?lot-id=' . $lot_id);
-//}
+if (empty($errors)) {
+    $lot = $_POST;
+    array_push($lots, $lot);
+
+    $lot_id = count($lots) - 1;
+    header('Location: lot.php?lot-id=' . $lot_id . '&&lot-added=true');
+}
 
 
 $content = include_template('templates/add-lot.php',
