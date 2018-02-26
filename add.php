@@ -45,7 +45,6 @@ if(isset($_POST['category'])) {
         $_POST['category'] = '' : $_POST['category'];
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_FILES['lot_img']['size'])) {
 
@@ -102,21 +101,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         } $lot[$key]['input'] = $value;
     }
+
+    if (empty($errors)) {
+        $lot = $_POST;
+        $lot['lot_img_url'] = $form_data['lot_img_url'];
+        $lot['lot_img_alt'] = $form_data['lot_img_alt'];
+        array_push($lots, $lot);
+        $lot_id = count($lots) - 1;
+
+        $_SESSION['lot_added'] = $lot;
+        header('Location: lot.php?lot_id=' . $lot_id . '&&lot_added=true');
+    }
 }
 
 $index = false;
 $nav = include_template('templates/nav.php', [
     'categories' => $categories
 ]);
-
-if (empty($errors)) {
-    $lot = $_POST;
-    array_push($lots, $lot);
-
-    $lot_id = count($lots) - 1;
-    header('Location: lot.php?lot-id=' . $lot_id . '&&lot-added=true');
-}
-
 
 $content = include_template('templates/add-lot.php',
     [

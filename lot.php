@@ -6,16 +6,22 @@ require 'data/data.php';
 require 'functions.php';
 
 require 'markup/markup.php';
-$lot_id = isset($_GET['lot-id']) ? $_GET['lot-id'] : null;
+$lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : null;
 
-if (isset($_GET['lot-id']) && isset($_GET['lot-added'])) {
-    print 'yea';
-}
 if (isset($lot_id)) {
-    if (array_key_exists($lot_id, $lots) === true) {
-        $index = false;
-        $lot = $lots[$lot_id];
+    $index = false;
 
+    if (isset($_SESSION['lot_added'])) {
+        $lot = $_SESSION['lot_added'];
+        array_push($lots, $lot);
+
+        $lot_id = $_GET['lot_id'];
+        unset($_SESSION['lot_added']);
+    } else {
+        $lot = $lots[$lot_id];
+    }
+
+    if (array_key_exists($lot_id, $lots) === true) {
         $nav = include_template('templates/nav.php', [
            'categories' => $categories
         ]);
