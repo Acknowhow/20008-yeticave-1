@@ -25,10 +25,18 @@ if (isset($lot_id)) {
                 'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
                 'lot_img_alt' => $lot['lot_img_alt'], 'lot_description' => $lot['lot_description']
             ]);
+    } elseif (array_key_exists($lot_id, $lot) === false) {
+        $layout['title'] = $error_title;
+        $content = include_template('templates/404.php',
+                                    [
+                                        'container' => $container
+                                    ]);
     }
 }
 
 $markup = new Markup('templates/layout.php',
                      array_merge_recursive($layout, [
-                         'content' => $content, 'index' => $index, 'nav' => $nav]));
+                         'content' => $content, 'index' => $index,
+                         'nav' => $nav
+                     ]));
 $markup->get_layout();

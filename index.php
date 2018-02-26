@@ -4,6 +4,8 @@ require 'data/data.php';
 require 'functions.php';
 require 'defaults/var.php';
 
+require 'markup/markup.php';
+
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
@@ -11,6 +13,8 @@ $content = include_template('templates/index.php',
     ]
 );
 
-print include_template('templates/layout.php',
+$markup = new Markup('templates/layout.php',
                        array_merge_recursive($layout, [
-                           'content' => $content, 'index' => $index, 'nav' => $nav]));
+                           'content' => $content, 'index' => $index, 'nav' => $nav
+                       ]));
+$markup->get_layout();
