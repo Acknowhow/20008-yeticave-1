@@ -82,5 +82,7 @@ $bets = [
     ]
 ];
 
-$layout = ['is_auth' => $is_auth, 'index' => true,
-    'title' => $title, 'user_name' => $user_name, 'user_avatar' => $user_avatar, 'categories' => $categories];
+$layout = [
+    'is_auth' => $is_auth, 'title' => $title, 'user_name' => $user_name,
+    'user_avatar' => $user_avatar, 'categories' => $categories
+];
