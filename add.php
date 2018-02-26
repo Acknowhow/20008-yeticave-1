@@ -27,12 +27,10 @@ $required = [
     'lot_name', 'lot_category',
     'lot_description', 'lot_value', 'lot_step', 'lot_date'
 ];
-
 $rules = [
     'lot_value' => 'validateLotValue',
     'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
-
 $lot = $form_defaults['lot_add'];
 
 if (isset($_POST['lot_add'])) {
@@ -43,10 +41,8 @@ if(isset($_POST['category'])) {
     $_POST['category'] === 'Выберите категорию' ?
         $_POST['category'] = '' : $_POST['category'];
 }
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_FILES['lot_img']['size'])) {
-
         $file = $_FILES['lot_img'];
 
         if ($file['error'] == 0) {
@@ -135,5 +131,4 @@ $markup = new Markup('templates/layout.php',
         'nav' => $nav
     ]));
 $markup->get_layout();
-
 
