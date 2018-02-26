@@ -1,11 +1,11 @@
 <?php
+session_start();
 require 'defaults/config.php';
+require 'defaults/var.php';
 require 'data/data.php';
 require 'functions.php';
-require 'defaults/var.php';
 
 require 'markup/markup.php';
-
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,

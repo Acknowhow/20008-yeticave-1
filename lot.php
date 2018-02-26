@@ -1,13 +1,12 @@
 <?php
+session_start();
 require 'defaults/config.php';
+require 'defaults/var.php';
 require 'data/data.php';
 require 'functions.php';
-require 'defaults/var.php';
 
 require 'markup/markup.php';
-
 $lot_id = isset($_GET['lot-id']) ? $_GET['lot-id'] : null;
-
 if (isset($lot_id)) {
     if (array_key_exists($lot_id, $lots) === true) {
         $index = false;

@@ -1,38 +1,35 @@
 <?php
-header("Cache-Control: no-cache, must-revalidate");
-header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
-
 session_start();
-require 'functions.php';
 require 'data/add-lot.php';
 require 'data/data.php';
+require 'functions.php';
 
 $form_data = [];
 $users = [];
 $errors = [];
 $errors_upload = [];
 
-$email = isset($_POST['email']) ? $_POST['email'] : '';
-$password = isset($_POST['password']) ? $_POST['password'] : '';
-$contacts = isset($_POST['contacts']) ? $_POST['contacts'] : '';
+$lot_name = $_POST['lot_name'] ?? '';
+$category = $_POST['category'] === 'Выберите категорию' ?
+    $_POST['category'] = '' : $_POST['category'];
 
-$category = isset($_POST['category']) ? $_POST['category'] : '';
-$step = isset($_POST['step']) ? $_POST['step'] : '';
-$bet = isset($_POST['bet']) ? $_POST['bet'] : '';
+$message = $_POST['message'] ?? '';
+$lot_rate = $_POST['lot_rate'] ?? '';
 
-$bet_id = isset($_POST['bet_id']) ? $_POST['bet_id'] : '';
-$date_end = isset($_POST['date_end']) ? $_POST['date_end'] : '';
+$lot_step = $_POST['lot_step'] ?? '';
+$lot_date = $_POST['lot_date'] ?? '';
 
 $url_param = '';
 $check_key = '';
 $key = '';
 
-if(isset($_POST['category'])) {
-    $_POST['category'] === 'Выберите категорию' ?
-        $_POST['category'] = '' : $_POST['category'];
-}
-
 $required = [
     'lot_name', 'category', 'message',
     'lot_rate', 'lot_step', 'lot_date'
+];
+
+
+$rules = [
+    'lot_rate' => 'validateLotRate',
+    'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
