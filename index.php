@@ -1,28 +1,19 @@
 <?php
-session_start();
+require 'defaults/config.php';
 require 'data/data.php';
 require 'functions.php';
-require 'defaults/config.php';
 
 $index = true;
 $nav = '';
+
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
         'lots' => $lots, 'time_left' => $time_left
     ]
 );
-
-if (isset($_GET['error'])) {
-    $index = false;
-    $title = $error_title;
-
-    http_response_code(404);
-    $content = include_template('templates/404.php', [
-
-        'container' => $container
-    ]);
-
+if (isset($_SESSION['error'])) {
+    print 'this is error';
 }
 
 if (isset($_GET['lot']) || isset($_GET['add-lot'])) {
@@ -32,16 +23,18 @@ if (isset($_GET['lot']) || isset($_GET['add-lot'])) {
     ]);
 }
 
-if (isset($_GET['lot'])) {
+if (isset($_GET['lot']) && isset($_SESSION['lot'])) {
     $index = false;
+
     $content = $_SESSION['lot'];
+    unset($_SESSION['lot']);
 }
 
-print include_template('templates/layout.php',
-    [
-        'is_auth' => $is_auth, 'index' => $index, 'nav' => $nav,
-        'title' => $title, 'user_name' => $user_name,
-        'user_avatar' => $user_avatar, 'content' => $content, 'categories' => $categories
-    ]
+
+$template = ['content' => $content];
+
+print include_template('templates/layout.php', array_merge_recursive($layout, $template)
+
 );
+
 
