@@ -1,16 +1,16 @@
 <?php
-$add_errors = [
+$add = [
     'lot_name' => [
-        'name' => 'lot_name', 'error_empty' => 'Введите наименование лота'
+        'name' => 'lot_name', 'lot_error' => 'Введите наименование лота'
     ],
-    'category' => [
-        'name' => 'category', 'error_empty' => 'Выберите категорию'
+    'lot_category' => [
+        'name' => 'lot_category', 'lot_error' => 'Выберите категорию'
     ],
-    'message' => [
-        'name' => 'message', 'error_empty' => 'Добавьте описание лота'
+    'lot_description' => [
+        'name' => 'lot_description', 'lot_error' => 'Добавьте описание лота'
     ],
-    'file' => [
-        'name' => 'file', 'error_empty' => 'Добавьте изображение лота'
+    'lot_file' => [
+        'name' => 'lot_file', 'lot_error' => 'Добавьте изображение лота'
     ],
     'lot_rate' => [
         'name' => 'lot_rate', 'error_empty' => ''

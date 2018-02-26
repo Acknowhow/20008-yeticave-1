@@ -13,6 +13,19 @@ $content = include_template('templates/index.php',
     ]
 );
 
+if (isset($_GET['success']) && $_GET['success'] === 'false') {
+    $error = true;
+    $errors = $_SESSION['error_state'];
+}
+
+if (!empty($check_key)) {
+
+    // Can use foreach function here
+    foreach ($form_data as $key => $value) {
+        $form_defaults[$check_key][$key]['input'] = $value ? $value : '';
+    }
+}
+
 $markup = new Markup('templates/layout.php',
                        array_merge_recursive($layout, [
                            'content' => $content, 'index' => $index, 'nav' => $nav

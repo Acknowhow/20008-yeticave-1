@@ -44,8 +44,8 @@
       </div>
     </div>
     <div class="form__input-file">
-      <input class="visually-hidden" type="file" id="photo2" name="photo">
-      <span class="form_error"<?if (isset($errors['file']['error_message'])) : ?>><?=$errors['file']['error_message']; ?><? endif; ?></span>
+      <input class="visually-hidden" type="file" id="photo2" name="lot_img">
+      <span class="form_error"<?if (isset($errors['lot_file_error'])) : ?>><?=$errors['file']['error_message']; ?><? endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
