@@ -18,7 +18,7 @@
             <input type="search" name="search" placeholder="Поиск лота">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <a class="main-header__add-lot button" href="index.php?lot_add=true">Добавить лот</a>
+        <a class="main-header__add-lot button" href="./../add.php?lot_add=true">Добавить лот</a>
         <nav class="user-menu">
             <?php if ($is_auth === true): ?>
                 <div class="user-menu__image">

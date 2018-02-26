@@ -21,11 +21,11 @@ $form_defaults = [
             'name' => 'lot_value', 'title' => 'Начальная цена', 'input' => ''
         ],
         'lot_step' => [
-            'name' => 'lot_step', 'error_empty' => ''
+            'name' => 'lot_step', 'title' => 'Шаг ставки', 'input' => ''
         ],
         'lot_date' => [
-            'name' => 'lot_date', 'error_empty' => 'Введите дату завершения торгов',
-            'error_format' => 'Неправильный формат даты', 'error_date' => 'Дата меньше текущего значения'
+            'name' => 'lot_date',
+            'title' => 'Дата завершения торгов', 'input' => ''
         ]
     ]
 ];

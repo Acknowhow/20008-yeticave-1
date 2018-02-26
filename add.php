@@ -1,15 +1,18 @@
 <?php
 session_start();
+require 'defaults/config.php';
+require 'defaults/var.php';
 require 'data/data.php';
 require 'data/form.php';
+require 'data/errors.php';
 require 'functions.php';
 
+require 'markup/markup.php';
 $form_data = [];
 $errors = [];
 
 $lot_name = $_POST['lot_name'] ?? '';
-$lot_category = $_POST['lot_category'] === 'Выберите категорию' ?
-    $_POST['lot_category'] = '' : $_POST['lot_category'];
+$lot_category = $_POST['lot_category'] ?? '';
 
 $lot_description = $_POST['lot_description'] ?? '';
 $lot_rate = $_POST['lot_rate'] ?? '';
@@ -33,6 +36,11 @@ $rules = [
 
 if (isset($_POST['lot_add'])) {
     $check_key = 'lot_add';
+}
+
+if(isset($_POST['category'])) {
+    $_POST['category'] === 'Выберите категорию' ?
+        $_POST['category'] = '' : $_POST['category'];
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -73,7 +81,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         } else {
             $errors['lot_img'] = $form_errors['lot_img']['error'];
-
         }
     }
 
@@ -83,7 +90,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors[$key] = $form_errors[$key]['error'];
         }
 
-        if (array_key_exists($key, $rules)) {
+        if (array_key_exists($key, $rules) && $value !== '') {
             $result = call_user_func($rules[$key], $value);
 
             if (!empty($result)) {
@@ -94,14 +101,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 
-if (!empty($check_key)) {
+$index = false;
+$nav = include_template('templates/nav.php', [
+    'categories' => $categories
+]);
+$lot = $form_defaults['lot_add'];
 
-    foreach ($form_data as $key => $value) {
-        $form_defaults[$check_key][$key]['input'] = $value ? $value : '';
-    }
-}
+var_dump($errors);
+//if (empty($errors)) {
+//    array_push($lots, $lot);
+//
+//    $lot_id = count($lots) - 1;
+//    header('Location: lot.php?lot-id=' . $lot_id);
+//}
 
-$result = count($errors[$check_key]) ? 'false' : 'true';
-$url_param = "is_added=" . $result;
 
-header('Location: index.php?' . $url_param);
+$content = include_template('templates/add-lot.php',
+    [
+        'categories' => $categories,
+        'errors' => $errors, 'lot_name' => $lot['lot_name'],
+        'lot_category' => $lot['lot_category'],
+        'lot_description' => $lot['lot_description'],
+        'lot_img' => $lot['lot_img'], 'lot_value' => $lot['lot_value'],
+        'lot_step' => $lot['lot_step'], 'lot_date' => $lot['lot_date']
+
+    ]);
+
+$markup = new Markup('templates/layout.php',
+    array_merge_recursive($layout, [
+        'content' => $content, 'index' => $index,
+        'nav' => $nav
+    ]));
+$markup->get_layout();
+
+
