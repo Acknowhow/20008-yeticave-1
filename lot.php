@@ -15,7 +15,6 @@ $cookie_value = isset($_COOKIE['lot_visited']) ?
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
-
 if (isset($lot_id)) {
     $index = false;
 
@@ -57,13 +56,12 @@ if (isset($lot_id)) {
         if (!in_array($lot_id, $cookie_value)) {
             $cookie_value[] = $lot_id;
         }
-    } elseif(empty($cookie_value)) {
+    } elseif (empty($cookie_value)) {
         $cookie_value[] = $lot_id;
     }
 
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
-
 }
 
 $markup = new Markup('templates/layout.php',

@@ -2,24 +2,25 @@
     <section class="lots">
         <h2>История просмотров</h2>
         <ul class="lots__list">
+            <?php foreach ($lots_visited as $lot) : ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="img/lot-1.jpg" width="350" height="260" alt="Сноуборд">
+                    <img src="<?= $lot['lot_img_url'] ?>" width="350" height="260" alt="<?= $lot['lot_img_alt'] ?>">
                 </div>
                 <div class="lot__info">
-                    <span class="lot__category">Доски и лыжи</span>
-                    <h3 class="lot__title"><a class="text-link" href="lot.html">2014 Rossignol District Snowboard</a></h3>
+                    <span class="lot__category"><?= $lot['lot_category'] ?></span>
+                    <h3 class="lot__title"><a class="text-link" href="lot.html"><?= $lot['lot_name'] ?></a></h3>
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost">10 999<b class="rub">р</b></span>
+                            <span class="lot__cost"><?= $lot['lot_value'] ?><b class="rub">р</b></span>
                         </div>
                         <div class="lot__timer timer">
                             16:54:12
                         </div>
                     </div>
                 </div>
-            </li>
+            </li><?php endforeach; ?>
         </ul>
     </section>
     <ul class="pagination-list">
