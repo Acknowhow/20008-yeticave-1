@@ -8,6 +8,14 @@ require 'functions.php';
 require 'markup/markup.php';
 $lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : null;
 
+$cookie_name = 'lot_visited';
+$cookie_value = isset($_COOKIE['lot_visited']) ?
+    $_COOKIE['lot_visited'] : [];
+
+$expire = time() + 60 * 60 * 24 * 30;
+$path = '/';
+
+
 if (isset($lot_id)) {
     $index = false;
 
@@ -22,6 +30,7 @@ if (isset($lot_id)) {
     }
 
     if (array_key_exists($lot_id, $lots) === true) {
+
         $nav = include_template('templates/nav.php', [
            'categories' => $categories
         ]);
@@ -41,6 +50,20 @@ if (isset($lot_id)) {
                                         'container' => $container
                                     ]);
     }
+
+    if (!empty($cookie_value)) {
+        $cookie_value = json_decode($cookie_value, true);
+
+        if (!in_array($lot_id, $cookie_value)) {
+            $cookie_value[] = $lot_id;
+        }
+    } elseif(empty($cookie_value)) {
+        $cookie_value[] = $lot_id;
+    }
+
+    $cookie_value = json_encode($cookie_value);
+    setcookie($cookie_name, $cookie_value, $expire, $path);
+
 }
 
 $markup = new Markup('templates/layout.php',
