@@ -27,11 +27,11 @@ function include_template($templatePath, $templateData) {
 
     return $tpl;
 }
-function getDateFormat($date, $format = 'Y-m-d'){
+function getDateFormat($date, $format = 'd.m.Y'){
     $_date = DateTime::createFromFormat($format, $date);
 
     $_date && $_date->format($format) == $date ?
-        $_date = '' : $_date = 'invalid';
+        $_date = '' : $_date = 'Пожалуйста, введите дату в формате ДД.ММ.ГГГГ';
 
     return $_date;
 }
@@ -62,8 +62,9 @@ function get_integer($val){
 }
 
 function get_numeric($val){
-    if (is_numeric($val)) {
-        return $val + 0;
+    $_val = $val + 0;
+    if (is_numeric($_val)) {
+        return $_val;
     }
     return 0;
 }
@@ -75,10 +76,10 @@ function validateLotValue($lotRate) {
     $is_positive = $_lotRate > 0;
 
     if (!$is_numeric) {
-        return 'Введите целое числовое значение больше 0';
+        return 'Начальная цена должна быть больше 0';
 
     } elseif (!$is_positive) {
-        return 'Введите число больше нуля';
+        return 'Введите положительное числовое значение';
     }
     return '';
 }
@@ -90,10 +91,10 @@ function validateLotStep($lotStep) {
     $is_positive = $_lotStep > 0;
 
     if (!$is_integer) {
-        return 'integer';
+        return 'Введите целое число больше 0';
 
     } elseif (!$is_positive) {
-        return 'positive';
+        return 'Введите целое положительное число';
     }
     return '';
 }

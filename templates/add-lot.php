@@ -56,7 +56,7 @@
     <div class="form__item form__item--small <?php if (!empty($errors['lot_value'])) : ?>form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_value['name'] ?>"><?=$lot_value['title'] ?></label>
       <input id="<?=$lot_value['name'] ?>"
-             type="number"
+             type="text"
              name="<?=$lot_value['name'] ?>"
              placeholder="0"
              step="0.00001"
@@ -67,7 +67,7 @@
     <div class="form__item form__item--small <?php if (!empty($errors['lot_step'])) : ?>form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_step['name'] ?>"><?=$lot_step['title'] ?></label>
       <input id="<?=$lot_step['name'] ?>"
-             type="number"
+             type="text"
              name="<?=$lot_step['name'] ?>"
              placeholder="0"
              step="0.00001"
@@ -79,7 +79,7 @@
       <label for="<?=$lot_date['name'] ?>"><?=$lot_date['title'] ?></label>
       <input class="form__input-date"
              id="<?=$lot_date['name'] ?>"
-             type="date"
+             type="text"
              name="<?=$lot_date['name'] ?>"
              value="<?=$lot_date['input'] ?>">
       <span class="form__error"><?php if (isset($errors['lot_date'])) : ?><?=$errors['lot_date'] ?><?php endif; ?></span>

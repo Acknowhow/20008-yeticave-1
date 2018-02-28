@@ -22,11 +22,10 @@ $rules = [
     'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
-    http_response_code(403);
-    die();
-}
-
+//if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
+//    http_response_code(403);
+//    die();
+//}
 
 if (isset($_POST['lot_add'])) {
     if (!empty($_FILES['lot_img']['size'])) {
@@ -64,8 +63,7 @@ if (isset($_POST['lot_add'])) {
     }
 
     foreach ($_POST as $key => $value) {
-
-        if (in_array($key, $required) && $value == '') {
+        if (in_array($key, $required) && ($value === '' || $value === 'Выберите категорию')) {
             $lot_errors[$key] = $lot_add_errors[$key]['error_message'];
         }
 
