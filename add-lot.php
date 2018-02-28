@@ -9,10 +9,10 @@ require 'functions.php';
 
 require 'markup/markup.php';
 
-if(isset($_POST['lot_category'])) {
-    $_POST['lot_category'] === 'Выберите категорию' ?
-        $_POST['lot_category'] = '' : $_POST['lot_category'];
-}
+//if(isset($_POST['lot_category'])) {
+//    $_POST['lot_category'] === 'Выберите категорию' ?
+//        $_POST['lot_category'] = '' : $_POST['lot_category'];
+//}
 
 $form_data = [];
 $errors = [];

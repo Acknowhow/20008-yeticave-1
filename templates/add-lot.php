@@ -1,5 +1,5 @@
 <form class="form form--add-lot container <?php if (!empty($errors)) : ?>form--invalid<?php endif; ?>"
-      action="/add.php" method="POST" enctype="multipart/form-data">
+      action="/add-lot.php" method="POST" enctype="multipart/form-data">
   <h2>Добавление лота</h2>
 
   <div class="form__container-two">
