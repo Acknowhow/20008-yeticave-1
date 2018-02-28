@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=utf-8');
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
@@ -27,7 +28,6 @@ $rules = [
 if (isset($_FILES)) {
     $uploaded = !empty($_FILES['lot_img']['size']) ? 'uploaded': '';
 }
-
 
 
 if (isset($_POST['lot_add'])) {

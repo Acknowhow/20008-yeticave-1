@@ -1,4 +1,5 @@
 AllowOverride All
+AddCharset UTF-8 .php
 
 <IfModule mod_headers.c>
     Header unset ETag
@@ -12,7 +13,9 @@ AllowOverride All
 FileETag None
 
 php_flag display_startup_errors on
-#php_flag display_errors on
+php_flag display_errors on
 php_flag html_errors on
 php_flag log_errors on
 php_value error_log /usr/local/var/log/nginx/error.log
+php_value upload_max_filesize    110M
+php_value post_max_size          120M
