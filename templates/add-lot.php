@@ -86,6 +86,7 @@
     </div>
   </div>
 
+  <input type="hidden" name="lot_add" value="">
   <span class="form__error form__error--bottom"><?php if (!empty($errors)) : ?><?php print "Пожалуйста, исправьте ошибки в форме" ?><?php endif; ?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>

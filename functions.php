@@ -113,3 +113,65 @@ function validateUpload($array, $fileType, $fileSize) {
     }
     return '';
 }
+
+function validateEmail($email)
+{
+    $_result = null;
+    if (empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+        $_result = 'format';
+
+    } else {
+        $_result = '';
+    }
+    return $_result;
+}
+
+function searchUserByEmail($email, $users, $register = false)
+{
+    $_result = null;
+    foreach ($users as $user) {
+        if ($user['email'] == $email) {
+            $_result = $user;
+
+            if ($register === true) {
+                $_result = 'clone';
+            }
+            break;
+        }
+        $_result = 'match';
+
+        if ($register === true) {
+            $_result = '';
+        }
+    }
+    return $_result;
+}
+
+function validateUser($email, $users, $password){
+    $is_user = null;
+    $user = searchUserByEmail($email, $users);
+
+    if (is_string($user) || (is_array($user) && $is_user = password_verify($password, $user['password']))) {
+        $is_user = $user;
+
+    } elseif (is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
+        $is_user = 'invalid';
+    }
+    return $is_user;
+}
+
+function validatePassword($password){
+    $_result = [];
+
+    if(strlen($password) < 11) {
+        return 'length_short';
+
+    }
+    elseif(strlen($password) >= 11 && strlen($password) <= 72) {
+        $_result[] = password_hash($password, PASSWORD_DEFAULT);
+        return $_result;
+
+    }
+
+    return 'length_long';
+}

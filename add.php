@@ -8,6 +8,12 @@ require 'data/errors.php';
 require 'functions.php';
 
 require 'markup/markup.php';
+
+if(isset($_POST['lot_category'])) {
+    $_POST['lot_category'] === 'Выберите категорию' ?
+        $_POST['lot_category'] = '' : $_POST['lot_category'];
+}
+
 $form_data = [];
 $errors = [];
 
@@ -37,11 +43,7 @@ if (isset($_POST['lot_add'])) {
     $check_key = 'lot_add';
 }
 
-if(isset($_POST['category'])) {
-    $_POST['category'] === 'Выберите категорию' ?
-        $_POST['category'] = '' : $_POST['category'];
-}
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($check_key === 'lot_add') {
     if (!empty($_FILES['lot_img']['size'])) {
         $file = $_FILES['lot_img'];
 
