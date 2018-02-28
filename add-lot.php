@@ -22,11 +22,6 @@ $rules = [
     'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
 
-//if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['form_data']['user'])) {
-//    http_response_code(403);
-//    die();
-//}
-
 $file = $_FILES['lot_img'] ?? '';
 
 if (isset($_POST['lot_add'])) {
