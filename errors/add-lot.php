@@ -1,25 +1,22 @@
 <?php
 $lot_add_errors = [
     'lot_name' => [
-        'name' => 'lot_name', 'error' => 'Введите наименование лота'
+        'name' => 'lot_name', 'error_message' => 'Введите наименование лота'
     ],
     'lot_category' => [
-        'name' => 'lot_category', 'error' => 'Выберите категорию'
+        'name' => 'lot_category', 'error_message' => 'Выберите категорию'
     ],
     'lot_description' => [
-        'name' => 'lot_description', 'error' => 'Добавьте описание лота'
-    ],
-    'lot_img' => [
-        'name' => 'lot_img', 'error' => 'Добавьте изображение лота'
+        'name' => 'lot_description', 'error_message' => 'Добавьте описание лота'
     ],
     'lot_value' => [
-        'name' => 'lot_value', 'error' => 'Введите начальную цену'
+        'name' => 'lot_value', 'error_message' => 'Введите начальную цену'
     ],
     'lot_step' => [
-        'name' => 'lot_step', 'error' => 'Введите шаг ставки'
+        'name' => 'lot_step', 'error_message' => 'Введите шаг ставки'
     ],
     'lot_date' => [
-        'name' => 'lot_date', 'error' => 'Введите дату завершения торгов'
+        'name' => 'lot_date', 'error_message' => 'Введите дату завершения торгов'
     ],
     // TODO
     //'error_empty' => 'Введите дату завершения торгов',
