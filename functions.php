@@ -100,10 +100,7 @@ function validateLotStep($lotStep) {
 }
 
 function validateUpload($array, $fileType, $fileSize) {
-    $_result = array_filter(array_values($array), function($value) use ($fileType) {
-
-        return $value == $fileType;
-    }, ARRAY_FILTER_USE_KEY);
+    $_result = in_array($fileType, $array);
 
     if (empty($_result)) {
         return 'Пожалуйста, выберите файл правильного формата';

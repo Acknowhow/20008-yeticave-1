@@ -35,7 +35,7 @@
     <span class="form__error"><?php if (isset($errors['lot_description'])) : ?><?=$errors['lot_description'] ?><?php endif; ?></span>
   </div>
 
-  <div class="form__item form__item--file <?php if (!empty($errors['lot_img'])) :?>form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
+  <div class="form__item form__item--file <?php if (!empty($upload_error)) :?>form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
     <label><?= $lot_img['title'] ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
@@ -45,7 +45,7 @@
     </div>
     <div class="form__input-file">
       <input class="visually-hidden" type="file" id="photo2" name="lot_img">
-      <span class="form_error"><?php if (isset($errors['lot_img'])) : ?><?= $errors['lot_img'] ?><?php endif; ?></span>
+      <span class="form_error"><?php if (!empty($upload_error)) : ?><?= $upload_error ?><?php endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
