@@ -108,6 +108,7 @@ function validateLotStep($lotStep)
     return '';
 }
 
+
 function validateUpload($array, $fileType, $fileSize)
 {
     $_result = in_array($fileType, $array);
@@ -117,6 +118,35 @@ function validateUpload($array, $fileType, $fileSize)
         return 'Максимальный размер файла: 200Кб';
     }
     return '';
+}
+
+function validateFile($fileReceived, $allowedTypes)
+{
+    $upload_params = [];
+    $file_name = $fileReceived['name'];
+    $file_name_tmp = $fileReceived['tmp_name'];
+
+    $file_type = $fileReceived['type'];
+    $file_size = $fileReceived['size'];
+
+    $file_path = __DIR__ . '/img/';
+    $file_url = 'img/' . $file_name;
+
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    finfo_close($finfo);
+
+    $is_valid = validateUpload($allowedTypes, $file_type, $file_size);
+    if (!empty($is_valid)) {
+        return $is_valid;
+    };
+
+    $upload_params['file_path'] = $file_path;
+    $upload_params['file_name'] = $file_name;
+    $upload_params['file_name_tmp'] = $file_name_tmp;
+    $upload_params['file_url'] = $file_url;
+
+    return $upload_params;
+
 }
 
 function validateEmail($email)
