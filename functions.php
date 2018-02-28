@@ -1,5 +1,6 @@
 <?php
-function convertNum($num) {
+function convertNum($num)
+{
     $num = ceil($num);
 
     if ($num > 1000) {
@@ -12,12 +13,13 @@ function convertNum($num) {
     return $num;
 }
 
-function include_template($templatePath, $templateData) {
-    if(!file_exists($templatePath)) {
+function include_template($templatePath, $templateData)
+{
+    if (!file_exists($templatePath)) {
 
         return '';
     }
-    if($templateData) {
+    if ($templateData) {
         extract($templateData);
     }
     ob_start();
@@ -27,7 +29,9 @@ function include_template($templatePath, $templateData) {
 
     return $tpl;
 }
-function getDateFormat($date, $format = 'd.m.Y'){
+
+function getDateFormat($date, $format = 'd.m.Y')
+{
     $_date = DateTime::createFromFormat($format, $date);
 
     $_date && $_date->format($format) == $date ?
@@ -36,14 +40,15 @@ function getDateFormat($date, $format = 'd.m.Y'){
     return $_date;
 }
 
-function validateDate($date) {
+function validateDate($date)
+{
     $now = strtotime('now');
 
     $_date = getDateFormat($date);
     if (empty($_date)) {
         $end = strtotime($date);
 
-        $min = round(($end - $now)/3600, 2);
+        $min = round(($end - $now) / 3600, 2);
 
         $is_day = $min > 24 ? '' :
             'Срок размещения лота должен быть больше одного дня';
@@ -53,7 +58,8 @@ function validateDate($date) {
     return $_date;
 }
 
-function get_integer($val){
+function get_integer($val)
+{
     $_val = $val + 0;
     if (is_int($_val)) {
         return $_val;
@@ -61,7 +67,8 @@ function get_integer($val){
     return 0;
 }
 
-function get_numeric($val){
+function get_numeric($val)
+{
     $_val = $val + 0;
     if (is_numeric($_val)) {
         return $_val;
@@ -69,7 +76,8 @@ function get_numeric($val){
     return 0;
 }
 
-function validateLotValue($lotRate) {
+function validateLotValue($lotRate)
+{
     $_lotRate = $lotRate;
 
     $is_numeric = get_numeric($_lotRate);
@@ -84,7 +92,8 @@ function validateLotValue($lotRate) {
     return '';
 }
 
-function validateLotStep($lotStep) {
+function validateLotStep($lotStep)
+{
     $_lotStep = $lotStep;
 
     $is_integer = get_integer($_lotStep);
@@ -99,14 +108,12 @@ function validateLotStep($lotStep) {
     return '';
 }
 
-function validateUpload($array, $fileType, $fileSize) {
+function validateUpload($array, $fileType, $fileSize)
+{
     $_result = in_array($fileType, $array);
-
     if (empty($_result)) {
         return 'Пожалуйста, выберите файл правильного формата';
-    }
-
-    elseif ($fileSize > 200000) {
+    } elseif ($fileSize > 200000) {
         return 'Максимальный размер файла: 200Кб';
     }
     return '';
@@ -116,7 +123,7 @@ function validateEmail($email)
 {
     $_result = null;
     if (empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
-        $_result = 'format';
+        $_result = 'Пожалуйста, введите правильный формат email';
 
     } else {
         $_result = '';
@@ -132,11 +139,11 @@ function searchUserByEmail($email, $users, $register = false)
             $_result = $user;
 
             if ($register === true) {
-                $_result = 'clone';
+                $_result = 'Указанный вами email уже зарегистрирован';
             }
             break;
         }
-        $_result = 'match';
+        $_result = 'Вы указали неверный пароль или email';
 
         if ($register === true) {
             $_result = '';
@@ -145,24 +152,26 @@ function searchUserByEmail($email, $users, $register = false)
     return $_result;
 }
 
-function validateUser($email, $users, $password){
+function validateUser($email, $users, $password)
+{
     $is_user = null;
     $user = searchUserByEmail($email, $users);
 
-    if (is_string($user) || (is_array($user) && $is_user = password_verify($password, $user['password']))) {
+    if (is_string($user)) {
         $is_user = $user;
 
     } elseif (is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
-        $is_user = 'invalid';
+        $is_user = 'Пароль неверный';
     }
     return $is_user;
 }
 
-function validatePassword($password){
+function validatePassword($password)
+{
     $_result = [];
 
     if(strlen($password) < 11) {
-        return 'length_short';
+        return 'Пожалуйста, укажите не меньше 11 символов в вашем пароле';
 
     }
     elseif(strlen($password) >= 11 && strlen($password) <= 72) {
@@ -171,5 +180,5 @@ function validatePassword($password){
 
     }
 
-    return 'length_long';
+    return 'Длина пароля должна быть не больше 72 символов';
 }
