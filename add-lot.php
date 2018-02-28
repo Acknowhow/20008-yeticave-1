@@ -27,9 +27,11 @@ $rules = [
 //    die();
 //}
 
+$file = $_FILES['lot_img'] ?? '';
+
 if (isset($_POST['lot_add'])) {
-    if (!empty($_FILES['lot_img']['size'])) {
-        $file = $_FILES['lot_img'];
+    // Still need to do proper display errors for file upload
+    if (!empty($file['size'])) {
 
         $allowed = [
             'jpeg' => 'image/jpeg',

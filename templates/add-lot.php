@@ -12,7 +12,7 @@
              value="<?=htmlspecialchars($lot_name['input']) ?>">
       <span class="form__error"><?php if (isset($errors['lot_name'])) : ?><?= $errors['lot_name'] ?><?php endif; ?></span>
     </div>
-
+    <!-- TODO: what is up with category field height??? -->
     <div class="form__item <?php if (!empty($errors['lot_category'])) : ?>form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_category['name'] ?>"><?=$lot_category['title'] ?></label>
       <select id="<?=$lot_category['name'] ?>"

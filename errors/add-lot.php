@@ -1,4 +1,6 @@
 <?php
+//TODO: each error message should be assigned to error type correspondingly
+//
 $lot_add_errors = [
     'lot_name' => [
         'name' => 'lot_name', 'error_message' => 'Введите наименование лота'
