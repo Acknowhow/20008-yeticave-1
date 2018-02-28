@@ -35,7 +35,7 @@
     <span class="form__error"><?php if (isset($errors['lot_description'])) : ?><?=$errors['lot_description'] ?><?php endif; ?></span>
   </div>
 
-  <div class="form__item form__item--file"> <!-- form__item--uploaded -->
+  <div class="form__item form__item--file <?php if (!empty($errors['lot_img'])) :?>form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
     <label><?= $lot_img['title'] ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
