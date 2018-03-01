@@ -1,12 +1,13 @@
 <?php
 session_start();
 require 'defaults/config.php';
+require 'data/data.php';
+
 require 'defaults/var.php';
+require 'functions.php';
+
 require 'defaults/add-lot.php';
 require 'errors/add-lot.php';
-
-require 'data/data.php';
-require 'functions.php';
 
 require 'markup/markup.php';
 
@@ -58,8 +59,11 @@ if (isset($_POST['lot_add'])) {
             $lot_upload_error = $result;
 
         } elseif (is_array($result)) {
-            $destination_path = $result['file_path'] . $result['file_name'];
-            move_uploaded_file($result['file_name_tmp'], $destination_path);
+            $destination_path =
+                $result['file_path'] . $result['file_name'];
+            move_uploaded_file(
+                $result['file_name_tmp'],
+                $destination_path);
 
             $lot_data['lot_img_url'] = $result['file_url'];
             $lot_data['lot_img_alt'] = $result['file_name'];
@@ -74,7 +78,8 @@ if (isset($_POST['lot_add'])) {
         $lot_id = count($lots) - 1;
 
         $_SESSION['lot_added'] = $lot;
-        header('Location: lot.php?lot_id=' . $lot_id . '&&lot_added=true');
+        header('Location: lot.php?lot_id=' .
+            $lot_id . '&&lot_added=true');
     }
 }
 
@@ -98,8 +103,10 @@ $content = include_template('templates/add-lot.php',
     ]);
 
 $markup = new Markup('templates/layout.php',
-    array_merge_recursive($layout, [
-        'content' => $content, 'index' => $index, 'nav' => $nav
-    ]));
+    array_merge_recursive($layout,
+        [
+            'index' => $index,
+            'nav' => $nav, 'content' => $content
+        ]));
 $markup->get_layout();
 

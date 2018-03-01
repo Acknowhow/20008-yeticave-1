@@ -1,13 +1,13 @@
 <?php
 session_start();
 require 'defaults/config.php';
+require 'data/data.php';
+
 require 'defaults/var.php';
+require 'functions.php';
+
 require 'defaults/login.php';
 require 'errors/login.php';
-
-require 'data/data.php';
-require 'data/users.php';
-require 'functions.php';
 
 require 'markup/markup.php';
 
@@ -79,7 +79,9 @@ $content = include_template('templates/login.php',
     ]);
 
 $markup = new Markup('templates/layout.php',
-    array_merge_recursive($layout, [
-        'content' => $content, 'index' => $index, 'nav' => $nav
-    ]));
+    array_merge_recursive($layout,
+        [
+            'index' => $index,
+            'nav' => $nav, 'content' => $content
+        ]));
 $markup->get_layout();

@@ -1,8 +1,8 @@
 <?php
 session_start();
 require 'defaults/config.php';
-require 'defaults/var.php';
 require 'data/data.php';
+require 'defaults/var.php';
 require 'functions.php';
 
 require 'markup/markup.php';
@@ -31,8 +31,9 @@ if (empty($cookie_value)) {
 
 }
 $markup = new Markup('templates/layout.php',
-    array_merge_recursive($layout, [
-        'content' => $content, 'index' => $index,
-        'nav' => $nav
-    ]));
+    array_merge_recursive($layout,
+        [
+            'index' => $index,
+            'nav' => $nav, 'content' => $content
+        ]));
 $markup->get_layout();

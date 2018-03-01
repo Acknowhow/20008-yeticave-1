@@ -1,10 +1,13 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
-$is_auth = (bool)rand(0, 1);
 
-$user_name = 'Константин';
-$user_avatar = 'img/user.jpg';
+$is_auth = false;
+$user = isset($_SESSION['user']) ?
+    $_SESSION['user'] : [];
 
+if (!empty($user)) {
+   $is_auth = true;
+}
 $date_now = new DateTime('now');
 $date_tomorrow = new DateTime('tomorrow midnight');
 
