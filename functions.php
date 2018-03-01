@@ -35,7 +35,8 @@ function getDateFormat($date, $format = 'd.m.Y')
     $_date = DateTime::createFromFormat($format, $date);
 
     $_date && $_date->format($format) == $date ?
-        $_date = '' : $_date = 'Пожалуйста, введите дату в формате ДД.ММ.ГГГГ';
+        $_date = '' : $_date = '
+        Пожалуйста, введите дату в формате ДД.ММ.ГГГГ';
 
     return $_date;
 }
@@ -135,7 +136,8 @@ function validateFile($fileReceived, $allowedTypes)
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     finfo_close($finfo);
 
-    $is_valid = validateUpload($allowedTypes, $file_type, $file_size);
+    $is_valid = validateUpload($allowedTypes,
+        $file_type, $file_size);
     if (!empty($is_valid)) {
         return $is_valid;
     };
@@ -152,32 +154,12 @@ function validateFile($fileReceived, $allowedTypes)
 function validateEmail($email)
 {
     $_result = null;
-    if (empty($_result = filter_var($email, FILTER_VALIDATE_EMAIL))) {
+    if (empty($_result = filter_var($email,
+        FILTER_VALIDATE_EMAIL))) {
         $_result = 'Пожалуйста, введите правильный формат email';
 
     } else {
         $_result = '';
-    }
-    return $_result;
-}
-
-function searchUserByEmail($email, $users, $register = false)
-{
-    $_result = null;
-    foreach ($users as $user) {
-        if ($user['email'] == $email) {
-            $_result = $user;
-
-            if ($register === true) {
-                $_result = 'Указанный вами email уже зарегистрирован';
-            }
-            break;
-        }
-        $_result = 'Вы указали неверный пароль или email';
-
-        if ($register === true) {
-            $_result = '';
-        }
     }
     return $_result;
 }
@@ -190,18 +172,44 @@ function validateUser($email, $users, $password)
     if (is_string($user)) {
         $is_user = $user;
 
-    } elseif (is_array($user) && empty($is_user = password_verify($password, $user['password']))) {
+    } elseif (is_array($user) && empty($is_user = password_verify(
+        $password, $user['user_password']))) {
         $is_user = 'Пароль неверный';
     }
     return $is_user;
 }
+
+function searchUserByEmail($email, $users, $register = false)
+{
+    $_result = null;
+    foreach ($users as $user) {
+        if ($user['user_email'] == $email) {
+            $_result = $user;
+
+            if ($register === true) {
+                $_result = '
+                Указанный вами email уже зарегистрирован';
+            }
+            break;
+        }
+        $_result = 'Вы указали неверный пароль или email';
+
+        if ($register === true) {
+            $_result = '';
+        }
+    }
+    return $_result;
+}
+
+
 
 function validatePassword($password)
 {
     $_result = [];
 
     if(strlen($password) < 11) {
-        return 'Пожалуйста, укажите не меньше 11 символов в вашем пароле';
+        return '
+        Пожалуйста, укажите не меньше 11 символов в вашем пароле';
 
     }
     elseif(strlen($password) >= 11 && strlen($password) <= 72) {
