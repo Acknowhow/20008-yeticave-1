@@ -18,22 +18,23 @@
             <input type="search" name="search" placeholder="Поиск лота">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <a class="main-header__add-lot button" href="./../add.php?lot_add=true">Добавить лот</a>
+        <?php if ($is_auth === true) : ?><a class="main-header__add-lot button" href="./../add-lot.php">Добавить лот</a><?php endif;?>
         <nav class="user-menu">
             <?php if ($is_auth === true): ?>
                 <div class="user-menu__image">
-                    <img src="<?= $user_avatar ?>" width="40" height="40" alt="Пользователь">
+                    <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
                 </div>
                 <div class="user-menu__logged">
-                <p><?= htmlspecialchars($user_name); ?></p>
+                <p><?= htmlspecialchars($user['user_name']); ?></p>
+                <a href="./../logout.php">Выход</a>
                 </div><?php endif; ?>
             <?php if ($is_auth === false) : ?>
                 <ul class="user-menu__list">
                     <li class="user-menu__item">
-                        <a href="#">Регистрация</a>
+                        <a href="./../register.php">Регистрация</a>
                     </li>
                     <li class="user-menu__item">
-                        <a href="#">Вход</a>
+                        <a href="./../login.php">Вход</a>
                     </li>
                 </ul><?php endif; ?>
         </nav>
@@ -91,7 +92,7 @@
                 </svg>
             </a>
         </div>
-        <a class="main-footer__add-lot button" href="add-lot.html">Добавить лот</a>
+        <?php if ($is_auth === true) : ?><a class="main-footer__add-lot button" href="./../add-lot.php">Добавить лот</a><?php endif; ?>
         <div class="main-footer__developed-by">
             <span class="visually-hidden">Разработано:</span>
             <a class="logo-academy" href="https://htmlacademy.ru/intensive/php">HTML Academy

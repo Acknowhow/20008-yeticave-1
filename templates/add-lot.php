@@ -1,5 +1,5 @@
 <form class="form form--add-lot container <?php if (!empty($errors)) : ?>form--invalid<?php endif; ?>"
-      action="/add.php" method="POST" enctype="multipart/form-data">
+      action="/add-lot.php" method="POST" enctype="multipart/form-data">
   <h2>Добавление лота</h2>
 
   <div class="form__container-two">
@@ -12,7 +12,7 @@
              value="<?=htmlspecialchars($lot_name['input']) ?>">
       <span class="form__error"><?php if (isset($errors['lot_name'])) : ?><?= $errors['lot_name'] ?><?php endif; ?></span>
     </div>
-
+    <!-- TODO: what is up with category field height??? -->
     <div class="form__item <?php if (!empty($errors['lot_category'])) : ?>form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_category['name'] ?>"><?=$lot_category['title'] ?></label>
       <select id="<?=$lot_category['name'] ?>"
@@ -35,7 +35,7 @@
     <span class="form__error"><?php if (isset($errors['lot_description'])) : ?><?=$errors['lot_description'] ?><?php endif; ?></span>
   </div>
 
-  <div class="form__item form__item--file"> <!-- form__item--uploaded -->
+  <div class="form__item form__item--file <?php if (!empty($upload_error)) :?>form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
     <label><?= $lot_img['title'] ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
@@ -45,7 +45,7 @@
     </div>
     <div class="form__input-file">
       <input class="visually-hidden" type="file" id="photo2" name="lot_img">
-      <span class="form_error"><?php if (isset($errors['lot_img'])) : ?><?= $errors['lot_img'] ?><?php endif; ?></span>
+      <span class="form_error"><?php if (!empty($upload_error)) : ?><?= $upload_error ?><?php endif; ?></span>
       <label for="photo2">
         <span>+ Добавить</span>
       </label>
@@ -56,7 +56,7 @@
     <div class="form__item form__item--small <?php if (!empty($errors['lot_value'])) : ?>form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_value['name'] ?>"><?=$lot_value['title'] ?></label>
       <input id="<?=$lot_value['name'] ?>"
-             type="number"
+             type="text"
              name="<?=$lot_value['name'] ?>"
              placeholder="0"
              step="0.00001"
@@ -67,7 +67,7 @@
     <div class="form__item form__item--small <?php if (!empty($errors['lot_step'])) : ?>form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_step['name'] ?>"><?=$lot_step['title'] ?></label>
       <input id="<?=$lot_step['name'] ?>"
-             type="number"
+             type="text"
              name="<?=$lot_step['name'] ?>"
              placeholder="0"
              step="0.00001"
@@ -79,13 +79,14 @@
       <label for="<?=$lot_date['name'] ?>"><?=$lot_date['title'] ?></label>
       <input class="form__input-date"
              id="<?=$lot_date['name'] ?>"
-             type="date"
+             type="text"
              name="<?=$lot_date['name'] ?>"
              value="<?=$lot_date['input'] ?>">
       <span class="form__error"><?php if (isset($errors['lot_date'])) : ?><?=$errors['lot_date'] ?><?php endif; ?></span>
     </div>
   </div>
 
+  <input type="hidden" name="lot_add" value="">
   <span class="form__error form__error--bottom"><?php if (!empty($errors)) : ?><?php print "Пожалуйста, исправьте ошибки в форме" ?><?php endif; ?></span>
   <button type="submit" class="button">Добавить лот</button>
 </form>

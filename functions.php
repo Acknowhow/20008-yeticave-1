@@ -1,5 +1,6 @@
 <?php
-function convertNum($num) {
+function convertNum($num)
+{
     $num = ceil($num);
 
     if ($num > 1000) {
@@ -12,12 +13,13 @@ function convertNum($num) {
     return $num;
 }
 
-function include_template($templatePath, $templateData) {
-    if(!file_exists($templatePath)) {
+function include_template($templatePath, $templateData)
+{
+    if (!file_exists($templatePath)) {
 
         return '';
     }
-    if($templateData) {
+    if ($templateData) {
         extract($templateData);
     }
     ob_start();
@@ -27,23 +29,27 @@ function include_template($templatePath, $templateData) {
 
     return $tpl;
 }
-function getDateFormat($date, $format = 'Y-m-d'){
+
+function getDateFormat($date, $format = 'd.m.Y')
+{
     $_date = DateTime::createFromFormat($format, $date);
 
     $_date && $_date->format($format) == $date ?
-        $_date = '' : $_date = 'invalid';
+        $_date = '' : $_date = '
+        Пожалуйста, введите дату в формате ДД.ММ.ГГГГ';
 
     return $_date;
 }
 
-function validateDate($date) {
+function validateDate($date)
+{
     $now = strtotime('now');
 
     $_date = getDateFormat($date);
     if (empty($_date)) {
         $end = strtotime($date);
 
-        $min = round(($end - $now)/3600, 2);
+        $min = round(($end - $now) / 3600, 2);
 
         $is_day = $min > 24 ? '' :
             'Срок размещения лота должен быть больше одного дня';
@@ -53,7 +59,8 @@ function validateDate($date) {
     return $_date;
 }
 
-function get_integer($val){
+function get_integer($val)
+{
     $_val = $val + 0;
     if (is_int($_val)) {
         return $_val;
@@ -61,55 +68,156 @@ function get_integer($val){
     return 0;
 }
 
-function get_numeric($val){
-    if (is_numeric($val)) {
-        return $val + 0;
+function get_numeric($val)
+{
+    $_val = $val + 0;
+    if (is_numeric($_val)) {
+        return $_val;
     }
     return 0;
 }
 
-function validateLotValue($lotRate) {
+function validateLotValue($lotRate)
+{
     $_lotRate = $lotRate;
 
     $is_numeric = get_numeric($_lotRate);
     $is_positive = $_lotRate > 0;
 
     if (!$is_numeric) {
-        return 'Введите целое числовое значение больше 0';
+        return 'Начальная цена должна быть больше 0';
 
     } elseif (!$is_positive) {
-        return 'Введите число больше нуля';
+        return 'Введите положительное числовое значение';
     }
     return '';
 }
 
-function validateLotStep($lotStep) {
+function validateLotStep($lotStep)
+{
     $_lotStep = $lotStep;
 
     $is_integer = get_integer($_lotStep);
     $is_positive = $_lotStep > 0;
 
     if (!$is_integer) {
-        return 'integer';
+        return 'Введите целое число больше 0';
 
     } elseif (!$is_positive) {
-        return 'positive';
+        return 'Введите целое положительное число';
     }
     return '';
 }
 
-function validateUpload($array, $fileType, $fileSize) {
-    $_result = array_filter(array_values($array), function($value) use ($fileType) {
 
-        return $value == $fileType;
-    }, ARRAY_FILTER_USE_KEY);
-
+function validateUpload($array, $fileType, $fileSize)
+{
+    $_result = in_array($fileType, $array);
     if (empty($_result)) {
         return 'Пожалуйста, выберите файл правильного формата';
-    }
-
-    elseif ($fileSize > 200000) {
+    } elseif ($fileSize > 200000) {
         return 'Максимальный размер файла: 200Кб';
     }
     return '';
+}
+
+function validateFile($fileReceived, $allowedTypes)
+{
+    $upload_params = [];
+    $file_name = $fileReceived['name'];
+    $file_name_tmp = $fileReceived['tmp_name'];
+
+    $file_type = $fileReceived['type'];
+    $file_size = $fileReceived['size'];
+
+    $file_path = __DIR__ . '/img/';
+    $file_url = 'img/' . $file_name;
+
+    $finfo = finfo_open(FILEINFO_MIME_TYPE);
+    finfo_close($finfo);
+
+    $is_valid = validateUpload($allowedTypes,
+        $file_type, $file_size);
+    if (!empty($is_valid)) {
+        return $is_valid;
+    };
+
+    $upload_params['file_path'] = $file_path;
+    $upload_params['file_name'] = $file_name;
+    $upload_params['file_name_tmp'] = $file_name_tmp;
+    $upload_params['file_url'] = $file_url;
+
+    return $upload_params;
+
+}
+
+function validateEmail($email)
+{
+    $_result = null;
+    if (empty($_result = filter_var($email,
+        FILTER_VALIDATE_EMAIL))) {
+        $_result = 'Пожалуйста, введите правильный формат email';
+
+    } else {
+        $_result = '';
+    }
+    return $_result;
+}
+
+function validateUser($email, $users, $password)
+{
+    $is_user = null;
+    $user = searchUserByEmail($email, $users);
+
+    if (is_string($user) || !empty($is_user = password_verify(
+            $password, $user['user_password']))) {
+        $is_user = $user;
+
+    } elseif (is_array($user) && empty($is_user = password_verify(
+        $password, $user['user_password']))) {
+        $is_user = 'Пароль неверный';
+    }
+    return $is_user;
+}
+
+function searchUserByEmail($email, $users, $register = false)
+{
+    $_result = null;
+    foreach ($users as $user) {
+        if ($user['user_email'] == $email) {
+            $_result = $user;
+
+            if ($register === true) {
+                $_result = '
+                Указанный вами email уже зарегистрирован';
+            }
+            break;
+        }
+        $_result = 'Вы указали неверный пароль или email';
+
+        if ($register === true) {
+            $_result = '';
+        }
+    }
+    return $_result;
+}
+
+
+
+function validatePassword($password)
+{
+    $_result = [];
+
+    if(strlen($password) < 11) {
+        return '
+        Пожалуйста, укажите не меньше 11 символов в вашем пароле';
+
+    }
+    elseif(strlen($password) >= 11 && strlen($password) <= 72) {
+        $_result[] = password_hash($password, PASSWORD_DEFAULT);
+        return $_result;
+
+    }
+
+    return 'Длина пароля должна быть не больше 72 символов';
 }
