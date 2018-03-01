@@ -2,7 +2,6 @@
 session_start();
 require 'defaults/config.php';
 require 'data/data.php';
-
 require 'defaults/var.php';
 require 'functions.php';
 
@@ -19,17 +18,17 @@ $path = '/';
 if (isset($lot_id)) {
     $index = false;
 
-    if (isset($_SESSION['lot_added'])) {
+    if (isset($_SESSION['lot_added']) && !empty($_SESSION['lot_added'])) {
         $lot = $_SESSION['lot_added'];
         array_push($lots, $lot);
 
         $lot_id = $_GET['lot_id'];
+        $_SESSION['lot_added'] = [];
         unset($_SESSION['lot_added']);
-    } else {
-        $lot = $lots[$lot_id];
     }
 
     if (array_key_exists($lot_id, $lots) === true) {
+        $lot = $lots[$lot_id];
 
         $nav = include_template('templates/nav.php', [
            'categories' => $categories
@@ -37,13 +36,14 @@ if (isset($lot_id)) {
 
         $content = include_template('templates/lot.php',
             [
+                'is_auth' => $is_auth,
                 'categories' => $categories, 'bets' => $bets,
                 'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
 
                 'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
                 'lot_img_alt' => $lot['lot_img_alt'], 'lot_description' => $lot['lot_description']
             ]);
-    } elseif (array_key_exists($lot_id, $lot) === false) {
+    } elseif (!array_key_exists($lot_id, $lot)) {
         $layout['title'] = $error_title;
         $content = include_template('templates/404.php',
                                     [

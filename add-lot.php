@@ -2,7 +2,6 @@
 session_start();
 require 'defaults/config.php';
 require 'data/data.php';
-
 require 'defaults/var.php';
 require 'functions.php';
 
@@ -10,7 +9,10 @@ require 'defaults/add-lot.php';
 require 'errors/add-lot.php';
 
 require 'markup/markup.php';
-
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['user'])) {
+    http_response_code(403);
+    exit('Access forbidden ' . http_response_code() . '');
+}
 $lot_data = [];
 $lot_errors = [];
 
