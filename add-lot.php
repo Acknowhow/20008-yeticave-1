@@ -25,9 +25,6 @@ $rules = [
     'lot_value' => 'validateLotValue',
     'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
 ];
-if (isset($_FILES)) {
-    $uploaded = !empty($_FILES['lot_img']['size']) ? 'uploaded': '';
-}
 
 if (isset($_POST['lot_add'])) {
 

@@ -26,6 +26,7 @@
                 </div>
                 <div class="user-menu__logged">
                 <p><?= htmlspecialchars($user['user_name']); ?></p>
+                <a href="./../logout.php">Выход</a>
                 </div><?php endif; ?>
             <?php if ($is_auth === false) : ?>
                 <ul class="user-menu__list">

@@ -15,10 +15,8 @@ require 'markup/markup.php';
 $user = [];
 $user_errors = [];
 
-$user_email = isset($_POST['user_email']) ?
-    $_POST['user_email'] : '';
-$user_password = isset($_POST['user_password']) ?
-    $_POST['user_password'] : '';
+$user_email = isset($_POST['user_email']) ? $_POST['user_email'] : '';
+$user_password = isset($_POST['user_password']) ? $_POST['user_password'] : '';
 
 $required = [
     'user_email', 'user_password'
@@ -57,14 +55,10 @@ if (isset($_POST['login'])) {
             $password_check = call_user_func('validateUser',
                 $user_email, $users, $user_password))) {
 
-        $user = $password_check;
+        $_SESSION['user'] = $password_check;
+        header('Location: index.php');
     }
 
-
-    if (empty($user_errors)) {
-        $_SESSION['user'] = $user;
-        header('Location: index.php?is_auth=true');
-    }
 }
 $index = false;
 $nav = include_template('templates/nav.php', [

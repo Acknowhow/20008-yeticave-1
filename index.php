@@ -7,6 +7,7 @@ require 'defaults/var.php';
 require 'functions.php';
 
 require 'markup/markup.php';
+
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
