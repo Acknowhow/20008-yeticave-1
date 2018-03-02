@@ -10,7 +10,7 @@
              name="<?=$lot_name['name'] ?>"
              placeholder="<?=$lot_name['placeholder'] ?>"
              value="<?=htmlspecialchars($lot_name['input']) ?>">
-      <span class="form__error"><?php if (isset($errors['lot_name'])) : ?><?= $errors['lot_name'] ?><?php endif; ?></span>
+      <span class="form__error"><?php if (!empty($errors['lot_name'])) : ?><?= $errors['lot_name'] ?><?php endif; ?></span>
     </div>
     <!-- TODO: what is up with category field height??? -->
     <div class="form__item <?php if (!empty($errors['lot_category'])) : ?>form__item--invalid<?php endif; ?>">
@@ -21,7 +21,7 @@
         <option><?=$value ?></option><?php endforeach; ?>
       </select>
 
-      <span class="form__error"><?php if (isset($errors['lot_category'])) : ?><?=$errors['lot_category'] ?><?php endif; ?></span>
+      <span class="form__error"><?php if (!empty($errors['lot_category'])) : ?><?=$errors['lot_category'] ?><?php endif; ?></span>
     </div>
   </div>
 
@@ -32,7 +32,7 @@
               name="<?= $lot_description['name'] ?>"
               placeholder="<?= $lot_description['placeholder'] ?>"
               ><?= htmlspecialchars($lot_description['input']) ?></textarea>
-    <span class="form__error"><?php if (isset($errors['lot_description'])) : ?><?=$errors['lot_description'] ?><?php endif; ?></span>
+    <span class="form__error"><?php if (!empty($errors['lot_description'])) : ?><?=$errors['lot_description'] ?><?php endif; ?></span>
   </div>
 
   <div class="form__item form__item--file <?php if (!empty($upload_error)) :?>form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
@@ -61,7 +61,7 @@
              placeholder="0"
              step="0.00001"
              value="<?=htmlspecialchars($lot_value['input']) ?>">
-      <span class="form__error"><?php if(isset($errors['lot_value'])) : ?><?=$errors['lot_value'] ?><?php endif; ?></span>
+      <span class="form__error"><?php if(!empty($errors['lot_value'])) : ?><?=$errors['lot_value'] ?><?php endif; ?></span>
     </div>
 
     <div class="form__item form__item--small <?php if (!empty($errors['lot_step'])) : ?>form__item--invalid<?php endif; ?>">
@@ -72,7 +72,7 @@
              placeholder="0"
              step="0.00001"
              value="<?=htmlspecialchars($lot_step['input']) ?>">
-      <span class="form__error"><?php if (isset($errors['lot_step'])) : ?><?=$errors['lot_step'] ?><?php endif; ?></span>
+      <span class="form__error"><?php if (!empty($errors['lot_step'])) : ?><?=$errors['lot_step'] ?><?php endif; ?></span>
     </div>
 
     <div class="form__item <?php if (!empty($errors['lot_date'])) : ?>form__item--invalid<?php endif; ?>">
@@ -82,7 +82,7 @@
              type="text"
              name="<?=$lot_date['name'] ?>"
              value="<?=$lot_date['input'] ?>">
-      <span class="form__error"><?php if (isset($errors['lot_date'])) : ?><?=$errors['lot_date'] ?><?php endif; ?></span>
+      <span class="form__error"><?php if (!empty($errors['lot_date'])) : ?><?=$errors['lot_date'] ?><?php endif; ?></span>
     </div>
   </div>
 
