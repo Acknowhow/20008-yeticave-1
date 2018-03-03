@@ -22,35 +22,28 @@ $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 if (isset($lot_id)) {
     $index = false;
 
-    if (isset($_GET['lot_added']) && isset($_GET['lot_id'])) {
+    if (isset($_GET['lot_added']) && isset($_SESSION['lot_added'])) {
+
         $lot = $_SESSION['lot_added'];
         $lot_id = $lot['lot_id'];
 
         unset($_SESSION['lot_added']);
     }
 
-    if (array_key_exists($lot_id, $lots) === true) {
+
+    elseif (!isset($_GET['lot_added']) && (array_key_exists($lot_id, $lots) === true)) {
+
         $lot = $lots[$lot_id];
+    }
 
-        $nav = include_template('templates/nav.php', [
-           'categories' => $categories
-        ]);
+    elseif (!isset($_GET['lot_added']) && !array_key_exists($lot_id, $lot)) {
 
-        $content = include_template('templates/lot.php',
-            [
-                'is_auth' => $is_auth,
-                'categories' => $categories, 'bets' => $bets,
-                'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
-
-                'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
-                'lot_img_alt' => $lot['lot_name'], 'lot_description' => $lot['lot_description']
-            ]);
-    } elseif (!array_key_exists($lot_id, $lot)) {
         $layout['title'] = $error_title;
+
         $content = include_template('templates/404.php',
-                                    [
-                                        'container' => $container
-                                    ]);
+            [
+                'container' => $container
+            ]);
     }
 
     if (!empty($cookie_value)) {
@@ -65,12 +58,28 @@ if (isset($lot_id)) {
 
     $cookie_value = json_encode($cookie_value);
     setcookie($cookie_name, $cookie_value, $expire, $path);
+
+    $nav = include_template('templates/nav.php',
+        [
+
+            'categories' => $categories
+        ]);
+
+    $content = include_template('templates/lot.php',
+        [
+            'is_auth' => $is_auth,
+            'categories' => $categories, 'bets' => $bets,
+            'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
+
+            'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
+            'lot_img_alt' => $lot['lot_name'], 'lot_description' => $lot['lot_description']
+        ]);
 }
 
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
-                          [
-                              'index' => $index,
-                              'nav' => $nav, 'content' => $content
-                          ]));
+        [
+            'index' => $index,
+            'nav' => $nav, 'content' => $content
+        ]));
 $markup->get_layout();

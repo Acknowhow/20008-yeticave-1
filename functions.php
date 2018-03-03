@@ -260,6 +260,7 @@ function select_data_assoc($link, $sql, $data)
 
 function insert_data($link, $table, $arr)
 {
+    $id = '';
     $columns = implode(", ",array_keys($arr));
     $values = array_values($arr);
 
@@ -274,5 +275,6 @@ function insert_data($link, $table, $arr)
 
         return false;
     }
-    return mysqli_insert_id($link);
+    $id = mysqli_insert_id($link);
+    return $id;
 }

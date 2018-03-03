@@ -33,10 +33,7 @@ $rules = [
     'lot_step' => 'validateLotStep', 'lot_date_end' => 'validateDate'
 ];
 
-$lot = 'SELECT category_id FROM categories WHERE category_name=?';
-if (!$category_id_sql) {
-    print('Can\'t get category_id');
-}
+$category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 
 if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value) {
@@ -101,8 +98,8 @@ if (isset($_POST['lot_add'])) {
                 'category_id' => $category_id
             ]);
 
-        $lot['lot_id'] = $lot_id;
         $_SESSION['lot_added'] = $lot;
+        $_SESSION['lot_added']['lot_id'] = $lot_id;
 
         header('Location: lot.php?lot_id=' .
             $lot_id . '&&lot_added=true');
