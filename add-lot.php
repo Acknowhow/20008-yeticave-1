@@ -82,7 +82,18 @@ if (isset($_POST['lot_add'])) {
 
     if (empty($lot_errors)) {
         $lot = $_POST;
-        var_dump($lot);
+        $lot['lot_date_end'] = convertDateMySQL($lot['lot_date_end']);
+
+
+        if(!empty($uploaded) && empty($user_upload_error)) {
+            $user['user_img_url'] = $user_data['user_img_url'];
+        }
+
+        if (empty($uploaded)) {
+            $user['user_img_url'] = 'img/user.jpg';
+        }
+
+
     }
 }
 

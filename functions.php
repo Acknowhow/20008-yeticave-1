@@ -31,11 +31,10 @@ function include_template($templatePath, $templateData)
     return $tpl;
 }
 
-function convertTimeStampMySQL($time){
-    $_date = new DateTime();
+function convertDateMySQL($date, $format = 'd.m.Y'){
+    $dateTime = DateTime::createFromFormat($format, $date);
 
-    $_date->setTimestamp($time);
-    return $_date->format('Y-m-d H:i:s');
+    return $dateTime->format('Y-m-d H:i:s');
 }
 
 function getDateFormat($date, $format = 'd.m.Y')
