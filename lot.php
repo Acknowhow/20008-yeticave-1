@@ -43,7 +43,7 @@ if (isset($lot_id)) {
                 'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
 
                 'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
-                'lot_img_alt' => $lot['lot_img_alt'], 'lot_description' => $lot['lot_description']
+                'lot_img_alt' => $lot['lot_name'], 'lot_description' => $lot['lot_description']
             ]);
     } elseif (!array_key_exists($lot_id, $lot)) {
         $layout['title'] = $error_title;
