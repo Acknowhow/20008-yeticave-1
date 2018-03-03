@@ -1,12 +1,14 @@
 <?php
 session_start();
 require 'defaults/config.php';
-require 'data/data.php';
 require 'defaults/var.php';
 require 'functions.php';
 
 require 'defaults/register.php';
 require 'errors/register.php';
+
+require_once 'init.php';
+require 'data/data.php';
 
 require 'markup/markup.php';
 $user_data = [];
@@ -18,10 +20,15 @@ $user_password = isset($_POST['user_password']) ? $_POST['user_password'] : '';
 $uploaded = '';
 $user_upload_error = '';
 
+$user_id = null;
+
 $required = [
     'user_name', 'user_email',
     'user_password', 'user_contacts'
 ];
+$users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
+$users = select_data_assoc($link, $users_sql, []);
+
 if (isset($_FILES)) {
     $uploaded = !empty($_FILES['user_img']['size']) ? 'uploaded': '';
 }
@@ -53,7 +60,7 @@ if (isset($_POST['register'])) {
         }
     }
 
-    if (empty($user_errors) && !empty($uploaded)) {
+    if (!empty($uploaded)) {
         $file = $_FILES['user_img'];
         $allowed = [
             'jpeg' => 'image/jpeg',
@@ -74,21 +81,38 @@ if (isset($_POST['register'])) {
 
             $user_data['user_img_url'] = $result['file_url'];
             $user_data['user_img_alt'] = $result['file_name'];
-
         }
     }
 
-    if (empty($user_errors) && empty($user_upload_error)) {
+    if (empty($user_errors)) {
         $user = $_POST;
-        $user['user_img_url'] = $user_data['user_img_url'];
-        $user['user_img_alt'] = $user_data['user_img_alt'];
-        array_push($users, $user);
-        $user_id = count($users) - 1;
 
+        if(!empty($uploaded) && empty($user_upload_error)) {
+            $user['user_img_url'] = $user_data['user_img_url'];
+            $user['user_img_alt'] = $user_data['user_img_alt'];
+
+            $user_id = insert_data($link, 'users',
+                [
+                    'user_name' => $user['user_name'],
+                    'user_email' => $user['user_email'],
+                    'user_password' => $user['user_password'],
+                    'user_img_url' => $user['user_img_url']
+                ]);
+        }
+
+        if (empty($uploaded)) {
+            $user_id = insert_data($link, 'users',
+                [
+                    'user_name' => $user['user_name'],
+                    'user_email' => $user['user_email'],
+                    'user_password' => $user['user_password']
+                ]);
+        }
         $_SESSION['user'] = $user;
+        $_SESSION['user']['user_id'] = $user_id;
+
         header('Location: index.php');
     }
-
 }
 $index = false;
 $nav = include_template('templates/nav.php', [

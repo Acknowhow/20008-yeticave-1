@@ -1,4 +1,5 @@
 <?php
+require 'mysql_helper.php';
 function convertNum($num)
 {
     $num = ceil($num);
@@ -220,4 +221,58 @@ function validatePassword($password)
     }
 
     return 'Длина пароля должна быть не больше 72 символов';
+}
+
+function select_data_column($link, $sql, $data, $columnName)
+{
+    $arr = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (!$result) {
+        return false;
+    }
+    while($row = mysqli_fetch_array($result)){
+        $arr[] = $row[$columnName];
+    };
+    return $arr;
+}
+
+function select_data_assoc($link, $sql, $data)
+{
+    $arr = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (!$result) {
+        return false;
+
+    }
+    while($row = mysqli_fetch_assoc($result)){
+        $arr[] = $row;
+    };
+    return $arr;
+}
+
+function insert_data($link, $table, $arr)
+{
+    $columns = implode(", ",array_keys($arr));
+    $values = array_values($arr);
+
+    $values_fill = array_fill_keys(array_keys($values), '?');
+    $values_implode = implode(", ", $values_fill);
+
+    $sql = "INSERT into $table ($columns) VALUES ($values_implode)";
+    $stmt = db_get_prepare_stmt($link, $sql, $arr);
+    $result = mysqli_stmt_execute($stmt);
+
+    if (!$result) {
+
+        return false;
+    }
+    return mysqli_insert_id($link);
 }

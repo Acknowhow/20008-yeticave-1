@@ -1,12 +1,14 @@
 <?php
 session_start();
 require 'defaults/config.php';
-require 'data/data.php';
 require 'defaults/var.php';
 require 'functions.php';
 
 require 'defaults/login.php';
 require 'errors/login.php';
+
+require_once 'init.php';
+require 'data/data.php';
 
 require 'markup/markup.php';
 $user = [];
@@ -22,6 +24,9 @@ $required = [
 $rules = [
     'user_email' => 'validateEmail', 'user_password' => 'validateUser'
 ];
+
+$users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
+$users = select_data_assoc($link, $users_sql, []);
 
 $email_check = '';
 $password_check = '';

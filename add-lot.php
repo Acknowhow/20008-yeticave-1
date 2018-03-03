@@ -1,12 +1,14 @@
 <?php
 session_start();
 require 'defaults/config.php';
-require 'data/data.php';
 require 'defaults/var.php';
 require 'functions.php';
 
 require 'defaults/add-lot.php';
 require 'errors/add-lot.php';
+
+require_once 'init.php';
+require 'data/data.php';
 
 require 'markup/markup.php';
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['user'])) {
