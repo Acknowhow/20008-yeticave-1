@@ -17,15 +17,15 @@ $cookie_value = isset($_COOKIE['lot_visited']) ?
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
+$category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
+
 if (isset($lot_id)) {
     $index = false;
 
-    if (isset($_SESSION['lot_added']) && !empty($_SESSION['lot_added'])) {
+    if (isset($_GET['lot_added']) && isset($_GET['lot_id'])) {
         $lot = $_SESSION['lot_added'];
-        array_push($lots, $lot);
+        $lot_id = $lot['lot_id'];
 
-        $lot_id = $_GET['lot_id'];
-        $_SESSION['lot_added'] = [];
         unset($_SESSION['lot_added']);
     }
 
