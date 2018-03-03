@@ -15,13 +15,15 @@ $lot_description_default = '
     посмотрите на Вашу доску и улыбнитесь, крутая графика 
     от Шона Кливера еще никого не оставляла равнодушным.';
 
-$categories = [
-
-    'boards' => 'Доски и лыжи', 'attachment' =>
-    'Крепления', 'boots' => 'Ботинки', 'clothing' => 'Одежда',
-    'tools' => 'Инструменты', 'other' => 'Разное'
-
+$categories_eng = [
+    'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
 ];
+
+$categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC';
+$categories_fetched = select_column($link, $categories_sql, [], 'category_name');
+
+
+$categories = array_combine($categories_eng, $categories_fetched);
 
 $users = [
     [

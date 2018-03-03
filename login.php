@@ -1,12 +1,14 @@
 <?php
 session_start();
 require 'defaults/config.php';
-require 'data/data.php';
 require 'defaults/var.php';
 require 'functions.php';
 
 require 'defaults/login.php';
 require 'errors/login.php';
+
+require 'init.php';
+require 'data/data.php';
 
 require 'markup/markup.php';
 $user = [];

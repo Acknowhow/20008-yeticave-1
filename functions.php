@@ -1,4 +1,5 @@
 <?php
+require 'mysql_helper.php';
 function convertNum($num)
 {
     $num = ceil($num);
@@ -220,4 +221,38 @@ function validatePassword($password)
     }
 
     return 'Длина пароля должна быть не больше 72 символов';
+}
+
+// Select data
+function select_column($link, $sql, $data, $columnName){
+    $arr = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (!$result) {
+        return false;
+    }
+    while($row = mysqli_fetch_array($result)){
+        $arr[] = $row[$columnName];
+    };
+    return $arr;
+}
+// Select data
+function select_data_assoc($link, $sql, $data){
+    $arr = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    if (!$result) {
+        return false;
+
+    }
+    while($row = mysqli_fetch_assoc($result)){
+        $arr[] = $row;
+    };
+    return $arr;
 }
