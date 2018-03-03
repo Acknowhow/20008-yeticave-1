@@ -22,7 +22,7 @@
                     <img src="<?= htmlspecialchars($key['lot_img_url']) ?>"
                          width="350"
                          height="260"
-                         alt="<?= htmlspecialchars($key['lot_img_alt']) ?>">
+                         alt="<?= htmlspecialchars($key['lot_name']) ?>">
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?= $key['lot_category'] ?></span>
