@@ -5,7 +5,7 @@
             <?php foreach ($lots_visited as $lot) : ?>
             <li class="lots__item lot">
                 <div class="lot__image">
-                    <img src="<?= $lot['lot_img_url'] ?>" width="350" height="260" alt="<?= $lot['lot_img_alt'] ?>">
+                    <img src="<?= $lot['lot_img_url'] ?>" width="350" height="260" alt="<?= $lot['lot_name'] ?>">
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?= $lot['lot_category'] ?></span>
