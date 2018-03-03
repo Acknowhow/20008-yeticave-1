@@ -31,6 +31,13 @@ function include_template($templatePath, $templateData)
     return $tpl;
 }
 
+function convertTimeStampMySQL($time){
+    $_date = new DateTime();
+
+    $_date->setTimestamp($time);
+    return $_date->format('Y-m-d H:i:s');
+}
+
 function getDateFormat($date, $format = 'd.m.Y')
 {
     $_date = DateTime::createFromFormat($format, $date);
@@ -221,6 +228,12 @@ function validatePassword($password)
     }
 
     return 'Длина пароля должна быть не больше 72 символов';
+}
+
+function isEmptyArray($array){
+    return $filter = array_filter($array, function($key) {
+        return $key === '';
+    });
 }
 
 function select_data_column($link, $sql, $data, $columnName)

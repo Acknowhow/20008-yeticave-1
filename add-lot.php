@@ -35,6 +35,10 @@ $rules = [
 
 $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 
+if (isset($_FILES)) {
+    $uploaded = !empty($_FILES['lot_img']['size']) ? 'uploaded': '';
+}
+
 if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value) {
         if (in_array($key, $required) && ($value === '' || $value === 'Выберите категорию')) {
@@ -42,13 +46,15 @@ if (isset($_POST['lot_add'])) {
         }
 
         if (array_key_exists($key, $rules) && $value !== '') {
-            $result = call_user_func($rules[$key], $value);
 
-            if (!empty($result)) {
+            if (!empty($result = call_user_func($rules[$key], $value))) {
                 $lot_errors[$key] = $result;
-            }
+            };
 
-        } $lot_add_defaults[$key]['input'] = $value;
+            $lot_data[$key] = $value;
+        }
+
+        $lot_add_defaults[$key]['input'] = $value;
     }
 
     if (!empty($uploaded)) {
@@ -61,7 +67,7 @@ if (isset($_POST['lot_add'])) {
         $result = validateFile($file, $allowed);
 
         if (is_string($result)) {
-            $lot_upload_error = $result;
+            $user_upload_error = $result;
 
         } elseif (is_array($result)) {
             $destination_path =
@@ -71,40 +77,63 @@ if (isset($_POST['lot_add'])) {
                 $destination_path);
 
             $lot_data['lot_img_url'] = $result['file_url'];
-
         }
     }
 
     if (empty($lot_errors)) {
         $lot = $_POST;
-        $category_id = select_data_assoc($link, $category_id_sql, [$lot['lot_category']]);
-
-        if (!empty($uploaded) && empty($lot_upload_error)) {
-            $lot['lot_img_url'] = $lot_data['lot_img_url'];
-        }
-
-        if (empty($uploaded)) {
-            $lot['lot_img_url'] = '';
-        }
-
-        $lot_id = insert_data($link, 'lots',
-            [
-                'lot_name' => $lot['lot_name'],
-                'lot_date_end' => $lot['lot_date_end'],
-                'lot_img_url' => $lot['lot_img_url'],
-                'lot_value' => $lot['lot_value'],
-                'lot_step' => $lot['lot_step'],
-                'user_id' => $user_id,
-                'category_id' => $category_id
-            ]);
-
-        $_SESSION['lot_added'] = $lot;
-        $_SESSION['lot_added']['lot_id'] = $lot_id;
-
-        header('Location: lot.php?lot_id=' .
-            $lot_id . '&&lot_added=true');
+        var_dump($lot);
     }
 }
+
+
+
+//if (empty($result = call_user_func('isEmptyArray', $lot_data)))
+//
+//
+//    var_dump(array_values($_POST));
+
+
+//
+//    if (!empty($_FILES['lot_img']) && !empty($lot_data['lot_img_url'])) {
+//        $lot['lot_img_url'] = $lot_data['lot_img_url'];
+//    }
+//
+//    if (empty($lot_errors) && (empty($_FILES['lot_img']) ||
+//            !empty($_FILES['lot_img']) && empty($lot_upload_error))) {
+//
+//        $lot = $_POST;
+//        $lot['lot_date_end'] = convertTimeStampMySQL($lot['lot_date_end']);
+//        $category_id = select_data_assoc($link, $category_id_sql, [$lot['lot_category']]);
+//
+//        $lot_id = insert_data($link, 'lots',
+//            [
+//                'lot_name' => $lot['lot_name'],
+//                'lot_date_end' => $lot['lot_date_end'],
+//                'lot_img_url' => $lot['lot_img_url'],
+//                'lot_value' => $lot['lot_value'],
+//                'lot_step' => $lot['lot_step'],
+//                'user_id' => $user_id,
+//                'category_id' => $category_id
+//            ]);
+//
+//        if (empty($lot_id)) {
+//
+//            print 'This sucks';
+//        }
+//        if (!empty($lot_id)) {
+//
+//            $_SESSION['lot_added'] = $lot;
+//            $_SESSION['lot_added']['lot_id'] = $lot_id;
+//
+//            header('Location: lot.php?lot_id=' .
+//                $lot_id . '&&lot_added=true');
+//
+//        }
+//
+//
+//    }
+//}
 
 $index = false;
 $nav = include_template('templates/nav.php', [
