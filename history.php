@@ -4,7 +4,7 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'functions.php';
 
-require 'init.php';
+require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';

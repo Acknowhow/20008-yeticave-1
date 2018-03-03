@@ -7,7 +7,7 @@ require 'functions.php';
 require 'defaults/add-lot.php';
 require 'errors/add-lot.php';
 
-require 'init.php';
+require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';

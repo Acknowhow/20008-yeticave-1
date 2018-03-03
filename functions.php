@@ -223,8 +223,8 @@ function validatePassword($password)
     return 'Длина пароля должна быть не больше 72 символов';
 }
 
-// Select data
-function select_column($link, $sql, $data, $columnName){
+function select_data_column($link, $sql, $data, $columnName)
+{
     $arr = [];
     $stmt = db_get_prepare_stmt($link, $sql, $data);
 
@@ -239,8 +239,9 @@ function select_column($link, $sql, $data, $columnName){
     };
     return $arr;
 }
-// Select data
-function select_data_assoc($link, $sql, $data){
+
+function select_data_assoc($link, $sql, $data)
+{
     $arr = [];
     $stmt = db_get_prepare_stmt($link, $sql, $data);
 
@@ -255,4 +256,23 @@ function select_data_assoc($link, $sql, $data){
         $arr[] = $row;
     };
     return $arr;
+}
+
+function insert_data($link, $table, $arr)
+{
+    $columns = implode(", ",array_keys($arr));
+    $values = array_values($arr);
+
+    $values_fill = array_fill_keys(array_keys($values), '?');
+    $values_implode = implode(", ", $values_fill);
+
+    $sql = "INSERT into $table ($columns) VALUES ($values_implode)";
+    $stmt = db_get_prepare_stmt($link, $sql, $arr);
+    $result = mysqli_stmt_execute($stmt);
+
+    if (!$result) {
+
+        return false;
+    }
+    return mysqli_insert_id($link);
 }

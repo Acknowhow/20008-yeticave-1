@@ -7,7 +7,7 @@ require 'functions.php';
 require 'defaults/login.php';
 require 'errors/login.php';
 
-require 'init.php';
+require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
