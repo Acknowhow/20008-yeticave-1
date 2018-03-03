@@ -25,6 +25,9 @@ $rules = [
     'user_email' => 'validateEmail', 'user_password' => 'validateUser'
 ];
 
+$users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
+$users = select_data_assoc($link, $users_sql, []);
+
 $email_check = '';
 $password_check = '';
 
