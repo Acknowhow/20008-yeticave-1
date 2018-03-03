@@ -51,7 +51,6 @@ if (isset($_POST['lot_add'])) {
                 $lot_errors[$key] = $result;
             };
 
-            $lot_data[$key] = $value;
         }
 
         $lot_add_defaults[$key]['input'] = $value;
@@ -81,20 +80,43 @@ if (isset($_POST['lot_add'])) {
     }
 
     if (empty($lot_errors)) {
-        $lot = $_POST;
+        $lot = filterArray($_POST, 'lot_add');
+
         $lot['lot_date_end'] = convertDateMySQL($lot['lot_date_end']);
 
+        $category_fetched = select_data_assoc($link, $category_id_sql, [$lot['lot_category']]);
+        $category_id = $category_fetched[0]['category_id'];
 
-        if(!empty($uploaded) && empty($user_upload_error)) {
-            $user['user_img_url'] = $user_data['user_img_url'];
-        }
+        $lot['lot_category'] = $category_id;
 
-        if (empty($uploaded)) {
-            $user['user_img_url'] = 'img/user.jpg';
-        }
 
+//        if(!empty($uploaded) && empty($lot_upload_error)) {
+//            $lot['lot_img_url'] = $lot_data['lot_img_url'];
+//        }
+//
+//        if (empty($uploaded)) {
+//            $lot['lot_img_url'] = 'img/Moment-Generator-Web-Render-ZB.jpg';
+//        }
+//
+//        var_dump($category_id['category_id']);
+//
+//        var_dump($filtered);
+//
+//
+//
+//        $lot_id = insert_data($link, 'lots',
+//            [
+//                'lot_name' => $filtered['lot_name'],
+//                'lot_date_end' => $filtered['lot_date_end'],
+//                'lot_img_url' => $filtered['lot_img_url'],
+//                'lot_value' => $filtered['lot_value'],
+//                'lot_step' => $filtered['lot_step'],
+//                'user_id' => $user_id,
+//                'category_id' => $category_id
+//            ]);
 
     }
+
 }
 
 

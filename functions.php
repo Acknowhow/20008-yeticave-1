@@ -290,3 +290,8 @@ function insert_data($link, $table, $arr)
     $id = mysqli_insert_id($link);
     return $id;
 }
+function filterArray($array, $key){
+    return array_filter($array, function($k) use ($key) {
+        return $k !== $key;
+    }, ARRAY_FILTER_USE_KEY);
+}
