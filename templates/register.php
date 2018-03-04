@@ -39,7 +39,7 @@
         <div class="preview">
             <button class="preview__remove" type="button">x</button>
             <div class="preview__img">
-                <img src="" width="113" height="113" alt="<?= $user_img['user_name'] ?>">
+                <img src="" width="113" height="113" alt="<?= $user_img['name'] ?>">
             </div>
         </div>
         <div class="form__input-file">

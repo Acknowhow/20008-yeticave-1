@@ -85,7 +85,6 @@ if (isset($_POST['lot_add'])) {
         (!empty($uploaded) && empty($lot_upload_error) || empty($uploaded))) {
 
 
-
         $lot = filterArray($lot_data, 'lot_add');
 
         $lot['user_id'] = $user_id;

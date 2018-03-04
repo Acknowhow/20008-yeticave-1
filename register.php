@@ -19,6 +19,10 @@ $user_password = isset($_POST['user_password']) ? $_POST['user_password'] : '';
 
 $uploaded = '';
 $user_upload_error = '';
+$validation_result = '';
+if (isset($_FILES)) {
+    $user_data['user_img_url'] = 'img/user.jpg';
+}
 
 $user_id = null;
 
@@ -29,12 +33,27 @@ $required = [
 $users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
 $users = select_data_assoc($link, $users_sql, []);
 
+if (isset($_FILES) && !empty($_FILES['user_img']['size'])) {
+    $uploaded = 'uploaded';
+
+    $file = $_FILES['user_img'];
+    $allowed = [
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png'
+    ];
+    $validation_result = validateFile($file, $allowed);
+    if (is_string($validation_result)) {
+        $user_upload_error = $validation_result;
+    }
+}
+
 
 if (isset($_POST['register'])) {
     foreach ($_POST as $key => $value) {
         if (in_array($key, $required) && $value == '') {
             $user_errors[$key] = $register_errors[$key]['error_message'];
         }
+        $user_data[$key] = $value;
         $register_defaults[$key]['input'] = $value;
     }
 
@@ -56,39 +75,20 @@ if (isset($_POST['register'])) {
         }
     }
 
-    if (!empty($uploaded)) {
-        $file = $_FILES['user_img'];
-        $allowed = [
-            'jpeg' => 'image/jpeg',
-            'png' => 'image/png'
-        ];
+    if (empty($user_errors) && empty($user_upload_error) && is_array($validation_result)) {
+        $destination_path =
+            $validation_result['file_path'] . $validation_result['file_name'];
+        move_uploaded_file(
+            $validation_result['file_name_tmp'],
+            $destination_path);
 
-        $result = validateFile($file, $allowed);
-
-        if (is_string($result)) {
-            $user_upload_error = $result;
-
-        } elseif (is_array($result)) {
-            $destination_path =
-                $result['file_path'] . $result['file_name'];
-            move_uploaded_file(
-                $result['file_name_tmp'],
-                $destination_path);
-
-            $user_data['user_img_url'] = $result['file_url'];
-        }
+        $user_data['user_img_url'] = $validation_result['file_url'];
     }
+    if (empty($user_errors) &&
+        (!empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
 
-    if (empty($user_errors)) {
-        $user = $_POST;
-
-        if(!empty($uploaded) && empty($user_upload_error)) {
-            $user['user_img_url'] = $user_data['user_img_url'];
-        }
-
-        if (empty($uploaded)) {
-            $user['user_img_url'] = 'img/user.jpg';
-        }
+        $user = filterArray($user_data, 'register');
+        var_dump($user);
 
         $user_id = insert_data($link, 'users',
             [
