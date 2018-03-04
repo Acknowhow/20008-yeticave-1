@@ -26,6 +26,9 @@ if (isset($_FILES)) {
 
 $user_id = null;
 
+var_dump($_POST);
+
+
 $required = [
     'user_name', 'user_email',
     'user_password', 'user_contacts'
@@ -71,7 +74,7 @@ if (isset($_POST['register'])) {
 
         }
         elseif (is_array($password = call_user_func('validatePassword', $user_password))){
-            $_POST['user_password'] = $password[0];
+            $user_data['user_password'] = $password[0];
         }
     }
 

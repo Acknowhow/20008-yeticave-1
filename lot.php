@@ -20,8 +20,16 @@ $path = '/';
 
 $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 
+$user_id = $_SESSION['user']['user_id'];
+
+
 if (isset($lot_id)) {
     $index = false;
+
+    $my_lots_sql = 'SELECT * FROM lots WHERE user_id=?';
+    $my_lots_fetched = select_data_assoc($link, $my_lots_sql, [$user_id]);
+
+    var_dump($my_lots_fetched);
 
     if (isset($_GET['lot_added']) && isset($_SESSION['lot_added'])) {
         $my_lot = true;
