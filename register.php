@@ -2,7 +2,7 @@
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
-require 'functions.php';
+require 'util/functions.php';
 
 require 'defaults/register.php';
 require 'errors/register.php';
