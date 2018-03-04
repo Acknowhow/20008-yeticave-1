@@ -30,8 +30,9 @@
     </div>
     <div class="form__item<?php if (!empty($errors['user_contacts'])) : ?> form__item--invalid<?php endif; ?>">
         <label for="<?= $user_contacts['name'] ?>"><?= $user_contacts['title'] ?></label>
-        <textarea id="<?= $user_contacts['name'] ?>" name="<?= $user_contacts['name'] ?>" placeholder="<?= $user_contacts['placeholder'] ?>">
-            <?= htmlspecialchars($user_contacts['input']) ?></textarea>
+        <textarea id="<?= $user_contacts['name'] ?>"
+                  name="<?= $user_contacts['name'] ?>"
+                  placeholder="<?= $user_contacts['placeholder'] ?>"><?= htmlspecialchars($user_contacts['input']) ?></textarea>
         <span class="form__error"><?php if (!empty($errors['user_contacts'])) : ?><?= $errors['user_contacts'] ?><?php endif; ?></span>
     </div>
     <div class="form__item form__item--file form__item--last<?php if (!empty($upload_error)) : ?>form__item--invalid<?php endif; ?>">
@@ -39,7 +40,7 @@
         <div class="preview">
             <button class="preview__remove" type="button">x</button>
             <div class="preview__img">
-                <img src="" width="113" height="113" alt="<?= $user_img['user_name'] ?>">
+                <img src="" width="113" height="113" alt="<?= $user_img['name'] ?>">
             </div>
         </div>
         <div class="form__input-file">

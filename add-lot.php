@@ -16,13 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && (
     http_response_code(403);
     exit('Access forbidden ' . http_response_code() . '');
 }
+$user_id = $_SESSION['user']['user_id'];
+
 $lot_data = [];
 $lot_errors = [];
-
-$uploaded = '';
-$lot_upload_error = '';
-
-$user_id = $_SESSION['user']['user_id'];
 
 $required = [
     'lot_name', 'lot_category',
@@ -35,9 +32,27 @@ $rules = [
 
 $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 
+$uploaded = '';
+$lot_upload_error = '';
+$validation_result = '';
 if (isset($_FILES)) {
-    $uploaded = !empty($_FILES['lot_img']['size']) ? 'uploaded': '';
+    $lot_data['lot_img_url'] = 'img/lot-image.png';
 }
+
+if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
+    $uploaded = 'uploaded';
+
+    $file = $_FILES['lot_img'];
+    $allowed = [
+        'jpeg' => 'image/jpeg',
+        'png' => 'image/png'
+    ];
+    $validation_result = validateFile($file, $allowed);
+    if (is_string($validation_result)) {
+        $lot_upload_error = $validation_result;
+    }
+}
+
 
 if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value) {
@@ -46,41 +61,31 @@ if (isset($_POST['lot_add'])) {
         }
 
         if (array_key_exists($key, $rules) && $value !== '') {
-
             if (!empty($result = call_user_func($rules[$key], $value))) {
                 $lot_errors[$key] = $result;
             };
 
         }
-
+        $lot_data[$key] = $value;
         $lot_add_defaults[$key]['input'] = $value;
     }
 
-    if (!empty($uploaded)) {
-        $file = $_FILES['lot_img'];
-        $allowed = [
-            'jpeg' => 'image/jpeg',
-            'png' => 'image/png'
-        ];
+    if (empty($lot_errors) && empty($lot_upload_error) && is_array($validation_result)) {
+        $destination_path =
+            $validation_result['file_path'] . $validation_result['file_name'];
+        move_uploaded_file(
+            $validation_result['file_name_tmp'],
+            $destination_path);
 
-        $result = validateFile($file, $allowed);
-
-        if (is_string($result)) {
-            $user_upload_error = $result;
-
-        } elseif (is_array($result)) {
-            $destination_path =
-                $result['file_path'] . $result['file_name'];
-            move_uploaded_file(
-                $result['file_name_tmp'],
-                $destination_path);
-
-            $lot_data['lot_img_url'] = $result['file_url'];
-        }
+        $lot_data['lot_img_url'] = $validation_result['file_url'];
     }
 
-    if (empty($lot_errors)) {
-        $lot = filterArray($_POST, 'lot_add');
+
+    if (empty($lot_errors) &&
+        (!empty($uploaded) && empty($lot_upload_error) || empty($uploaded))) {
+
+
+        $lot = filterArray($lot_data, 'lot_add');
 
         $lot['user_id'] = $user_id;
         $lot['lot_date_end'] = convertDateMySQL($lot['lot_date_end']);
@@ -92,21 +97,11 @@ if (isset($_POST['lot_add'])) {
         $lot_filtered['category_id'] = $category_id;
 
 
-
-        if(!empty($uploaded) && empty($lot_upload_error)) {
-            $lot_filtered['lot_img_url'] = $lot_data['lot_img_url'];
-        }
-
-        if (empty($uploaded)) {
-            $lot_filtered['lot_img_url'] = 'img/Moment-Generator-Web-Render-ZB.jpg';
-        }
-
-
-
         $lot_id = insert_data($link, 'lots',
             [
                 'lot_name' => $lot_filtered['lot_name'],
                 'lot_date_end' => $lot_filtered['lot_date_end'],
+                'lot_description' => $lot_filtered['lot_description'],
                 'lot_img_url' => $lot_filtered['lot_img_url'],
                 'lot_value' => $lot_filtered['lot_value'],
                 'lot_step' => $lot_filtered['lot_step'],
@@ -127,9 +122,7 @@ if (isset($_POST['lot_add'])) {
                 $lot_id . '&&lot_added=true');
 
         }
-
     }
-
 }
 $index = false;
 $nav = include_template('templates/nav.php', [
@@ -138,8 +131,8 @@ $nav = include_template('templates/nav.php', [
 
 $content = include_template('templates/add-lot.php',
     [
-        'categories' => $categories, 'errors' => $lot_errors,
-        'upload_error' => $lot_upload_error,
+        'errors' => $lot_errors, 'upload_error' => $lot_upload_error,
+        'categories' => $categories,
         'lot_name' => $lot_add_defaults['lot_name'],
         'lot_category' => $lot_add_defaults['lot_category'],
         'lot_description' => $lot_add_defaults['lot_description'],

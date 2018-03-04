@@ -22,7 +22,7 @@
         <nav class="user-menu">
             <?php if ($is_auth === true): ?>
                 <div class="user-menu__image">
-                    <img src="img/user.jpg" width="40" height="40" alt="Пользователь">
+                    <img src="<?= $user['user_img_url'] ?>" width="40" height="40" alt="Пользователь">
                 </div>
                 <div class="user-menu__logged">
                 <p><?= htmlspecialchars($user['user_name']); ?></p>

@@ -25,7 +25,7 @@ $rules = [
     'user_email' => 'validateEmail', 'user_password' => 'validateUser'
 ];
 
-$users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
+$users_sql = 'SELECT user_id,user_name,user_email,user_password FROM users ORDER BY user_id ASC;';
 $users = select_data_assoc($link, $users_sql, []);
 
 $email_check = '';
@@ -56,6 +56,8 @@ if (isset($_POST['login'])) {
     if(!empty($user_password) && is_array(
             $password_check = call_user_func('validateUser',
                 $user_email, $users, $user_password))) {
+
+
 
         $_SESSION['user'] = $password_check;
         header('Location: index.php');
