@@ -35,10 +35,12 @@ $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
+if (isset($_FILES)) {
+    $lot_data['lot_img_url'] = 'img/lot-image.png';
+}
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
     $uploaded = 'uploaded';
-    $lot_data['lot_img_url'] = 'img/lot-image.png';
 
     $file = $_FILES['lot_img'];
     $allowed = [
@@ -51,9 +53,6 @@ if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
     }
 }
 
-if (isset($_FILES) && empty($_FILES['lot_img']['size'])) {
-    $lot_data['lot_img_url'] = 'img/lot-image.png';
-}
 
 if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value) {
@@ -132,8 +131,8 @@ $nav = include_template('templates/nav.php', [
 
 $content = include_template('templates/add-lot.php',
     [
-        'categories' => $categories, 'errors' => $lot_errors,
-        'upload_error' => $lot_upload_error,
+        'errors' => $lot_errors, 'upload_error' => $lot_upload_error,
+        'categories' => $categories,
         'lot_name' => $lot_add_defaults['lot_name'],
         'lot_category' => $lot_add_defaults['lot_category'],
         'lot_description' => $lot_add_defaults['lot_description'],

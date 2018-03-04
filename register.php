@@ -1,5 +1,4 @@
 <?php
-session_save_path('/usr/local/var/tmp');
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
@@ -30,12 +29,8 @@ $required = [
 $users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
 $users = select_data_assoc($link, $users_sql, []);
 
-if (isset($_FILES)) {
-    $uploaded = !empty($_FILES['user_img']['size']) ? 'uploaded': '';
-}
 
 if (isset($_POST['register'])) {
-
     foreach ($_POST as $key => $value) {
         if (in_array($key, $required) && $value == '') {
             $user_errors[$key] = $register_errors[$key]['error_message'];
@@ -92,7 +87,7 @@ if (isset($_POST['register'])) {
         }
 
         if (empty($uploaded)) {
-            $user['user_img_url'] = '';
+            $user['user_img_url'] = 'img/user.jpg';
         }
 
         $user_id = insert_data($link, 'users',
