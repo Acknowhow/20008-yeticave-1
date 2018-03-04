@@ -11,7 +11,8 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !isset($_SESSION['user'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && (
+    !isset($_SESSION['user']) || !isset($_SESSION['user']['user_id']))) {
     http_response_code(403);
     exit('Access forbidden ' . http_response_code() . '');
 }
@@ -21,33 +22,41 @@ $lot_errors = [];
 $uploaded = '';
 $lot_upload_error = '';
 
+$user_id = $_SESSION['user']['user_id'];
+
 $required = [
     'lot_name', 'lot_category',
-    'lot_description', 'lot_value', 'lot_step', 'lot_date'
+    'lot_description', 'lot_value', 'lot_step', 'lot_date_end'
 ];
 $rules = [
     'lot_value' => 'validateLotValue',
-    'lot_step' => 'validateLotStep', 'lot_date' => 'validateDate'
+    'lot_step' => 'validateLotStep', 'lot_date_end' => 'validateDate'
 ];
 
-if (isset($_POST['lot_add'])) {
+$category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 
+if (isset($_FILES)) {
+    $uploaded = !empty($_FILES['lot_img']['size']) ? 'uploaded': '';
+}
+
+if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value) {
         if (in_array($key, $required) && ($value === '' || $value === 'Выберите категорию')) {
             $lot_errors[$key] = $lot_add_errors[$key]['error_message'];
         }
 
         if (array_key_exists($key, $rules) && $value !== '') {
-            $result = call_user_func($rules[$key], $value);
 
-            if (!empty($result)) {
+            if (!empty($result = call_user_func($rules[$key], $value))) {
                 $lot_errors[$key] = $result;
-            }
+            };
 
-        } $lot_add_defaults[$key]['input'] = $value;
+        }
+
+        $lot_add_defaults[$key]['input'] = $value;
     }
 
-    if (empty($lot_errors) && !empty($uploaded)) {
+    if (!empty($uploaded)) {
         $file = $_FILES['lot_img'];
         $allowed = [
             'jpeg' => 'image/jpeg',
@@ -57,7 +66,7 @@ if (isset($_POST['lot_add'])) {
         $result = validateFile($file, $allowed);
 
         if (is_string($result)) {
-            $lot_upload_error = $result;
+            $user_upload_error = $result;
 
         } elseif (is_array($result)) {
             $destination_path =
@@ -67,23 +76,61 @@ if (isset($_POST['lot_add'])) {
                 $destination_path);
 
             $lot_data['lot_img_url'] = $result['file_url'];
-            $lot_data['lot_img_alt'] = $result['file_name'];
         }
     }
 
-    if (empty($lot_errors) && empty($lot_upload_error)) {
-        $lot = $_POST;
-        $lot['lot_img_url'] = $lot_data['lot_img_url'];
-        $lot['lot_img_alt'] = $lot_data['lot_img_alt'];
-        array_push($lots, $lot);
-        $lot_id = count($lots) - 1;
+    if (empty($lot_errors)) {
+        $lot = filterArray($_POST, 'lot_add');
 
-        $_SESSION['lot_added'] = $lot;
-        header('Location: lot.php?lot_id=' .
-            $lot_id . '&&lot_added=true');
+        $lot['user_id'] = $user_id;
+        $lot['lot_date_end'] = convertDateMySQL($lot['lot_date_end']);
+
+        $category_fetched = select_data_assoc($link, $category_id_sql, [$lot['lot_category']]);
+        $category_id = $category_fetched[0]['category_id'];
+
+        $lot_filtered = filterArray($lot, 'lot_category');
+        $lot_filtered['category_id'] = $category_id;
+
+
+
+        if(!empty($uploaded) && empty($lot_upload_error)) {
+            $lot_filtered['lot_img_url'] = $lot_data['lot_img_url'];
+        }
+
+        if (empty($uploaded)) {
+            $lot_filtered['lot_img_url'] = 'img/Moment-Generator-Web-Render-ZB.jpg';
+        }
+
+
+
+        $lot_id = insert_data($link, 'lots',
+            [
+                'lot_name' => $lot_filtered['lot_name'],
+                'lot_date_end' => $lot_filtered['lot_date_end'],
+                'lot_img_url' => $lot_filtered['lot_img_url'],
+                'lot_value' => $lot_filtered['lot_value'],
+                'lot_step' => $lot_filtered['lot_step'],
+                'user_id' => $lot_filtered['user_id'],
+                'category_id' => $lot_filtered['category_id']
+            ]);
+
+        if (empty($lot_id)) {
+
+            print 'Can\'t add lot';
+        }
+        if (!empty($lot_id)) {
+
+            $_SESSION['lot_added'] = $lot;
+            $_SESSION['lot_added']['lot_id'] = $lot_id;
+
+            header('Location: lot.php?lot_id=' .
+                $lot_id . '&&lot_added=true');
+
+        }
+
     }
-}
 
+}
 $index = false;
 $nav = include_template('templates/nav.php', [
     'categories' => $categories
@@ -99,7 +146,7 @@ $content = include_template('templates/add-lot.php',
         'lot_img' => $lot_add_defaults['lot_img'],
         'lot_value' => $lot_add_defaults['lot_value'],
         'lot_step' => $lot_add_defaults['lot_step'],
-        'lot_date' => $lot_add_defaults['lot_date']
+        'lot_date_end' => $lot_add_defaults['lot_date_end']
 
     ]);
 

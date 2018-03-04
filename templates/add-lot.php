@@ -75,14 +75,14 @@
       <span class="form__error"><?php if (!empty($errors['lot_step'])) : ?><?=$errors['lot_step'] ?><?php endif; ?></span>
     </div>
 
-    <div class="form__item <?php if (!empty($errors['lot_date'])) : ?>form__item--invalid<?php endif; ?>">
-      <label for="<?=$lot_date['name'] ?>"><?=$lot_date['title'] ?></label>
+    <div class="form__item <?php if (!empty($errors['lot_date_end'])) : ?>form__item--invalid<?php endif; ?>">
+      <label for="<?=$lot_date_end['name'] ?>"><?=$lot_date_end['title'] ?></label>
       <input class="form__input-date"
-             id="<?=$lot_date['name'] ?>"
+             id="<?=$lot_date_end['name'] ?>"
              type="text"
-             name="<?=$lot_date['name'] ?>"
-             value="<?=$lot_date['input'] ?>">
-      <span class="form__error"><?php if (!empty($errors['lot_date'])) : ?><?=$errors['lot_date'] ?><?php endif; ?></span>
+             name="<?=$lot_date_end['name'] ?>"
+             value="<?=$lot_date_end['input'] ?>">
+      <span class="form__error"><?php if (!empty($errors['lot_date_end'])) : ?><?=$errors['lot_date_end'] ?><?php endif; ?></span>
     </div>
   </div>
 

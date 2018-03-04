@@ -80,7 +80,6 @@ if (isset($_POST['register'])) {
                 $destination_path);
 
             $user_data['user_img_url'] = $result['file_url'];
-            $user_data['user_img_alt'] = $result['file_name'];
         }
     }
 
@@ -89,25 +88,20 @@ if (isset($_POST['register'])) {
 
         if(!empty($uploaded) && empty($user_upload_error)) {
             $user['user_img_url'] = $user_data['user_img_url'];
-            $user['user_img_alt'] = $user_data['user_img_alt'];
-
-            $user_id = insert_data($link, 'users',
-                [
-                    'user_name' => $user['user_name'],
-                    'user_email' => $user['user_email'],
-                    'user_password' => $user['user_password'],
-                    'user_img_url' => $user['user_img_url']
-                ]);
         }
 
         if (empty($uploaded)) {
-            $user_id = insert_data($link, 'users',
-                [
-                    'user_name' => $user['user_name'],
-                    'user_email' => $user['user_email'],
-                    'user_password' => $user['user_password']
-                ]);
+            $user['user_img_url'] = '';
         }
+
+        $user_id = insert_data($link, 'users',
+            [
+                'user_name' => $user['user_name'],
+                'user_email' => $user['user_email'],
+                'user_password' => $user['user_password'],
+                'user_img_url' => $user['user_img_url']
+            ]);
+
         $_SESSION['user'] = $user;
         $_SESSION['user']['user_id'] = $user_id;
 

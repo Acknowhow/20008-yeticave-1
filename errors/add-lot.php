@@ -17,8 +17,8 @@ $lot_add_errors = [
     'lot_step' => [
         'name' => 'lot_step', 'error_message' => 'Введите шаг ставки'
     ],
-    'lot_date' => [
-        'name' => 'lot_date', 'error_message' => 'Введите дату завершения торгов'
+    'lot_date_end' => [
+        'name' => 'lot_date_end', 'error_message' => 'Введите дату завершения торгов'
     ]
     // TODO
     //'error_empty' => 'Введите дату завершения торгов',

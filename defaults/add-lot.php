@@ -22,8 +22,8 @@ $lot_add_defaults = [
     'lot_step' => [
         'name' => 'lot_step', 'title' => 'Шаг ставки', 'input' => ''
     ],
-    'lot_date' => [
-        'name' => 'lot_date',
+    'lot_date_end' => [
+        'name' => 'lot_date_end',
         'title' => 'Дата завершения торгов', 'input' => ''
     ]
 ];

@@ -15,14 +15,14 @@
     <div class="lots__header">
         <h2>Открытые лоты</h2>
     </div>
-    <ul class="lots__list">
+    <ul class="lots__list"><?php if (empty($lots)) : ?><?= 'На данный момент нет открытых лотов'?><?php else: ?>
         <?php foreach ($lots as $lot => $key) : ?>
             <li class="lots__item lot">
                 <div class="lot__image">
                     <img src="<?= htmlspecialchars($key['lot_img_url']) ?>"
                          width="350"
                          height="260"
-                         alt="<?= htmlspecialchars($key['lot_img_alt']) ?>">
+                         alt="<?= htmlspecialchars($key['lot_name']) ?>">
                 </div>
                 <div class="lot__info">
                     <span class="lot__category"><?= $key['lot_category'] ?></span>
@@ -43,6 +43,6 @@
                     </div>
                 </div>
             </li>
-        <?php endforeach; ?>
+        <?php endforeach; ?><?php endif; ?>
     </ul>
 </section>

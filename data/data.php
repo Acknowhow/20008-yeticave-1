@@ -24,44 +24,12 @@ $categories_fetched = select_data_column($link, $categories_sql, [], 'category_n
 
 $categories = array_combine($categories_eng, $categories_fetched);
 
+$lots_sql = 'SELECT l.lot_id,l.lot_name,l.lot_date_add,
+l.lot_date_end,l.lot_description,l.lot_img_url,l.lot_value,l.lot_step,l.user_id,
+l.category_id,c.category_name as lot_category from lots l JOIN
+ categories c ON l.category_id=c.category_id ORDER BY l.lot_date_add DESC';
 
-$lots = [
-    [
-        'lot_name' => '2014 Rossignol District Snowboard',
-        'lot_category' => 'Доски и лыжи', 'lot_value' => 10999,
-        'lot_img_url' => 'img/lot-1.jpg', 'lot_img_alt' => 'Сноуборд',
-        'lot_description' => $lot_description_default
-    ],
-    [
-        'lot_name' => 'DC Ply Mens 2016/2017 Snowboard',
-        'lot_category' => 'Доски и лыжи', 'lot_value' => 159999,
-        'lot_img_url' => 'img/lot-2.jpg', 'lot_img_alt' => 'Сноуборд',
-        'lot_description' => $lot_description_default
-    ],
-    [
-        'lot_name' => 'Крепления Union Contact Pro 2015 года размер L/XL',
-        'lot_category' => 'Крепления', 'lot_value' => 8000,
-        'lot_img_url' => 'img/lot-3.jpg', 'lot_img_alt' => 'Крепления',
-        'lot_description' => $lot_description_default
-    ],
-    [
-        'lot_name' => 'Ботинки для сноуборда DC Mutiny Charocal',
-        'lot_category' => 'Ботинки', 'lot_value' => 10999,
-        'lot_img_url' => 'img/lot-4.jpg', 'lot_img_alt' => 'Ботинки',
-        'lot_description' => $lot_description_default
-    ],
-    [   'lot_name' => 'Куртка для сноуборда DC Mutiny Charocal',
-        'lot_category' => 'Одежда', 'lot_value' => 7500,
-        'lot_img_url' => 'img/lot-5.jpg', 'lot_img_alt' => 'Куртка',
-        'lot_description' => $lot_description_default
-    ],
-    [
-        'lot_name' => 'Маска Oakley Canopy',
-        'lot_category' => 'Разное', 'lot_value' => 5400,
-        'lot_img_url' => 'img/lot-6.jpg', 'lot_img_alt' => 'Маска',
-        'lot_description' => $lot_description_default
-    ]
-];
+$lots = select_data_assoc($link, $lots_sql, []);
 
 
 // ставки пользователей, которыми надо заполнить таблицу

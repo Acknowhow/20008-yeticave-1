@@ -31,6 +31,12 @@ function include_template($templatePath, $templateData)
     return $tpl;
 }
 
+function convertDateMySQL($date, $format = 'd.m.Y'){
+    $dateTime = DateTime::createFromFormat($format, $date);
+
+    return $dateTime->format('Y-m-d H:i:s');
+}
+
 function getDateFormat($date, $format = 'd.m.Y')
 {
     $_date = DateTime::createFromFormat($format, $date);
@@ -223,6 +229,12 @@ function validatePassword($password)
     return 'Длина пароля должна быть не больше 72 символов';
 }
 
+function isEmptyArray($array){
+    return $filter = array_filter($array, function($key) {
+        return $key === '';
+    });
+}
+
 function select_data_column($link, $sql, $data, $columnName)
 {
     $arr = [];
@@ -260,6 +272,7 @@ function select_data_assoc($link, $sql, $data)
 
 function insert_data($link, $table, $arr)
 {
+    $id = '';
     $columns = implode(", ",array_keys($arr));
     $values = array_values($arr);
 
@@ -274,5 +287,11 @@ function insert_data($link, $table, $arr)
 
         return false;
     }
-    return mysqli_insert_id($link);
+    $id = mysqli_insert_id($link);
+    return $id;
+}
+function filterArray($array, $key){
+    return array_filter($array, function($k) use ($key) {
+        return $k !== $key;
+    }, ARRAY_FILTER_USE_KEY);
 }
