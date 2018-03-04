@@ -26,9 +26,6 @@ if (isset($_FILES)) {
 
 $user_id = null;
 
-var_dump($_POST);
-
-
 $required = [
     'user_name', 'user_email',
     'user_password', 'user_contacts'
@@ -91,7 +88,6 @@ if (isset($_POST['register'])) {
         (!empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
 
         $user = filterArray($user_data, 'register');
-        var_dump($user);
 
         $user_id = insert_data($link, 'users',
             [

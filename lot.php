@@ -22,7 +22,6 @@ $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
 
 $user_id = $_SESSION['user']['user_id'];
 
-var_dump($lots);
 
 if (isset($lot_id)) {
     $index = false;
