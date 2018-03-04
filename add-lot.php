@@ -77,18 +77,6 @@ if (isset($_POST['lot_add'])) {
         $lot_data['lot_img_url'] = $validation_result['file_url'];
     }
 
-    if (!empty($uploaded)) {
-
-
-
-    }
-
-    if (empty($lot_errors) &&
-
-
-
-
-    }
 
     if (empty($lot_errors) &&
         (!empty($uploaded) && empty($lot_upload_error) || empty($uploaded))) {

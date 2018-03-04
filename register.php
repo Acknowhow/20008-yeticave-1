@@ -1,4 +1,5 @@
 <?php
+session_save_path('/usr/local/var/tmp');
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
