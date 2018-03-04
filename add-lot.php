@@ -51,6 +51,10 @@ if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
     }
 }
 
+if (isset($_FILES) && empty($_FILES['lot_img']['size'])) {
+    $lot_data['lot_img_url'] = 'img/lot-image.png';
+}
+
 if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value) {
         if (in_array($key, $required) && ($value === '' || $value === 'Выберите категорию')) {
