@@ -13,6 +13,7 @@ $cookie_lot_value = isset($_COOKIE['lot_visited']) ?
 
 $lots_visited = [];
 
+
 if (empty($cookie_lot_value)) {
     $content = 'Здесь отображается история просмотра лотов';
 } elseif (!empty($cookie_lot_value)) {
@@ -22,6 +23,7 @@ if (empty($cookie_lot_value)) {
     foreach ($lot_ids as $id) {
         $lots_visited[] = $lots[$id];
     }
+    var_dump($lots_visited);
 
     $nav = include_template('templates/nav.php', [
         'categories' => $categories

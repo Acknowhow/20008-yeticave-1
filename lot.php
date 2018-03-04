@@ -11,10 +11,6 @@ require 'markup/markup.php';
 $my_lot = false;
 $lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : null;
 
-$cookie_bet_name = 'cookie_bet';
-$cookie_bet_value = isset($_COOKIE['cookie_bet']) ?
-    $_COOKIE['cookie_bet'] : [];
-
 $cookie_lot_name = 'lot_visited';
 $cookie_lot_value = isset($_COOKIE['lot_visited']) ?
     $_COOKIE['lot_visited'] : [];
