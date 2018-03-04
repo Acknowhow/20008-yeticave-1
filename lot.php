@@ -19,7 +19,6 @@ $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
 
 $category_id_sql = 'SELECT category_id FROM categories WHERE category_name=?';
-
 $user_id = $_SESSION['user']['user_id'];
 
 
@@ -44,12 +43,10 @@ if (isset($lot_id)) {
 
 
     elseif (!isset($_GET['lot_added']) && (array_key_exists($lot_id, $lots) === true)) {
-
         $lot = $lots[$lot_id];
     }
 
     elseif (!isset($_GET['lot_added']) && !array_key_exists($lot_id, $lot)) {
-
         $layout['title'] = $error_title;
 
         $content = include_template('templates/404.php',
