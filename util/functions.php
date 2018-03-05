@@ -245,6 +245,20 @@ function validatePassword($password)
     return 'Длина пароля должна быть не больше 72 символов';
 }
 
+function filterArray($array, $key)
+{
+    return array_filter($array, function ($k) use ($key) {
+        return $k !== $key;
+    }, ARRAY_FILTER_USE_KEY);
+}
+
+function filterLotById($arr, $key, $value)
+{
+    return array_filter($arr, function ($k, $v) use ($key, $value) {
+        return $k[$key] === $value;
+    }, ARRAY_FILTER_USE_BOTH);
+}
+
 function select_data_column($link, $sql, $data, $columnName)
 {
     $arr = [];
@@ -301,16 +315,21 @@ function insert_data($link, $table, $arr)
     return $id;
 }
 
-function filterArray($array, $key)
+function exec_query($link, $sql, $data)
 {
-    return array_filter($array, function ($k) use ($key) {
-        return $k !== $key;
-    }, ARRAY_FILTER_USE_KEY);
+    $_array = [];
+    $stmt = db_get_prepare_stmt($link, $sql, $data);
+
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+
+    while($row = mysqli_fetch_assoc($result)){
+        $arr[] = $row;
+    };
+    if (!$result) {
+        return false;
+    }
+
+    return $_array;
 }
 
-function filterLotById($arr, $key, $value)
-{
-    return array_filter($arr, function ($k, $v) use ($key, $value) {
-        return $k[$key] === $value;
-    }, ARRAY_FILTER_USE_BOTH);
-}

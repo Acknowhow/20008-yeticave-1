@@ -16,7 +16,7 @@ CREATE TABLE users (
 CREATE TABLE bets (
   bet_id INT auto_increment NOT NULL PRIMARY KEY,
   bet_value INT,
-  bet_date_add TIMESTAMP,
+  bet_date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   user_id INT not null,
   bet_is_win TINYINT default 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id)
@@ -24,7 +24,7 @@ CREATE TABLE bets (
 CREATE TABLE lots (
   lot_id INT auto_increment NOT NULL PRIMARY KEY,
   lot_name VARCHAR(127),
-  lot_date_add TIMESTAMP,
+  lot_date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   lot_date_end DATETIME,
   lot_description VARCHAR(1500) default 'Легкий маневренный сноуборд, готовый дать жару в любом парке, растопив снег
   мощным щелчком и четкими дугами. Стекловолокно Bi-Ax, уложенное в двух направлениях,

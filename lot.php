@@ -22,14 +22,24 @@ FROM categories WHERE category_name=?';
 $user_id = isset($_SESSION['user']['user_id']) ?
     $_SESSION['user']['user_id'] : null;
 
+$bets = [];
+
 if (!empty($user_id))
 {
     $my_lots_sql = 'SELECT * FROM lots WHERE user_id=?';
     $my_lots_fetched = select_data_assoc($link, $my_lots_sql, [$user_id]);
 
+    $this_lot = filterLotById($my_lots_fetched, 'lot_id', intval($lot_id));
+
     // If this lot was added by current user
-    if (filterLotById($my_lots_fetched, 'lot_id', intval($lot_id))) {
+    if (!empty($this_lot))
+    {
         $my_lot = true;
+    }
+
+    if (empty($this_lot))
+    {
+        /// then fetch bet_id
     }
 }
 
@@ -65,9 +75,9 @@ if (isset($lot_id))
         [
             'title' => $lot['lot_name'], 'is_auth' => $is_auth,
             'categories' => $categories, 'bets' => $bets,
-            'my_lot' => $my_lot,
-            'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
-
+            'my_lot' => $my_lot, 'lot_id' => $lot_id,
+            'user_id' => $user_id, 'lot_name' => $lot['lot_name'],
+            'lot_category' => $lot['lot_category'],
             'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
             'lot_img_alt' => $lot['lot_name'], 'lot_description' => $lot['lot_description']
         ]
