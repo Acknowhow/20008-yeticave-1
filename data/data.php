@@ -16,11 +16,14 @@ $lot_description_default = '
     от Шона Кливера еще никого не оставляла равнодушным.';
 
 $categories_eng = [
-    'boards', 'attachment', 'boots', 'clothing', 'tools', 'other'
+    'boards', 'attachment', 'boots',
+    'clothing', 'tools', 'other'
 ];
 
-$categories_sql = 'SELECT * FROM categories ORDER BY category_id ASC';
-$categories_fetched = select_data_column($link, $categories_sql, [], 'category_name');
+$categories_sql = 'SELECT * FROM categories 
+ORDER BY category_id ASC';
+$categories_fetched = select_data_column(
+    $link, $categories_sql, [], 'category_name');
 
 $categories = array_combine($categories_eng, $categories_fetched);
 
@@ -30,7 +33,6 @@ l.category_id,c.category_name as lot_category from lots l JOIN
  categories c ON l.category_id=c.category_id ORDER BY l.lot_date_add DESC';
 
 $lots = select_data_assoc($link, $lots_sql, []);
-
 
 // ставки пользователей, которыми надо заполнить таблицу
 $bets = [

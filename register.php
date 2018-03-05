@@ -89,7 +89,8 @@ if (isset($_POST['register'])) {
     {
         $destination_path = $validation_result['file_path'] .
         $validation_result['file_name'];
-        move_uploaded_file($validation_result['file_name_tmp'], $destination_path);
+        move_uploaded_file(
+            $validation_result['file_name_tmp'], $destination_path);
         $user_data['user_img_url'] = $validation_result['file_url'];
     }
 
