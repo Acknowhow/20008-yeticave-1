@@ -9,10 +9,10 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 $my_lot = false;
-$lot_id = intval($_GET['lot_id']) ?? null;
+$lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : '';
 
-$cookie_lot_name = 'lot_visited';
-$cookie_lot_value =
+$cookie_lot_visited_name = 'lot_visited';
+$cookie_lot_visited_value =
     isset($_COOKIE['lot_visited']) ? $_COOKIE['lot_visited'] : [];
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
@@ -27,25 +27,16 @@ if (!empty($user_id))
     $my_lots_sql = 'SELECT * FROM lots WHERE user_id=?';
     $my_lots_fetched = select_data_assoc($link, $my_lots_sql, [$user_id]);
 
-
-
-    var_dump(filterLotById($lots, 'lot_id', $lot_id));
-
+    // If this lot was added by current user
+//    if (filterLotById($my_lots_fetched, 'lot_id', intval($lot_id))) {
+//        $my_lot = true;
+//    }
 }
 
 if (isset($lot_id))
 {
     $index = false;
-
-    if (array_search($lot_id, $my_lots_fetched) === true)
-    {
-        $my_lot = true;
-    }
-    if (array_search($lot_id, $lots) === true)
-    {
-        $lot = $lots[$lot_id];
-    }
-    elseif (!array_search($lot_id, $lot))
+    if (!array_key_exists($lot_id, $lots))
     {
         $layout['title'] = $error_title;
         $content = include_template('templates/404.php',
@@ -54,20 +45,26 @@ if (isset($lot_id))
             ]
         );
     }
-    if (!empty($cookie_lot_value))
-    {
-        $cookie_lot_value = json_decode($cookie_lot_value, true);
-
-        if (!array_search($lot_id, $cookie_lot_value))
-        {
-            $cookie_lot_value[] = $lot_id;
-        }
-    } elseif (empty($cookie_lot_value))
-    {
-        $cookie_lot_value[] = $lot_id;
+    $lot = filterLotById($lots, 'lot_id', intval($lot_id));
+    if (empty($lot[0])) {
+        print 'Can\'t fetch lot by id';
+        exit();
     }
-    $cookie_lot_value = json_encode($cookie_lot_value);
-    setcookie($cookie_lot_name, $cookie_lot_value, $expire, $path);
+
+    $lot = $lot[0];
+
+    $cookie_lot_visited_value = json_decode($cookie_lot_visited_value, true);
+
+    if (!array_key_exists($lot_id, $cookie_lot_visited_value))
+    {
+        $cookie_lot_visited_value[] = $lot_id;
+    } elseif (empty($cookie_lot_visited_value))
+    {
+        $cookie_lot_visited_value[] = $lot_id;
+    }
+    $cookie_lot_visited_value = json_encode($cookie_lot_visited_value);
+    setcookie($cookie_lot_visited_name, $cookie_lot_visited_value, $expire, $path);
+
 
     $nav = include_template('templates/nav.php',
         [

@@ -41,7 +41,7 @@ $validation_result = '';
 
 if (isset($_FILES))
 {
-    $lot_data['lot_img_url'] = 'img/lot-image.png';
+    $lot_data['lot_img_url'] = 'img/lot-image.jpg';
 }
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size']))

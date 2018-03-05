@@ -8,18 +8,18 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-$cookie_lot_value = isset($_COOKIE['lot_visited']) ?
+$cookie_lot_visited_value = isset($_COOKIE['lot_visited']) ?
     $_COOKIE['lot_visited'] : '';
 
 /* Если существует cookie_lot_value, но нет лотов в БД */
-if (empty($cookie_lot_value) || empty($lots))
+if (empty($cookie_lot_visited_value) || empty($lots))
 {
     $content = 'Здесь отображается история просмотра лотов';
 
-} elseif (!empty($cookie_lot_value) && !empty($lots))
+} elseif (!empty($cookie_lot_visited_value) && !empty($lots))
 {
     $index = false;
-    $lot_ids = json_decode($cookie_lot_value);
+    $lot_ids = json_decode($cookie_lot_visited_value);
 
     $lots = array_intersect_key($lots, $lot_ids);
     $content = include_template('templates/history.php',
