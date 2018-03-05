@@ -3,7 +3,6 @@ require 'mysql_helper.php';
 function convertNum($num)
 {
     $num = ceil($num);
-
     if ($num > 1000) {
         $start = substr($num, 0, 2);
 

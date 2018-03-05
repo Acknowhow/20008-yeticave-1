@@ -1,4 +1,4 @@
-<form class="form container<?php if (!empty($errors)) : ?> form_invalid<?php endif; ?>" action="/register.php" method="POST" enctype="multipart/form-data">
+<form class="form container<?php if (!empty($errors)) : ?> form_invalid<?php endif; ?>" action="register.php" method="POST" enctype="multipart/form-data">
     <h2>Регистрация нового аккаунта</h2>
     <div class="form__item<?php if (!empty($errors['user_email'])) : ?> form__item--invalid<?php endif; ?>">
         <label for="<?= $user_email['name'] ?>"><?= $user_email['title'] ?></label>

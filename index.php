@@ -8,7 +8,6 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
