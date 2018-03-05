@@ -1,6 +1,5 @@
 use yeti;
-insert into categories(category_name) values('Доски и лыжи'), ('Крепления'), ('Ботинки'),
-  ('Одежда'), ('Инструменты'), ('Разное');
+
 insert into users (user_name, user_email, user_password, user_img_url) values('Иван', 'ivan.v@gmail.com', '$2y$10$Ug4Ternwf8xmO5nK2s1/EupzsaHaUd7cuLPVL227NqxkaJ2qy9REW', 'img/Ivan.png'),
   ('Eлена', 'kitty_93@li.ru', '$2y$10$bWtSjUhwgggtxrnJ7rxmIe63ABubHQs0AS0hgnOo41IEdMHkYoSVa', 'img/Lena.png'),
   ('Руслан', 'warrior07@mail.ru', '$2y$10$2OxpEH7narYpkOT1H5cApezuzh10tZEEQ2axgFOaKW.55LxIJBgWW', 'img/Ruslan_INNit.png');

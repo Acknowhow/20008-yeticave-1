@@ -20,7 +20,6 @@ if (empty($cookie_lot_value) || empty($lots)) {
     $lot_ids = json_decode($cookie_lot_value);
 
     $lots = array_intersect_key($lots, $lot_ids);
-    var_dump($lots);
     $content = include_template('templates/history.php', [
         'lots' => $lots
     ]);
