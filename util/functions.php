@@ -289,3 +289,10 @@ function filterArray($array, $key)
         return $k !== $key;
     }, ARRAY_FILTER_USE_KEY);
 }
+
+function filterLotById($arr, $key, $value)
+{
+    return array_filter($arr, function ($k, $v) use ($key, $value) {
+        return $k[$key] === $value;
+    }, ARRAY_FILTER_USE_BOTH);
+}

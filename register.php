@@ -94,13 +94,11 @@ if (isset($_POST['register'])) {
         $user_data['user_img_url'] = $validation_result['file_url'];
     }
 
-    if (empty($user_errors) &&
-        (!empty($uploaded) && empty($user_upload_error) || empty($uploaded)))
+    if (empty($user_errors) && (
+        !empty($uploaded) && empty($user_upload_error) || empty($uploaded)))
     {
-
         $user = filterArray($user_data, 'register');
         $user['user_img_url'] = $user_data['user_img_url'] ?? 'img/user.jpg';
-
         $user_id = insert_data($link, 'users',
             [
                 'user_name' => $user['user_name'],
@@ -108,24 +106,25 @@ if (isset($_POST['register'])) {
                 'user_password' => $user['user_password'],
                 'user_img_url' => $user['user_img_url']
             ]);
-
-        if(!$user_id) {
+        if(!$user_id)
+        {
             print 'Can\'t get user_id';
             exit();
         }
-
         $user['user_id'] = $user_id;
         $_SESSION['user'] = $user;
-
         header('Location: index.php');
     }
 }
 $index = false;
-$nav = include_template('templates/nav.php', [
-    'categories' => $categories
-]);
+$nav = include_template('templates/nav.php',
+    [
+        'categories' => $categories
+    ]
+);
 
-$content = include_template('templates/register.php',
+$content = include_template(
+    'templates/register.php',
     [
         'errors' => $user_errors, 'upload_error' => $user_upload_error,
         'user_name' => $register_defaults['user_name'], 'user_email' =>
@@ -133,12 +132,16 @@ $content = include_template('templates/register.php',
          $register_defaults['user_password'], 'user_contacts' =>
          $register_defaults['user_contacts'], 'user_img' =>
          $register_defaults['user_img']
-    ]);
+    ]
+);
 
-$markup = new Markup('templates/layout.php',
-    array_merge_recursive($layout,
+$markup = new Markup(
+    'templates/layout.php', array_merge_recursive(
+        $layout,
         [
             'index' => $index,
             'nav' => $nav, 'content' => $content
-        ]));
+        ]
+    )
+);
 $markup->get_layout();
