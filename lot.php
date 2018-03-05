@@ -36,8 +36,7 @@ if (!empty($user_id))
 if (isset($lot_id))
 {
     $index = false;
-
-    $lot = filterLotById($lots, 'lot_id', intval($lot_id));
+    $lot = array_values(filterLotById($lots, 'lot_id', intval($lot_id)));
 
     if (empty($lot[0])) {
         print 'Can\'t fetch lot by id';
