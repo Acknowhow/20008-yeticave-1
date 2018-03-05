@@ -28,31 +28,22 @@ if (!empty($user_id))
     $my_lots_fetched = select_data_assoc($link, $my_lots_sql, [$user_id]);
 
     // If this lot was added by current user
-//    if (filterLotById($my_lots_fetched, 'lot_id', intval($lot_id))) {
-//        $my_lot = true;
-//    }
+    if (filterLotById($my_lots_fetched, 'lot_id', intval($lot_id))) {
+        $my_lot = true;
+    }
 }
 
 if (isset($lot_id))
 {
     $index = false;
-    if (!array_key_exists($lot_id, $lots))
-    {
-        $layout['title'] = $error_title;
-        $content = include_template('templates/404.php',
-            [
-                'container' => $container
-            ]
-        );
-    }
+
     $lot = filterLotById($lots, 'lot_id', intval($lot_id));
+
     if (empty($lot[0])) {
         print 'Can\'t fetch lot by id';
         exit();
     }
-
     $lot = $lot[0];
-
     $cookie_lot_visited_value = json_decode($cookie_lot_visited_value, true);
 
     if (!array_key_exists($lot_id, $cookie_lot_visited_value))
@@ -73,7 +64,7 @@ if (isset($lot_id))
     );
     $content = include_template('templates/lot.php',
         [
-            'is_auth' => $is_auth,
+            'title' => $lot['lot_name'], 'is_auth' => $is_auth,
             'categories' => $categories, 'bets' => $bets,
             'my_lot' => $my_lot,
             'lot_name' => $lot['lot_name'], 'lot_category' => $lot['lot_category'],
