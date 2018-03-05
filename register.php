@@ -14,80 +14,91 @@ require 'markup/markup.php';
 $user_data = [];
 $user_errors = [];
 
-$user_email = isset($_POST['user_email']) ? $_POST['user_email'] : '';
-$user_password = isset($_POST['user_password']) ? $_POST['user_password'] : '';
+$user_email = isset($_POST['user_email']) ?
+    $_POST['user_email'] : '';
+$user_password = isset($_POST['user_password']) ?
+    $_POST['user_password'] : '';
 
 $uploaded = '';
 $user_upload_error = '';
 $validation_result = '';
-if (isset($_FILES)) {
-    $user_data['user_img_url'] = 'img/user.jpg';
-}
-
 $user_id = null;
 
 $required = [
     'user_name', 'user_email',
     'user_password', 'user_contacts'
 ];
-$users_sql = 'SELECT user_email,user_name,user_password FROM users ORDER BY user_id ASC;';
+$users_sql = 'SELECT user_email,user_name,user_password 
+FROM users ORDER BY user_id ASC;';
+
 $users = select_data_assoc($link, $users_sql, []);
-
-if (isset($_FILES) && !empty($_FILES['user_img']['size'])) {
+if (isset($_FILES) && !empty($_FILES['user_img']['size']))
+{
     $uploaded = 'uploaded';
-
     $file = $_FILES['user_img'];
     $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
     ];
     $validation_result = validateFile($file, $allowed);
-    if (is_string($validation_result)) {
+    if (is_string($validation_result))
+    {
         $user_upload_error = $validation_result;
     }
 }
 
-
 if (isset($_POST['register'])) {
-    foreach ($_POST as $key => $value) {
-        if (in_array($key, $required) && $value == '') {
+    foreach ($_POST as $key => $value)
+    {
+        if (in_array($key, $required) && $value == '')
+        {
             $user_errors[$key] = $register_errors[$key]['error_message'];
         }
         $user_data[$key] = $value;
         $register_defaults[$key]['input'] = $value;
     }
 
-    if (!empty($_POST['user_email'])) {
-        if (!empty($result = call_user_func('validateEmail', $user_email)) ||
-            !empty($result = call_user_func('searchUserByEmail', $user_email, $users, true))) {
-
+    if (!empty($_POST['user_email']))
+    {
+        if (!empty($result = call_user_func(
+            'validateEmail', $user_email)) ||
+            !empty($result = call_user_func(
+                'searchUserByEmail',
+                $user_email, $users, true)))
+        {
             $user_errors['user_email'] = $result;
         }
     }
 
-    if (!empty($_POST['user_password'])) {
-        if (is_string($result = call_user_func('validatePassword', $user_password))){
+    if (!empty($_POST['user_password']))
+    {
+        if (is_string($result = call_user_func(
+            'validatePassword', $user_password)))
+        {
             $user_errors['user_password'] = $result;
-
         }
-        elseif (is_array($password = call_user_func('validatePassword', $user_password))){
+        elseif (is_array($password = call_user_func(
+            'validatePassword', $user_password)))
+        {
             $user_data['user_password'] = $password[0];
         }
     }
 
-    if (empty($user_errors) && empty($user_upload_error) && is_array($validation_result)) {
-        $destination_path =
-            $validation_result['file_path'] . $validation_result['file_name'];
-        move_uploaded_file(
-            $validation_result['file_name_tmp'],
-            $destination_path);
-
+    if (empty($user_errors) && empty($user_upload_error) &&
+        is_array($validation_result))
+    {
+        $destination_path = $validation_result['file_path'] .
+        $validation_result['file_name'];
+        move_uploaded_file($validation_result['file_name_tmp'], $destination_path);
         $user_data['user_img_url'] = $validation_result['file_url'];
     }
+
     if (empty($user_errors) &&
-        (!empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
+        (!empty($uploaded) && empty($user_upload_error) || empty($uploaded)))
+    {
 
         $user = filterArray($user_data, 'register');
+        $user['user_img_url'] = $user_data['user_img_url'] ?? 'img/user.jpg';
 
         $user_id = insert_data($link, 'users',
             [
@@ -97,8 +108,13 @@ if (isset($_POST['register'])) {
                 'user_img_url' => $user['user_img_url']
             ]);
 
+        if(!$user_id) {
+            print 'Can\'t get user_id';
+            exit();
+        }
+
+        $user['user_id'] = $user_id;
         $_SESSION['user'] = $user;
-        $_SESSION['user']['user_id'] = $user_id;
 
         header('Location: index.php');
     }

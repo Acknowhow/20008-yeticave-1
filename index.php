@@ -8,7 +8,7 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-var_dump($lots);
+var_dump($user);
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
