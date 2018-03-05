@@ -74,6 +74,7 @@ if (isset($lot_id)) {
             'categories' => $categories
         ]);
 
+
     $content = include_template('templates/lot.php',
         [
             'is_auth' => $is_auth,

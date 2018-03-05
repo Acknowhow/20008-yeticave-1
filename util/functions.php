@@ -7,10 +7,10 @@ function convertNum($num)
         $start = substr($num, 0, 2);
 
         $end = substr($num, 2, strlen($num) - 1);
-        $num = $start . ' ' . $end . '&#8381';
+        $num = $start . ' ' . $end;
     }
 
-    return $num;
+    return $num  .'&#8381';
 }
 
 function include_template($templatePath, $templateData)
@@ -30,7 +30,8 @@ function include_template($templatePath, $templateData)
     return $tpl;
 }
 
-function convertDateMySQL($date, $format = 'd.m.Y'){
+function convertDateMySQL($date, $format = 'd.m.Y')
+{
     $dateTime = DateTime::createFromFormat($format, $date);
 
     return $dateTime->format('Y-m-d H:i:s');
@@ -180,7 +181,7 @@ function validateUser($email, $users, $password)
         $is_user = $user;
 
     } elseif (is_array($user) && empty($is_user = password_verify(
-        $password, $user['user_password']))) {
+            $password, $user['user_password']))) {
         $is_user = 'Пароль неверный';
     }
     return $is_user;
@@ -209,29 +210,21 @@ function searchUserByEmail($email, $users, $register = false)
 }
 
 
-
 function validatePassword($password)
 {
     $_result = [];
 
-    if(strlen($password) < 11) {
+    if (strlen($password) < 11) {
         return '
         Пожалуйста, укажите не меньше 11 символов в вашем пароле';
 
-    }
-    elseif(strlen($password) >= 11 && strlen($password) <= 72) {
+    } elseif (strlen($password) >= 11 && strlen($password) <= 72) {
         $_result[] = password_hash($password, PASSWORD_DEFAULT);
         return $_result;
 
     }
 
     return 'Длина пароля должна быть не больше 72 символов';
-}
-
-function isEmptyArray($array){
-    return $filter = array_filter($array, function($key) {
-        return $key === '';
-    });
 }
 
 function select_data_column($link, $sql, $data, $columnName)
@@ -245,7 +238,7 @@ function select_data_column($link, $sql, $data, $columnName)
     if (!$result) {
         return false;
     }
-    while($row = mysqli_fetch_array($result)){
+    while ($row = mysqli_fetch_array($result)) {
         $arr[] = $row[$columnName];
     };
     return $arr;
@@ -263,7 +256,7 @@ function select_data_assoc($link, $sql, $data)
         return false;
 
     }
-    while($row = mysqli_fetch_assoc($result)){
+    while ($row = mysqli_fetch_assoc($result)) {
         $arr[] = $row;
     };
     return $arr;
@@ -272,7 +265,7 @@ function select_data_assoc($link, $sql, $data)
 function insert_data($link, $table, $arr)
 {
     $id = '';
-    $columns = implode(", ",array_keys($arr));
+    $columns = implode(", ", array_keys($arr));
     $values = array_values($arr);
 
     $values_fill = array_fill_keys(array_keys($values), '?');
@@ -289,8 +282,10 @@ function insert_data($link, $table, $arr)
     $id = mysqli_insert_id($link);
     return $id;
 }
-function filterArray($array, $key){
-    return array_filter($array, function($k) use ($key) {
+
+function filterArray($array, $key)
+{
+    return array_filter($array, function ($k) use ($key) {
         return $k !== $key;
     }, ARRAY_FILTER_USE_KEY);
 }
