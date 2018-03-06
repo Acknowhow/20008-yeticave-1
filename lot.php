@@ -78,8 +78,9 @@ if (isset($lot_id))
             'my_lot' => $my_lot, 'lot_id' => $lot_id,
             'user_id' => $user_id, 'lot_name' => $lot['lot_name'],
             'lot_category' => $lot['lot_category'],
-            'lot_value' => $lot['lot_value'], 'lot_img_url' => $lot['lot_img_url'],
-            'lot_img_alt' => $lot['lot_name'], 'lot_description' => $lot['lot_description']
+            'lot_value' => $lot['lot_value'], 'lot_step' => $lot['lot_step'],
+            'lot_img_url' => $lot['lot_img_url'], 'lot_img_alt' => $lot['lot_name'],
+            'lot_description' => $lot['lot_description']
         ]
     );
 }

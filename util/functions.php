@@ -3,7 +3,7 @@ require 'mysql_helper.php';
 function convertNum($num)
 {
     $num = ceil($num);
-    if ($num > 1000) {
+    if ($num > 10000) {
         $start = substr($num, 0, 2);
 
         $end = substr($num, 2, strlen($num) - 1);
@@ -296,7 +296,6 @@ function select_data_assoc($link, $sql, $data)
 
 function insert_data($link, $table, $arr)
 {
-    $id = '';
     $columns = implode(", ", array_keys($arr));
     $values = array_values($arr);
 
@@ -320,8 +319,8 @@ function exec_query($link, $sql, $data)
     $_array = [];
     $stmt = db_get_prepare_stmt($link, $sql, $data);
 
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    $result = mysqli_stmt_execute($stmt);
+
 
     while($row = mysqli_fetch_assoc($result)){
         $arr[] = $row;

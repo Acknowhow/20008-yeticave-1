@@ -19,15 +19,17 @@
                         <span class="lot-item__cost"><?= $lot_value ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span>12 000 р</span>
+                        Мин. ставка <span><?= $lot_step ?> &#8381</span>
                     </div>
                 </div>
                 <form class="lot-item__form" action="my-bets.php" method="post">
                     <p class="lot-item__form-item">
                         <label for="cost">Ваша ставка</label>
-                        <input id="cost" type="number" name="cost" placeholder="12 000">
-                        <input type="hidden" name="lot_id" value="<?=$lot_id; ?>"
-                        <input type="hidden" name="user_id" value="<?=$user_id; ?>"
+                        <input id="cost" type="number" name="cost" placeholder="<?= ($lot_value + $lot_step) ?>">
+                        <input type="hidden" name="lot_id" value="<?= $lot_id ?>">
+                        <input type="hidden" name="user_id" value="<?= $user_id ?>">
+                        <input type="hidden" name="lot_value" value="<?= $lot_value ?>">
+                        <br>
                     </p>
                     <?php if (!$my_lot === true) :?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
                 </form>
