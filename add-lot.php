@@ -11,13 +11,10 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-if (($_SERVER['REQUEST_METHOD'] === 'GET' ||
-    $_SERVER['REQUEST_METHOD'] === 'POST')  && (
-    !isset($_SESSION['user']) ||
-    !isset($_SESSION['user']['user_id'])))
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id']))
 {
     http_response_code(403);
-    exit('Access forbidden ' . http_response_code() . '');
+    exit('Вы не авторизованы ' . http_response_code() . '');
 }
 $user_id = $_SESSION['user']['user_id'];
 
