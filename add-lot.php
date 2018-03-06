@@ -37,10 +37,11 @@ $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
 
-if (isset($_FILES) && empty($_FILES['lot_img']['size']))
+if (isset($_FILES))
 {
     $lot_data['lot_img_url'] = 'img/lot-default.png';
 }
+
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size']))
 {
@@ -57,6 +58,7 @@ if (isset($_FILES) && !empty($_FILES['lot_img']['size']))
         $lot_upload_error = $validation_result;
     }
 }
+
 
 if (isset($_POST['lot_add']))
 {
@@ -78,13 +80,15 @@ if (isset($_POST['lot_add']))
         $lot_add_defaults[$key]['input'] = $value;
     }
 
+
     if (empty($lot_errors) && empty($lot_upload_error) && is_array(
         $validation_result))
     {
         $destination_path =
             $validation_result['file_path'] . $validation_result['file_name'];
-        move_uploaded_file(
+        $move_result = move_uploaded_file(
             $validation_result['file_name_tmp'], $destination_path);
+
         $lot_data['lot_img_url'] = $validation_result['file_url'];
     }
 
