@@ -40,9 +40,9 @@ $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
 
-if (isset($_FILES) && empty($_FILES))
+if (isset($_FILES) && empty($_FILES['lot_img']['size']))
 {
-    $lot_data['lot_img_url'] = '';
+    $lot_data['lot_img_url'] = 'img/lot-default.png';
 }
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size']))
