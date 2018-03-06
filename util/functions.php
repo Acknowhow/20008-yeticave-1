@@ -314,21 +314,12 @@ function insert_data($link, $table, $arr)
     return $id;
 }
 
-function exec_query($link, $sql, $data)
+function update_data($link, $sql, $data)
 {
-    $_array = [];
     $stmt = db_get_prepare_stmt($link, $sql, $data);
 
-    $result = mysqli_stmt_execute($stmt);
+    $exec = mysqli_stmt_execute($stmt);
 
-
-    while($row = mysqli_fetch_assoc($result)){
-        $arr[] = $row;
-    };
-    if (!$result) {
-        return false;
-    }
-
-    return $_array;
+    return $exec;
 }
 
