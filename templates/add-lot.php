@@ -17,7 +17,8 @@
       <label for="<?=$lot_category['name'] ?>"><?=$lot_category['title'] ?></label>
       <select id="<?=$lot_category['name'] ?>"
               name="<?=$lot_category['name'] ?>">
-        <option><?=$lot_category['input'] ?></option><?php foreach ($categories as $category => $value) : ?>
+        <option><?=$lot_category['input'] ?></option>
+        <?php foreach ($categories as $category => $value) : ?>
         <option><?=$value ?></option><?php endforeach; ?>
       </select>
 

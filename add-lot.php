@@ -11,7 +11,8 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && (
+if (($_SERVER['REQUEST_METHOD'] === 'GET' ||
+    $_SERVER['REQUEST_METHOD'] === 'POST')  && (
     !isset($_SESSION['user']) ||
     !isset($_SESSION['user']['user_id'])))
 {
@@ -39,9 +40,9 @@ $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
 
-if (isset($_FILES))
+if (isset($_FILES) && empty($_FILES))
 {
-    $lot_data['lot_img_url'] = 'img/lot-image.jpg';
+    $lot_data['lot_img_url'] = '';
 }
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size']))
