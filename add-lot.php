@@ -105,7 +105,7 @@ if (isset($_POST['lot_add'])) {
         $lot_id = insert_data($link, 'lots',
             [
                 'lot_name' => $lot_filtered['lot_name'],
-                'lot_date_add' => $dt->format('Y.m.d H:i:s'),
+                'lot_date_add' => $date_current->format('Y.m.d H:i:s'),
                 'lot_date_end' => $lot_filtered['lot_date_end'],
                 'lot_description' => $lot_filtered['lot_description'],
                 'lot_img_url' => $lot_filtered['lot_img_url'],

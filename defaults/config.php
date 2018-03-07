@@ -9,7 +9,8 @@ if (!empty($user)) {
    $is_auth = true;
 }
 $dtz = new DateTimeZone(date_default_timezone_get());
-$dt = new DateTime('now', $dtz);
+$date_current = new DateTime('now', $dtz);
+
 //$date_now = new DateTime('now');
 //$date_tomorrow = new DateTime('tomorrow midnight');
 //

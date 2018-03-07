@@ -29,7 +29,7 @@ function include_template($templatePath, $templateData)
 
     return $tpl;
 }
-// Converting date from form input into MySQL format
+// Converting date formats
 function convertDateMySQL($date, $format = 'd.m.Y')
 {
     $dateTime = DateTime::createFromFormat($format, $date);
@@ -37,6 +37,7 @@ function convertDateMySQL($date, $format = 'd.m.Y')
     return $dateTime->format('Y-m-d H:i:s');
 }
 
+// Validates date format
 function getDateFormat($date, $format = 'd.m.Y')
 {
     $_date = DateTime::createFromFormat($format, $date);
@@ -66,6 +67,7 @@ function convertTimeStamp($timeStamp)
     }
 }
 
+// Validates date period
 function validateDate($date)
 {
     $now = strtotime('now');

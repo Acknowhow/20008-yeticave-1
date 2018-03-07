@@ -36,7 +36,7 @@
                         <span class="lot__amount">Стартовая цена</span>
                         <span class="lot__cost"><?= convertNum(htmlspecialchars($lot['lot_value'])); ?></span>
                     </div>
-                    <div class="lot__timer timer"><?= $time_left ?></div>
+<!--                    <div class="lot__timer timer">--><?//= $time_left ?><!--</div>-->
                 </div>
             </div>
             </li><?php endforeach; ?><?php endif; ?>

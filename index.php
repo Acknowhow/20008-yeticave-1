@@ -9,23 +9,26 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
-var_dump('Bets are:');
-var_dump('<br>');
-var_dump($bets);
 
+$bet = $bets[0];
+//$expires_date = $bet['DATE_FORMAT(b.bet_date_add, \'%Y.%m.%d %H:%i:%s\')'];
 
-//// display dateTime from db
-//$dtz = new DateTimeZone(date_default_timezone_get());
-//// get date from DB
-//$dt = new DateTime('now', $dtz);
-//// then format it
-//echo $dt->format('Y.m.d H:i:s');
+//$expires_date = new DateTime($expires_string, $dtz);
+//$current_date = new DateTime('now', $dtz);
+//
+//$difference_date = $expires_date->diff($current_date);
+
+//$expiresString = $expires_string->format('Y.m.d H:i:s');
+//$currentString = $current_date->format('Y.m.d H:i:s');
+//$diffString = $difference->format('%h');
+
+var_dump($bet);
 
 
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
-        'lots' => $lots, 'time_left' => $time_left
+        'lots' => $lots
     ]
 );
 
