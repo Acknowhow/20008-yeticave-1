@@ -8,13 +8,20 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-
-$lot_estimate = intval($_POST['cost']) ?? null;
-$lot_value = intval($_POST['lot_value']) ?? null;
-
-$lot_id = intval($_POST['lot_id']) ?? null;
-$bet_value = $lot_estimate - $lot_value;
 $user_id = intval($_POST['user_id']) ?? null;
+$lot_id = intval($_POST['lot_id']) ?? null;
+
+$lot_estimate = $_POST['cost'] ?? null;
+$lot_value = $_POST['lot_value'] ?? null;
+
+$lot_step = $_POST['lot_step'] ?? null;
+$bet_value = $lot_estimate - $lot_value;
+
+$validate = validateBetValue($bet_value, $lot_step);
+
+if (!empty($validate)) {
+    echo $validate;
+}
 
 $lot_update_sql = "UPDATE lots SET lot_value=? WHERE lot_id=?";
 

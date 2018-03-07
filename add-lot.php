@@ -11,8 +11,7 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id']))
-{
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
@@ -37,14 +36,12 @@ $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
 
-if (isset($_FILES))
-{
+if (isset($_FILES)) {
     $lot_data['lot_img_url'] = 'img/lot-default.png';
 }
 
 
-if (isset($_FILES) && !empty($_FILES['lot_img']['size']))
-{
+if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
     $uploaded = 'uploaded';
     $file = $_FILES['lot_img'];
     $allowed =
@@ -53,26 +50,21 @@ if (isset($_FILES) && !empty($_FILES['lot_img']['size']))
             'png' => 'image/png'
         ];
     $validation_result = validateFile($file, $allowed);
-    if (is_string($validation_result))
-    {
+    if (is_string($validation_result)) {
         $lot_upload_error = $validation_result;
     }
 }
 
 
-if (isset($_POST['lot_add']))
-{
+if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value)
     {
         if (in_array($key, $required) && (
-            $value === '' || $value === 'Выберите категорию'))
-        {
+            $value === '' || $value === 'Выберите категорию')) {
             $lot_errors[$key] = $lot_add_errors[$key]['error_message'];
         }
-        if (array_key_exists($key, $rules) && $value !== '')
-        {
-            if (!empty($result = call_user_func($rules[$key], $value)))
-            {
+        if (array_key_exists($key, $rules) && $value !== '') {
+            if (!empty($result = call_user_func($rules[$key], $value))) {
                 $lot_errors[$key] = $result;
             };
         }
@@ -82,19 +74,18 @@ if (isset($_POST['lot_add']))
 
 
     if (empty($lot_errors) && empty($lot_upload_error) && is_array(
-        $validation_result))
-    {
+        $validation_result)) {
         $destination_path =
             $validation_result['file_path'] . $validation_result['file_name'];
         $move_result = move_uploaded_file(
             $validation_result['file_name_tmp'], $destination_path);
 
+
         $lot_data['lot_img_url'] = $validation_result['file_url'];
     }
 
     if (empty($lot_errors) && (
-        !empty($uploaded) && empty($lot_upload_error) || empty($uploaded)))
-    {
+        !empty($uploaded) && empty($lot_upload_error) || empty($uploaded))) {
         $lot = filterArray($lot_data, 'lot_add');
 
         $lot['user_id'] = $user_id;
@@ -119,12 +110,10 @@ if (isset($_POST['lot_add']))
                 'category_id' => $lot_filtered['category_id']
             ]);
 
-        if (empty($lot_id))
-        {
+        if (empty($lot_id)) {
             print 'Can\'t add lot';
         }
-        if (!empty($lot_id))
-        {
+        if (!empty($lot_id)) {
             header('Location: lot.php?lot_id=' . $lot_id);
         }
     }

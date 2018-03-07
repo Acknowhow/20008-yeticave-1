@@ -102,12 +102,12 @@ function get_numeric($val)
     return 0;
 }
 
-function validateLotValue($lotRate)
+function validateLotValue($lotValue)
 {
-    $_lotRate = $lotRate;
+    $_lotValue = $lotValue;
 
-    $is_numeric = get_numeric($_lotRate);
-    $is_positive = $_lotRate > 0;
+    $is_numeric = get_numeric($_lotValue);
+    $is_positive = $_lotValue > 0;
 
     if (!$is_numeric) {
         return 'Начальная цена должна быть больше 0';
@@ -133,6 +133,18 @@ function validateLotStep($lotStep)
     }
     return '';
 }
+function validateBetValue($betValue, $lotStep)
+{
+    $is_integer = get_integer($betValue);
+    if ($is_integer === 0) {
+        return 'Введите целое числовое значение';
+    }
+    if ($betValue < $lotStep) {
+        return 'Ставка должна быть не меньше ' .
+            $lotStep . '&#8381' ;
+    }
+    return '';
+}
 
 
 function validateUpload($array, $fileType, $fileSize)
@@ -155,7 +167,7 @@ function validateFile($fileReceived, $allowedTypes)
     $file_type = $fileReceived['type'];
     $file_size = $fileReceived['size'];
 
-    $file_path = __DIR__ . '/img/';
+    $file_path = $_SERVER['DOCUMENT_ROOT'] . 'img/';
     $file_url = 'img/' . $file_name;
 
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
