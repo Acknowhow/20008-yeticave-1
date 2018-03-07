@@ -22,7 +22,9 @@ FROM categories WHERE category_name=?';
 $user_id = isset($_SESSION['user']['user_id']) ?
     $_SESSION['user']['user_id'] : null;
 
-$bets = [];
+$bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
+    $_SESSION['user'][$user_id]['bet_error'] : null;
+
 
 if (!empty($user_id))
 {

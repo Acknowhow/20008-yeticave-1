@@ -28,31 +28,20 @@ $categories_fetched = select_data_column(
 $categories = array_combine($categories_eng, $categories_fetched);
 
 $lots_sql = 'SELECT l.lot_id,l.lot_name,l.lot_date_add,
-l.lot_date_end,l.lot_description,l.lot_img_url,l.lot_value,l.lot_step,l.user_id,
-l.category_id,c.category_name as lot_category from lots l JOIN
- categories c ON l.category_id=c.category_id ORDER BY l.lot_date_add DESC';
+l.lot_date_end,l.lot_description,l.lot_img_url,l.lot_value,
+l.lot_step,l.user_id,l.category_id,c.category_name 
+AS lot_category FROM lots l JOIN categories c 
+ON l.category_id=c.category_id ORDER BY l.lot_date_add DESC';
 
 $lots = select_data_assoc($link, $lots_sql, []);
 
-// ставки пользователей, которыми надо заполнить таблицу
-$bets = [
-    [
-        'user_name' => 'Иван', 'bet_value' => 11500,
-        'bet_ts' => strtotime('-' . rand(1, 50) .' minute')
-    ],
-    [
-        'user_name' => 'Константин', 'bet_value' => 11000,
-        'bet_ts' => strtotime('-' . rand(1, 18) .' hour')
-    ],
-    [
-        'user_name' => 'Евгений', 'bet_value' => 10500,
-        'bet_ts' => strtotime('-' . rand(25, 50) .' hour')
-    ],
-    [
-        'user_name' => 'Семён', 'bet_value' => 10000,
-        'bet_ts' => strtotime('last week')
-    ]
-];
+$bets_sql = "SELECT b.bet_id,b.lot_id,b.bet_value, 
+DATE_FORMAT(b.bet_date_add, '%d.%m.%Y %H:%i:%s'),
+b.user_id,u.user_name AS bet_author 
+FROM bets b JOIN users u ON b.user_id=u.user_id 
+WHERE b.lot_id=? ORDER BY b.bet_date_add DESC LIMIT 10";
+
+$bets = select_data_assoc($link, $bets_sql, [6]);
 
 $layout = [
     'is_auth' => $is_auth, 'title' => $title,

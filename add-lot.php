@@ -94,6 +94,10 @@ if (isset($_POST['lot_add'])) {
         $category_fetched = select_data_assoc($link, $category_id_sql,
             [$lot['lot_category']]);
         $category_id = $category_fetched[0]['category_id'];
+        if(empty($category_id)) {
+            echo 'Невозможно определить категорию для лота';
+            die();
+        }
 
         $lot_filtered = filterArray($lot, 'lot_category');
         $lot_filtered['category_id'] = $category_id;
@@ -101,6 +105,7 @@ if (isset($_POST['lot_add'])) {
         $lot_id = insert_data($link, 'lots',
             [
                 'lot_name' => $lot_filtered['lot_name'],
+                'lot_date_add' => $dt->format('Y.m.d H:i:s'),
                 'lot_date_end' => $lot_filtered['lot_date_end'],
                 'lot_description' => $lot_filtered['lot_description'],
                 'lot_img_url' => $lot_filtered['lot_img_url'],
@@ -111,7 +116,8 @@ if (isset($_POST['lot_add'])) {
             ]);
 
         if (empty($lot_id)) {
-            print 'Can\'t add lot';
+            echo 'Невозможно добавить лот';
+            die();
         }
         if (!empty($lot_id)) {
             header('Location: lot.php?lot_id=' . $lot_id);

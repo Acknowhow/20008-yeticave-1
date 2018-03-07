@@ -31,7 +31,6 @@
                                name="cost"
                                placeholder="<?= htmlspecialchars($lot_value + $lot_step) ?>">
                         <input type="hidden" name="lot_id" value="<?= $lot_id ?>">
-                        <input type="hidden" name="user_id" value="<?= $user_id ?>">
                         <input type="hidden" name="lot_value" value="<?= htmlspecialchars($lot_value) ?>">
                         <input type="hidden" name="lot_step" value="<?= htmlspecialchars($lot_step) ?>">
                         <br>
@@ -43,7 +42,7 @@
                 <h3>История ставок (<span>4</span>)</h3>
                 <table class="history__list">
 
-                    <?php foreach ($bets as $bet => $index) : ?>
+                    <?php foreach ($bets as $bet) : ?>
                         <tr class="history__item">
                             <td class="history__name"><?= $index['user_name'] ?></td>
                             <td class="history__price"><?= $index['bet_value'] ?> р</td>

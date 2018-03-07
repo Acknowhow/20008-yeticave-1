@@ -29,7 +29,7 @@ function include_template($templatePath, $templateData)
 
     return $tpl;
 }
-
+// Converting date from form input into MySQL format
 function convertDateMySQL($date, $format = 'd.m.Y')
 {
     $dateTime = DateTime::createFromFormat($format, $date);

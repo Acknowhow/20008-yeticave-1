@@ -8,6 +8,20 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
+
+var_dump('Bets are:');
+var_dump('<br>');
+var_dump($bets);
+
+
+//// display dateTime from db
+//$dtz = new DateTimeZone(date_default_timezone_get());
+//// get date from DB
+//$dt = new DateTime('now', $dtz);
+//// then format it
+//echo $dt->format('Y.m.d H:i:s');
+
+
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,

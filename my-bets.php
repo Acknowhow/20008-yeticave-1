@@ -8,19 +8,26 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-$user_id = intval($_POST['user_id']) ?? null;
-$lot_id = intval($_POST['lot_id']) ?? null;
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
+    http_response_code(403);
+    exit('Вы не авторизованы ' . http_response_code() . '');
+}
+$user_id = intval($_SESSION['user']['user_id']);
 
+$lot_id = intval($_POST['lot_id']) ?? null;
 $lot_estimate = $_POST['cost'] ?? null;
 $lot_value = $_POST['lot_value'] ?? null;
 
 $lot_step = $_POST['lot_step'] ?? null;
 $bet_value = $lot_estimate - $lot_value;
 
+
+
 $validate = validateBetValue($bet_value, $lot_step);
 
 if (!empty($validate)) {
-    echo $validate;
+    $_SESSION['user'][$user_id]['bet_error'] = $validate;
+    header('Location: lot.php');
 }
 
 $lot_update_sql = "UPDATE lots SET lot_value=? WHERE lot_id=?";
