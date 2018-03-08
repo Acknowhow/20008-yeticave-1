@@ -54,16 +54,20 @@ function convertTimeStamp($timeStamp)
     // Elapsed timestamp
     $timeLapseStamp = strtotime('now') - $timeStamp;
     // Elapsed time in hours
+    $timeLapseMinutes = round($timeLapseStamp / 60);
     $timeLapseHours = round($timeLapseStamp / 3600, 2);
 
     if ($timeLapseHours < 1) {
-        return date('i минут назад', $timeStamp);
+        if (intval($timeLapseStamp / 60) < 1) {
+            return $timeLapseStamp . 'секунд назад';
+        }
+        return $timeLapseMinutes. ' минут назад';
 
     } else if ($timeLapseHours > 24) {
-        return date('d-m-y в H:i', $timeStamp);
+        return date('d-m-Y в H:i', $timeStamp);
 
     } else {
-        return date('H часов назад', $timeStamp);
+        return  floor($timeLapseHours) . ' часов назад';
     }
 }
 
@@ -135,6 +139,7 @@ function validateLotStep($lotStep)
     }
     return '';
 }
+
 function validateBetValue($betValue, $lotStep)
 {
     $is_integer = get_integer($betValue);
@@ -147,7 +152,6 @@ function validateBetValue($betValue, $lotStep)
     }
     return '';
 }
-
 
 function validateUpload($array, $fileType, $fileSize)
 {
@@ -187,7 +191,6 @@ function validateFile($fileReceived, $allowedTypes)
     $upload_params['file_url'] = $file_url;
 
     return $upload_params;
-
 }
 
 function validateEmail($email)
@@ -241,7 +244,6 @@ function searchUserByEmail($email, $users, $register = false)
     return $_result;
 }
 
-
 function validatePassword($password)
 {
     $_result = [];
@@ -266,7 +268,7 @@ function filterArray($array, $key)
     }, ARRAY_FILTER_USE_KEY);
 }
 
-function filterLotById($arr, $key, $value)
+function filterArrayById($arr, $key, $value)
 {
     return array_filter($arr, function ($k, $v) use ($key, $value) {
         return $k[$key] === $value;

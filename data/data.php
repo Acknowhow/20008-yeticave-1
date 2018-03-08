@@ -40,11 +40,11 @@ $bets_sql = "SELECT b.bet_id,b.lot_id,b.bet_value,
 UNIX_TIMESTAMP (b.bet_date_add),
 b.user_id,u.user_name AS bet_author 
 FROM bets b JOIN users u ON b.user_id=u.user_id 
-WHERE b.lot_id=? ORDER BY b.bet_date_add DESC LIMIT 10";
+WHERE b.lot_id=? ORDER BY b.bet_date_add DESC LIMIT $bet_display_count";
 
-$bets = select_data_assoc($link, $bets_sql, [1]);
+//$bet_last_sql = 'SELECT * FROM bets WHERE bet_id=(SELECT MAX(bet_id) FROM bets)';
 
 $layout = [
-    'is_auth' => $is_auth, 'title' => $title,
+    'is_auth' => $is_auth,
     'user' => $user, 'categories' => $categories
 ];

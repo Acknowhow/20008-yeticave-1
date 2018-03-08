@@ -35,20 +35,20 @@
                         <input type="hidden" name="lot_step" value="<?= htmlspecialchars($lot_step) ?>">
                         <br>
                     </p>
-                    <?php if (!$my_lot === true) :?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
+                    <?php if ($my_lot === false && $bet_author === false && $is_auth === true) : ?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
                 </form>
             </div><?php endif;?>
             <div class="history">
                 <h3>История ставок (<span>4</span>)</h3>
                 <table class="history__list">
 
-                    <?php foreach ($bets as $bet) : ?>
+                    <?php if(!empty($bets)) : ?><?php foreach ($bets as $bet) : ?>
                         <tr class="history__item">
-                            <td class="history__name"><?= $index['user_name'] ?></td>
-                            <td class="history__price"><?= $index['bet_value'] ?> р</td>
-                            <td class="history__time"><?= $index['bet_ts'] ?></td>
+                            <td class="history__name"><?= $bet['bet_author'] ?></td>
+                            <td class="history__price"><?= $bet['bet_value'] ?> р</td>
+                            <td class="history__time"><?= convertTimeStamp($bet['UNIX_TIMESTAMP (b.bet_date_add)']) ?></td>
                         </tr>
-                    <?php endforeach; ?>
+                    <?php endforeach; ?><?php endif; ?>
 
                 </table>
             </div>

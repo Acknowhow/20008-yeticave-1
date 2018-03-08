@@ -22,12 +22,11 @@ $lot_step = $_POST['lot_step'] ?? null;
 $bet_value = $lot_estimate - $lot_value;
 
 
-
 $validate = validateBetValue($bet_value, $lot_step);
 
 if (!empty($validate)) {
     $_SESSION['user'][$user_id]['bet_error'] = $validate;
-    header('Location: lot.php');
+    header('Location: lot.php?=' . $lot_id);
 }
 
 $lot_update_sql = "UPDATE lots SET lot_value=? WHERE lot_id=?";
@@ -49,6 +48,7 @@ $lot_update_res = update_data($link, $lot_update_sql,
 
 if ($bet_id_res && $lot_update_res) {
     mysqli_query($link, "COMMIT");
+    header('Location: lot.php?lot_id=' . $lot_id);
 } else {
     mysqli_query($link, "ROLLBACK");
 }

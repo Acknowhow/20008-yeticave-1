@@ -9,10 +9,7 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
-
-$bet = $bets[0];
 //$expires_date = $bet['DATE_FORMAT(b.bet_date_add, \'%Y.%m.%d %H:%i:%s\')'];
-
 //$expires_date = new DateTime($expires_string, $dtz);
 //$current_date = new DateTime('now', $dtz);
 //
@@ -21,9 +18,6 @@ $bet = $bets[0];
 //$expiresString = $expires_string->format('Y.m.d H:i:s');
 //$currentString = $current_date->format('Y.m.d H:i:s');
 //$diffString = $difference->format('%h');
-
-var_dump($bet);
-
 
 $content = include_template('templates/index.php',
     [
@@ -35,7 +29,7 @@ $content = include_template('templates/index.php',
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
         [
-            'index' => $index,
+            'index' => $index, 'title' => $title,
             'nav' => $nav, 'content' => $content
         ]));
 $markup->get_layout();
