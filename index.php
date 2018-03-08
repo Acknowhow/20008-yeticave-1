@@ -9,16 +9,6 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
-//$expires_date = $bet['DATE_FORMAT(b.bet_date_add, \'%Y.%m.%d %H:%i:%s\')'];
-//$expires_date = new DateTime($expires_string, $dtz);
-//$current_date = new DateTime('now', $dtz);
-//
-//$difference_date = $expires_date->diff($current_date);
-
-//$expiresString = $expires_string->format('Y.m.d H:i:s');
-//$currentString = $current_date->format('Y.m.d H:i:s');
-//$diffString = $difference->format('%h');
-
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,

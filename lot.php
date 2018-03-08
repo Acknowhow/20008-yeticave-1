@@ -49,6 +49,11 @@ if (!empty($bets) && $bets[0]['user_id'] === $user_id) {
     $bet_author = true;
 }
 
+if (!empty($bet_error)) {
+    $_SESSION['user'][$user_id]['bet_error'] = [];
+    unset($_SESSION['user'][$user_id]['bet_error']);
+}
+
 if (isset($lot_id)) {
     $index = false;
     $lot = array_values(filterArrayById($lots, 'lot_id', intval($lot_id)));
@@ -78,6 +83,7 @@ if (isset($lot_id)) {
             'categories' => $categories
         ]
     );
+
     $content = include_template('templates/lot.php',
         [
             'is_auth' => $is_auth,

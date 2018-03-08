@@ -124,7 +124,9 @@ if (isset($_POST['lot_add'])) {
         }
     }
 }
+
 $index = false;
+$add_lot_title = 'Добавление лота';
 $nav = include_template('templates/nav.php', [
     'categories' => $categories
 ]);
@@ -146,7 +148,7 @@ $content = include_template('templates/add-lot.php',
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
         [
-            'index' => $index,
+            'index' => $index, 'title' => $add_lot_title,
             'nav' => $nav, 'content' => $content
         ]));
 $markup->get_layout();

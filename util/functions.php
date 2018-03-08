@@ -163,15 +163,15 @@ function validateLotStep($lotStep)
     return '';
 }
 
-function validateBetValue($betValue, $lotStep)
+function validateBetValue($betValue, $lotMin)
 {
     $is_integer = get_integer($betValue);
     if ($is_integer === 0) {
         return 'Введите целое числовое значение';
     }
-    if ($betValue < $lotStep) {
+    if ($betValue < $lotMin) {
         return 'Ставка должна быть не меньше ' .
-            $lotStep . '&#8381' ;
+            $lotMin . '&#8381' ;
     }
     return '';
 }

@@ -21,19 +21,34 @@
                         <span class="lot-item__cost"><?= htmlspecialchars($lot_value) ?></span>
                     </div>
                     <div class="lot-item__min-cost">
-                        Мин. ставка <span><?= htmlspecialchars($lot_step) ?> &#8381</span>
+                        Мин. ставка <span><?= htmlspecialchars($lot_value + $lot_step) ?> &#8381</span>
                     </div>
                 </div>
                 <form class="lot-item__form" action="my-bets.php" method="post">
-                    <p class="lot-item__form-item">
-                        <label for="cost">Ваша ставка</label>
-                        <input id="cost" type="text"
-                               name="cost"
+                    <?php if (isset($bet_author)) : ?>
+                        <style>
+                            .lot-item__form {
+                                position: relative
+                            }
+                            .button {
+                                position: absolute;
+                                top: 21px;
+                                right: 0;
+                            }
+                            .form__error {
+                                width: 130px;
+                            }
+                        </style><?php endif; ?>
+                    <p class="lot-item__form-item <?php if (!empty($bet_error)) : ?>form__item--invalid<?php endif; ?>">
+                        <label for="bet_value">Ваша ставка</label>
+                        <input <?php if($bet_author === true) : ?>disabled<?php endif; ?>
+                               id="bet_value" type="text"
+                               name="bet_value"
                                placeholder="<?= htmlspecialchars($lot_value + $lot_step) ?>">
                         <input type="hidden" name="lot_id" value="<?= $lot_id ?>">
                         <input type="hidden" name="lot_value" value="<?= htmlspecialchars($lot_value) ?>">
                         <input type="hidden" name="lot_step" value="<?= htmlspecialchars($lot_step) ?>">
-                        <br>
+                        <span class="form__error"><?php if (!empty($bet_error)) : ?><?= $bet_error ?><?php endif; ?></span>
                     </p>
                     <?php if ($my_lot === false && $bet_author === false) : ?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
                 </form>
