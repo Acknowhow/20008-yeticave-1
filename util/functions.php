@@ -93,7 +93,6 @@ function convertTimeStamp($timeStamp)
     }
 }
 
-
 // Validates date period
 function validateDate($date)
 {
@@ -361,7 +360,3 @@ function update_data($link, $sql, $data)
 
     return $exec;
 }
-
-
-
-

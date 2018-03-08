@@ -15,8 +15,10 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
-$user_id = $_SESSION['user']['user_id'];
+$index = false;
+$title = 'Добавление лота';
 
+$user_id = $_SESSION['user']['user_id'];
 $lot_data = [];
 $lot_errors = [];
 
@@ -36,10 +38,13 @@ $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
 
+$nav = include_template('templates/nav.php', [
+    'categories' => $categories
+]);
+
 if (isset($_FILES)) {
     $lot_data['lot_img_url'] = 'img/lot-default.png';
 }
-
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
     $uploaded = 'uploaded';
@@ -54,7 +59,6 @@ if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
         $lot_upload_error = $validation_result;
     }
 }
-
 
 if (isset($_POST['lot_add'])) {
     foreach ($_POST as $key => $value)
@@ -125,12 +129,6 @@ if (isset($_POST['lot_add'])) {
     }
 }
 
-$index = false;
-$add_lot_title = 'Добавление лота';
-$nav = include_template('templates/nav.php', [
-    'categories' => $categories
-]);
-
 $content = include_template('templates/add-lot.php',
     [
         'errors' => $lot_errors, 'upload_error' => $lot_upload_error,
@@ -148,8 +146,7 @@ $content = include_template('templates/add-lot.php',
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
         [
-            'index' => $index, 'title' => $add_lot_title,
+            'index' => $index, 'title' => $title,
             'nav' => $nav, 'content' => $content
         ]));
 $markup->get_layout();
-

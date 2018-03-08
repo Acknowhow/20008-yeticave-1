@@ -8,9 +8,10 @@ require 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
+
+$index = false;
 $my_lot = false;
 $bet_author = false;
-
 $lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : '';
 
 $cookie_lot_visited_name = 'lot_visited';
@@ -27,6 +28,18 @@ $user_id = isset($_SESSION['user']['user_id']) ?
 
 $bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
     $_SESSION['user'][$user_id]['bet_error'] : null;
+
+$nav = include_template('templates/nav.php',
+    [
+        'categories' => $categories
+    ]
+);
+
+if (empty($lot_id)) {
+    $title = 'Страница не существует';
+    $content = include_template('templates/404.php', []
+    );
+}
 
 if (!empty($user_id)) {
     $my_lots_sql = 'SELECT * FROM lots WHERE user_id=?';
@@ -54,8 +67,7 @@ if (!empty($bet_error)) {
     unset($_SESSION['user'][$user_id]['bet_error']);
 }
 
-if (isset($lot_id)) {
-    $index = false;
+if (!empty($lot_id)) {
     $lot = array_values(filterArrayById($lots, 'lot_id', intval($lot_id)));
 
     if (empty($lot[0])) {
@@ -78,12 +90,6 @@ if (isset($lot_id)) {
         $expire, $path);
 
     $title = $lot['lot_name'];
-    $nav = include_template('templates/nav.php',
-        [
-            'categories' => $categories
-        ]
-    );
-
     $content = include_template('templates/lot.php',
         [
             'is_auth' => $is_auth,
@@ -99,6 +105,7 @@ if (isset($lot_id)) {
         ]
     );
 }
+
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
         [

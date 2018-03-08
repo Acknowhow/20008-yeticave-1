@@ -12,12 +12,10 @@ $cookie_lot_visited_value = isset($_COOKIE['lot_visited']) ?
     $_COOKIE['lot_visited'] : '';
 
 /* Если существует cookie_lot_value, но нет лотов в БД */
-if (empty($cookie_lot_visited_value) || empty($lots))
-{
+if (empty($cookie_lot_visited_value) || empty($lots)) {
     $content = 'Здесь отображается история просмотра лотов';
 
-} elseif (!empty($cookie_lot_visited_value) && !empty($lots))
-{
+} elseif (!empty($cookie_lot_visited_value) && !empty($lots)) {
     $index = false;
     $lot_ids = json_decode($cookie_lot_visited_value);
 

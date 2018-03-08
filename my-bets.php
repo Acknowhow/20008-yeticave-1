@@ -12,6 +12,7 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
+
 $user_id = $_SESSION['user']['user_id'];
 $lot_id = $_POST['lot_id'] ?? null;
 
@@ -20,7 +21,6 @@ $bet_value = $_POST['bet_value'] ?? null;
 $lot_value = $_POST['lot_value'] ?? null;
 $lot_step = $_POST['lot_step'] ?? null;
 $lot_min = $lot_value + $lot_step;
-
 
 $validate = validateBetValue($bet_value, $lot_min);
 
@@ -54,7 +54,3 @@ elseif (empty($validate)) {
         mysqli_query($link, "ROLLBACK");
     }
 }
-
-
-
-

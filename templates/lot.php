@@ -30,7 +30,7 @@
                             .lot-item__form {
                                 position: relative
                             }
-                            .button {
+                            .lot-item__form .button {
                                 position: absolute;
                                 top: 21px;
                                 right: 0;
