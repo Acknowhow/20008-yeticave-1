@@ -35,7 +35,7 @@
                         <input type="hidden" name="lot_step" value="<?= htmlspecialchars($lot_step) ?>">
                         <br>
                     </p>
-                    <?php if ($my_lot === false && $bet_author === false && $is_auth === true) : ?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
+                    <?php if ($my_lot === false && $bet_author === false) : ?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
                 </form>
             </div><?php endif;?>
             <div class="history">

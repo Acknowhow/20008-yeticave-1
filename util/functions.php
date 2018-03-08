@@ -49,6 +49,16 @@ function getDateFormat($date, $format = 'd.m.Y')
     return $_date;
 }
 
+function getPlural($timeStamp, $form1, $form2, $form5)
+{
+    $n = $timeStamp % 100;
+    $n1 = $n % 10;
+    if ($n > 10 && $n < 20) return $timeStamp . $form5;
+    if ($n1 > 1 && $n1 < 5) return $timeStamp . $form2;
+    if ($n1 == 1) return $timeStamp . $form1;
+    return $timeStamp . $form5;
+}
+
 function convertTimeStamp($timeStamp)
 {
     // Elapsed timestamp
@@ -58,18 +68,31 @@ function convertTimeStamp($timeStamp)
     $timeLapseHours = round($timeLapseStamp / 3600, 2);
 
     if ($timeLapseHours < 1) {
-        if (intval($timeLapseStamp / 60) < 1) {
-            return $timeLapseStamp . 'секунд назад';
+        if (($timeLapseStamp) < 59) {
+            return getPlural($timeLapseStamp + 1,
+                    ' секунду',
+                    ' секунды',
+                    ' секунд') .
+                ' назад';
         }
-        return $timeLapseMinutes. ' минут назад';
+        return getPlural($timeLapseMinutes,
+                ' минуту',
+                ' минуты',
+                ' минут') .
+            ' назад';
 
     } else if ($timeLapseHours > 24) {
         return date('d-m-Y в H:i', $timeStamp);
 
     } else {
-        return  floor($timeLapseHours) . ' часов назад';
+        return  getPlural(floor($timeLapseHours),
+                ' час',
+                ' часа',
+                ' часов') .
+            ' назад';
     }
 }
+
 
 // Validates date period
 function validateDate($date)
@@ -338,4 +361,7 @@ function update_data($link, $sql, $data)
 
     return $exec;
 }
+
+
+
 
