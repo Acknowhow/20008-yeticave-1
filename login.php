@@ -33,6 +33,12 @@ $users = select_data_assoc($link, $users_sql, []);
 $email_check = '';
 $password_check = '';
 
+$index = false;
+$nav = include_template('templates/nav.php',
+    [
+        'categories' => $categories
+    ]);
+
 if (isset($_POST['login']))
 {
     foreach ($_POST as $key => $value)
@@ -66,11 +72,6 @@ if (isset($_POST['login']))
     }
 }
 
-$index = false;
-$nav = include_template('templates/nav.php',
-    [
-        'categories' => $categories
-    ]);
 $content = include_template('templates/login.php',
     [
         'user_email' => $login_defaults['user_email'],

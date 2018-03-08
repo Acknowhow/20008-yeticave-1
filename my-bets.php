@@ -22,6 +22,14 @@ $lot_value = $_POST['lot_value'] ?? null;
 $lot_step = $_POST['lot_step'] ?? null;
 $lot_min = $lot_value + $lot_step;
 
+if (!isset($bet_value)) {
+    $content = include_template('templates/my-bets.php',
+        [
+            'lots' => $lots
+        ]
+    );
+}
+
 $validate = validateBetValue($bet_value, $lot_min);
 
 if (!empty($validate)) {
