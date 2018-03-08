@@ -8,6 +8,8 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
+$index = false;
+$title = 'История просмотров';
 $cookie_lot_visited_value = isset($_COOKIE['lot_visited']) ?
     $_COOKIE['lot_visited'] : '';
 
@@ -28,7 +30,7 @@ if (empty($cookie_lot_visited_value) || empty($lots)) {
 $markup = new Markup('templates/layout.php', array_merge_recursive(
     $layout,
     [
-        'index' => $index,
+        'index' => $index, 'title' => $title,
         'nav' => $nav, 'content' => $content
     ]));
 $markup->get_layout();

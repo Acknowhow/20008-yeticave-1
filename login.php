@@ -81,6 +81,7 @@ $content = include_template('templates/login.php',
 $markup = new Markup('templates/layout.php', array_merge_recursive(
     $layout,
     [
-        'index' => $index, 'nav' => $nav, 'content' => $content
+        'index' => $index, 'title' => $title,
+        'nav' => $nav, 'content' => $content
     ]));
 $markup->get_layout();

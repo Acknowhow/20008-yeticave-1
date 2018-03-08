@@ -1,9 +1,9 @@
-<form class="form form--add-lot container <?php if (!empty($errors)) : ?>form--invalid<?php endif; ?>"
+<form class="form form--add-lot container<?php if (!empty($errors)) : ?> form--invalid<?php endif; ?>"
       action="/add-lot.php" method="POST" enctype="multipart/form-data">
   <h2>Добавление лота</h2>
 
   <div class="form__container-two">
-    <div class="form__item <?php if (!empty($errors['lot_name'])) : ?>form__item--invalid<?php endif; ?>">
+    <div class="form__item<?php if (!empty($errors['lot_name'])) : ?> form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_name['name'] ?>"><?=$lot_name['title'] ?></label>
       <input id="<?=$lot_name['name'] ?>"
              type="text"
@@ -11,9 +11,15 @@
              placeholder="<?=$lot_name['placeholder'] ?>"
              value="<?=htmlspecialchars($lot_name['input']) ?>">
       <span class="form__error"><?php if (!empty($errors['lot_name'])) : ?><?= $errors['lot_name'] ?><?php endif; ?></span>
-    </div>
-    <!-- TODO: what is up with category field height??? -->
-    <div class="form__item <?php if (!empty($errors['lot_category'])) : ?>form__item--invalid<?php endif; ?>">
+    </div><?php if (isset($lot_category)) : ?>
+    <!-- select category fix -->
+    <style>
+        #lot_category {
+            min-height: 38px;
+            padding-top: 8px;
+        }
+    </style><?php endif; ?>
+    <div class="form__item<?php if (!empty($errors['lot_category'])) : ?> form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_category['name'] ?>"><?=$lot_category['title'] ?></label>
       <select id="<?=$lot_category['name'] ?>"
               name="<?=$lot_category['name'] ?>">
@@ -26,7 +32,7 @@
     </div>
   </div>
 
-  <div class="form__item form__item--wide <?php if (!empty($errors['lot_description'])) : ?>form__item--invalid<?php endif; ?>">
+  <div class="form__item form__item--wide<?php if (!empty($errors['lot_description'])) : ?> form__item--invalid<?php endif; ?>">
 
     <label for="<?= $lot_description['name'] ?>"><?= $lot_description['title'] ?></label>
     <textarea id="<?= $lot_description['name'] ?>"
@@ -36,7 +42,7 @@
     <span class="form__error"><?php if (!empty($errors['lot_description'])) : ?><?=$errors['lot_description'] ?><?php endif; ?></span>
   </div>
 
-  <div class="form__item form__item--file <?php if (!empty($upload_error)) : ?>form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
+  <div class="form__item form__item--file<?php if (!empty($upload_error)) : ?> form__item--invalid<?php endif; ?>"> <!-- form__item--uploaded -->
     <label><?= $lot_img['title'] ?></label>
     <div class="preview">
       <button class="preview__remove" type="button">x</button>
@@ -54,7 +60,7 @@
   </div>
 
   <div class="form__container-three">
-    <div class="form__item form__item--small <?php if (!empty($errors['lot_value'])) : ?>form__item--invalid<?php endif; ?>">
+    <div class="form__item form__item--small<?php if (!empty($errors['lot_value'])) : ?> form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_value['name'] ?>"><?=$lot_value['title'] ?></label>
       <input id="<?=$lot_value['name'] ?>"
              type="text"
@@ -76,7 +82,7 @@
       <span class="form__error"><?php if (!empty($errors['lot_step'])) : ?><?=$errors['lot_step'] ?><?php endif; ?></span>
     </div>
 
-    <div class="form__item <?php if (!empty($errors['lot_date_end'])) : ?>form__item--invalid<?php endif; ?>">
+    <div class="form__item<?php if (!empty($errors['lot_date_end'])) : ?> form__item--invalid<?php endif; ?>">
       <label for="<?=$lot_date_end['name'] ?>"><?=$lot_date_end['title'] ?></label>
       <input class="form__input-date"
              id="<?=$lot_date_end['name'] ?>"

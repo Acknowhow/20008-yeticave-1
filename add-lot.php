@@ -11,12 +11,12 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
+$index = false;
+$title = 'Добавление лота';
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
-$index = false;
-$title = 'Добавление лота';
 
 $user_id = $_SESSION['user']['user_id'];
 $lot_data = [];

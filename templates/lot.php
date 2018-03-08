@@ -39,7 +39,7 @@
                                 width: 130px;
                             }
                         </style><?php endif; ?>
-                    <p class="lot-item__form-item <?php if (!empty($bet_error)) : ?>form__item--invalid<?php endif; ?>">
+                    <p class="lot-item__form-item<?php if (!empty($bet_error)) : ?> form__item--invalid<?php endif; ?>">
                         <label for="bet_value">Ваша ставка</label>
                         <input <?php if($bet_author === true) : ?>disabled<?php endif; ?>
                                id="bet_value" type="text"

@@ -11,6 +11,8 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
+$index = false;
+$title = 'Регистрация пользователя';
 $user_data = [];
 $user_errors = [];
 
@@ -28,6 +30,11 @@ $required = [
     'user_name', 'user_email',
     'user_password', 'user_contacts'
 ];
+$nav = include_template('templates/nav.php',
+    [
+        'categories' => $categories
+    ]
+);
 $users_sql = 'SELECT user_email,user_name,user_password 
 FROM users ORDER BY user_id ASC;';
 
@@ -105,12 +112,6 @@ if (isset($_POST['register'])) {
         header('Location: index.php');
     }
 }
-$index = false;
-$nav = include_template('templates/nav.php',
-    [
-        'categories' => $categories
-    ]
-);
 
 $content = include_template(
     'templates/register.php',
@@ -128,7 +129,7 @@ $markup = new Markup(
     'templates/layout.php', array_merge_recursive(
         $layout,
         [
-            'index' => $index,
+            'index' => $index, 'title' => $title,
             'nav' => $nav, 'content' => $content
         ]
     )
