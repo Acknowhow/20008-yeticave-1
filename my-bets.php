@@ -21,31 +21,31 @@ $lot_value = $_POST['lot_value'] ?? null;
 $lot_step = $_POST['lot_step'] ?? null;
 $lot_min = $lot_value + $lot_step;
 
-//if (!isset($bet_value)) {
-//    $index = false;
-//    $title = 'Мои ставки';
-//    $my_bets = select_data_assoc($link, $my_bets_sql, [$user_id]);
-//
-//    $content = include_template('templates/my-bets.php',
-//        [
-//            'my_bets' => $my_bets
-//        ]
-//    );
-//    $markup = new Markup(
-//        'templates/layout.php', array_merge_recursive(
-//            $layout,
-//            [
-//                'index' => $index, 'title' => $title,
-//                'nav' => $nav, 'content' => $content
-//            ]
-//        )
-//    );
-//    $markup->get_layout();
-//}
+if (!isset($bet_value)) {
+    $index = false;
+    $title = 'Мои ставки';
+    $my_bets = select_data_assoc($link, $my_bets_sql, [$user_id]);
+
+    $content = include_template('templates/my-bets.php',
+        [
+            'my_bets' => $my_bets
+        ]
+    );
+    $markup = new Markup(
+        'templates/layout.php', array_merge_recursive(
+            $layout,
+            [
+                'index' => $index, 'title' => $title,
+                'nav' => $nav, 'content' => $content
+            ]
+        )
+    );
+    $markup->get_layout();
+}
 
 $validate = validateBetValue($bet_value, $lot_min);
 
-if (!empty($validate)) {
+if (isset($bet_value) && !empty($validate)) {
     $_SESSION['user'][$user_id]['bet_error'] = $validate;
     header('Location: lot.php?lot_id=' . $lot_id);
 }

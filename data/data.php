@@ -36,18 +36,17 @@ ON l.category_id=c.category_id ORDER BY l.lot_date_add DESC';
 $lots = select_data_assoc($link, $lots_sql, []);
 
 // Selecting all bets for the current lot by lot_id
-$bets_sql = 'SELECT b.bet_id,b.lot_id,b.bet_value, 
+$bets_sql = "SELECT b.bet_id,b.lot_id,b.bet_value, 
 UNIX_TIMESTAMP (b.bet_date_add),
 b.user_id,u.user_name AS bet_author 
 FROM bets b JOIN users u ON b.user_id=u.user_id 
-WHERE b.lot_id=? ORDER BY b.bet_date_add DESC LIMIT $bet_display_count';
+WHERE b.lot_id=? ORDER BY b.bet_date_add DESC LIMIT $bet_display_count";
 
-//$my_bets_sql = 'SELECT * FROM bets b JOIN
-//(SELECT l.lot_id,l.lot_name,UNIX_TIMESTAMP (l.lot_date_end),
-//l.lot_description,l.lot_img_url,l.user_id,l.category_id FROM lots l) x
-//ON x.lot_id = b.lot_id JOIN categories c ON x.category_id=c.category_id
-//JOIN users u ON x.user_id=u.user_id AND b.user_id=1';
-//$my_bets = select_data_assoc($link, $my_bets_sql, []);
+$my_bets_sql = 'SELECT * FROM bets b JOIN
+(SELECT l.lot_id,l.lot_name,UNIX_TIMESTAMP (l.lot_date_end),
+l.lot_description,l.lot_img_url,l.user_id,l.category_id FROM lots l) x
+ON x.lot_id = b.lot_id JOIN categories c ON x.category_id=c.category_id
+JOIN users u ON x.user_id=u.user_id AND b.user_id=?';
 
 $layout = [
     'is_auth' => $is_auth,
