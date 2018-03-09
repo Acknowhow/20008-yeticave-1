@@ -29,6 +29,21 @@ $categories_fetched = select_data_column($link, $categories_sql,
 
 $categories = array_combine($categories_eng, $categories_fetched);
 
+
+$lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
+$lots_count = select_data_assoc($link, $lots_count_sql, []);
+
+$count = $lots_count[0]['count'];
+
+$count = $count + 0;
+$page_items = $page_items + 0;
+
+$pages_count = ceil($count / $page_items);
+$offset = ($curr_page - 1) * $page_items;
+
+$pages = range(1, $pages_count);
+
+
 $lots_sql = 'SELECT l.lot_id,l.lot_name,
 l.lot_date_add,l.lot_date_end,
 l.lot_description,l.lot_img_url,
@@ -37,6 +52,8 @@ l.user_id,l.category_id,c.category_name
 AS lot_category FROM lots l
 JOIN categories c ON l.category_id=c.category_id 
 ORDER BY l.lot_date_add DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
+
+$lots = select_data_assoc($link, $lots_sql, []);
 
 
 // Selecting all bets for the current lot by lot_id

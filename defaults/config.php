@@ -10,3 +10,7 @@ if (!empty($user)) {
 }
 $dtz = new DateTimeZone(date_default_timezone_get());
 $date_current = new DateTime('now', $dtz);
+
+$curr_page = isset($_GET['page']) ? $_GET['page'] : 1;
+$page_items = 3;
+$pages_count = null;
