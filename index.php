@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
@@ -8,6 +9,8 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
+
+var_dump($estimate_winner);
 
 $content = include_template('templates/index.php',
     [
