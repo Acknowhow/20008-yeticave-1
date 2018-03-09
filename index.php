@@ -19,16 +19,17 @@ $winner = [];
 $user_id = isset($user['user_id']) ? $user['user_id'] : null;
 
 
-$lots_fetched = $lots[0];
+$to_filter = array_values($lots);
 
-// winner lot
-foreach($lots_fetched as $lot=>$value) {
-
- array_push($winner, $lot);
+foreach ($to_filter as $key => $value) {
+    $winner[] = select_data_assoc($link, $winner_sql, [$value['lot_id']]);
+}
+function win($k) {
+    return $k & !empty($k);
 }
 
-
-
+// is winning lot
+$filter_1 = array_filter($winner, 'win');
 
 $pagination = include_template('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,

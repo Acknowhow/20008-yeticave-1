@@ -320,7 +320,15 @@ function validatePassword($password)
 
     return 'Длина пароля должна быть не больше 72 символов';
 }
+//Special case for detecting winner
+function filterArrayWinner($array, $key)
+{
+    return array_filter($array, function ($k) use ($key) {
+        return $k === $key;
+    }, ARRAY_FILTER_USE_BOTH);
+}
 
+// Filters array by comparing key which is not empty
 function filterArray($array, $key)
 {
     return array_filter($array, function ($k) use ($key) {
@@ -328,6 +336,7 @@ function filterArray($array, $key)
     }, ARRAY_FILTER_USE_KEY);
 }
 
+// Compares both key and value
 function filterArrayById($arr, $key, $value)
 {
     return array_filter($arr, function ($k, $v) use ($key, $value) {
