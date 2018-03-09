@@ -92,14 +92,9 @@ function convertBetTimeStamp($timeStamp)
             ' назад';
     }
 }
-/**
- * озвращает статус лота переданной временной метке
- * param $lotTimeStamp метка времени в формате unix_timestamp
- * return статус лота
- *
- */
 
-function convertLotTimeStamp($lotTimeStamp)
+
+function convertLotTimeStamp($timeStamp)
 {
     /***
      *
@@ -116,8 +111,9 @@ function convertLotTimeStamp($lotTimeStamp)
      * rates__item--win, timer timer--win
      *
      ***/
+
     // Elapsed timestamp
-    $timeLapseStamp = strtotime('now') - $lotTimeStamp;
+    $timeLapseStamp = $timeStamp - strtotime('now');
     // Elapsed time in hours
     $timeLapseMinutes = round($timeLapseStamp / 60);
     $timeLapseHours = round($timeLapseStamp / 3600, 2);
@@ -126,9 +122,13 @@ function convertLotTimeStamp($lotTimeStamp)
         if ($timeLapseStamp < 0) {
             return 'lot_end';
         }
-        return date('H:I:S');
+        if ($timeLapseHours < 1) {
+            return date('h:i:s');
+        }
+        return date('h:i');
+    } else {
+        return date('d.m.Y', $timeStamp);
     }
-
 }
 
 // Validates date period
