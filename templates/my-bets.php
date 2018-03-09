@@ -1,6 +1,5 @@
 <section class="rates container">
   <h2>Мои ставки</h2>
-    <?php var_dump($my_bets); ?>
   <table class="rates__list"><?php foreach ($my_bets as $key => $value) : ?>
     <tr class="rates__item">
       <td class="rates__info">

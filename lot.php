@@ -46,19 +46,13 @@ if (!empty($user_id)) {
     $my_lots_fetched = select_data_assoc($link,
         $my_lots_sql, [$user_id]);
 
-    var_dump(array_values($my_lots_fetched));
-
     $my_lot_fetched = filterArrayById($my_lots_fetched,
         'lot_id', $lot_id);
-
-    var_dump($lot_id);
-    var_dump($my_lot_fetched);
 
     if (!empty($my_lot_fetched)) {
         $my_lot = true;
     }
 
-    var_dump($my_lot);
 }
 
 if (!empty($bets) && $bets[0]['user_id'] === $user_id) {
