@@ -36,9 +36,8 @@ l.lot_value,l.lot_step,
 l.user_id,l.category_id,c.category_name 
 AS lot_category FROM lots l
 JOIN categories c ON l.category_id=c.category_id 
-ORDER BY l.lot_date_add DESC';
+ORDER BY l.lot_date_add DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
 
-$lots = select_data_assoc($link, $lots_sql, []);
 
 // Selecting all bets for the current lot by lot_id
 $bets_sql = "SELECT b.bet_id,b.lot_id,
