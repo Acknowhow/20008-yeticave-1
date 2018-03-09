@@ -111,7 +111,7 @@ function convertLotTimeStamp($timeStamp)
      * rates__item--win, timer timer--win
      *
      ***/
-
+    $arr = [];
     // Elapsed timestamp
     $timeLapseStamp = $timeStamp - strtotime('now');
     // Elapsed time in hours
@@ -122,10 +122,10 @@ function convertLotTimeStamp($timeStamp)
         if ($timeLapseStamp < 0) {
             return 'lot_end';
         }
-        if ($timeLapseHours < 1) {
-            return date('h:i:s');
-        }
-        return date('h:i');
+        $date = date('h:i:s');
+
+        return [$date];
+
     } else {
         return date('d.m.Y', $timeStamp);
     }

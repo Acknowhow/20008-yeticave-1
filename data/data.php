@@ -50,10 +50,12 @@ DESC LIMIT $bet_display_count";
 
 // Query for my bets
 $my_bets_sql = 'SELECT b.bet_value, UNIX_TIMESTAMP(b.bet_date_add),
-b.user_id,IF(UNIX_TIMESTAMP(l.lot_date_end) < UNIX_TIMESTAMP(NOW()),1,0) as bet_wins,l.lot_name,UNIX_TIMESTAMP(l.lot_date_end),
+b.user_id,IF(UNIX_TIMESTAMP(l.lot_date_end) < UNIX_TIMESTAMP(NOW()),1,0) AS 
+bet_wins,l.lot_name,UNIX_TIMESTAMP(l.lot_date_end),
 l.lot_img_url,c.category_name AS lot_category,u.user_contacts FROM bets b 
 JOIN (lots l JOIN categories c ON l.category_id=c.category_id) 
-ON l.lot_id = b.lot_id INNER JOIN users u ON u.user_id=l.user_id AND b.user_id=? ORDER BY b.bet_date_add DESC';
+ON l.lot_id = b.lot_id INNER JOIN users u ON u.user_id=l.user_id 
+AND b.user_id=? ORDER BY b.bet_date_add DESC';
 
 $layout =
     [
