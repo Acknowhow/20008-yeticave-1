@@ -1,5 +1,6 @@
 <section class="rates container">
   <h2>Мои ставки</h2>
+    <?php var_dump($my_bets); ?>
   <table class="rates__list"><?php foreach ($my_bets as $key => $value) : ?>
     <tr class="rates__item">
       <td class="rates__info">
@@ -7,6 +8,7 @@
           <img src="<?= $value['lot_img_url']; ?>" width="54" height="40" alt="<?= $value['lot_category'] ?>">
         </div>
         <h3 class="rates__title"><a href="lot.php?lot_id=<?= $value['lot_id'] ?>"><?= $value['lot_name'] ?></a></h3>
+        <?php if (!empty($value['user_contacts'])) : ?><p><?= $value['user_contacts'] ?></p><?php endif; ?>
       </td>
       <td class="rates__category"><?=$value['lot_category']; ?>
       </td>
@@ -15,7 +17,7 @@
       </td>
       <td class="rates__price"><?=$value['bet_value']; ?>
       </td>
-      <td class="rates__time"><?= convertTimeStamp($value['UNIX_TIMESTAMP(b.bet_date_add)']) ?></td>
+      <td class="rates__time"><?= convertBetTimeStamp($value['UNIX_TIMESTAMP(b.bet_date_add)']) ?></td>
       </tr><?php endforeach; ?>
   </table>
 </section>

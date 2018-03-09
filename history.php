@@ -2,7 +2,7 @@
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
-require 'util/functions.php';
+require 'resource/functions.php';
 
 require_once 'init.php';
 require 'data/data.php';
@@ -12,6 +12,10 @@ $index = false;
 $title = 'История просмотров';
 $cookie_lot_visited_value = isset($_COOKIE['lot_visited']) ?
     $_COOKIE['lot_visited'] : '';
+$nav = include_template('templates/nav.php',
+    [
+        'categories' => $categories
+    ]);
 
 /* Если существует cookie_lot_value, но нет лотов в БД */
 if (empty($cookie_lot_visited_value) || empty($lots)) {

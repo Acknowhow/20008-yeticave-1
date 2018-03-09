@@ -2,7 +2,7 @@
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
-require 'util/functions.php';
+require 'resource/functions.php';
 
 require 'defaults/add-lot.php';
 require 'errors/add-lot.php';

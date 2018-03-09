@@ -2,7 +2,7 @@
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
-require 'util/functions.php';
+require 'resource/functions.php';
 
 require 'init.php';
 require 'data/data.php';
@@ -12,7 +12,9 @@ require 'markup/markup.php';
 $index = false;
 $my_lot = false;
 $bet_author = false;
-$lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : '';
+
+$lot_id = intval($_GET['lot_id']) ?? null;
+$user_id = intval($_SESSION['user']['user_id']) ?? null;
 
 $cookie_lot_visited_name = 'lot_visited';
 $cookie_lot_visited_value =
@@ -22,8 +24,7 @@ $path = '/';
 
 $bets = select_data_assoc($link, $bets_sql, [$lot_id]) ?? [];
 
-$user_id = isset($_SESSION['user']['user_id']) ?
-    $_SESSION['user']['user_id'] : null;
+
 
 $bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
     $_SESSION['user'][$user_id]['bet_error'] : null;
@@ -45,12 +46,19 @@ if (!empty($user_id)) {
     $my_lots_fetched = select_data_assoc($link,
         $my_lots_sql, [$user_id]);
 
+    var_dump(array_values($my_lots_fetched));
+
     $my_lot_fetched = filterArrayById($my_lots_fetched,
         'lot_id', $lot_id);
+
+    var_dump($lot_id);
+    var_dump($my_lot_fetched);
 
     if (!empty($my_lot_fetched)) {
         $my_lot = true;
     }
+
+    var_dump($my_lot);
 }
 
 if (!empty($bets) && $bets[0]['user_id'] === $user_id) {

@@ -2,7 +2,7 @@
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
-require 'util/functions.php';
+require 'resource/functions.php';
 
 require_once 'init.php';
 require 'data/data.php';
@@ -30,6 +30,10 @@ if (!isset($bet_value)) {
     $index = false;
     $title = 'Мои ставки';
     $my_bets = select_data_assoc($link, $my_bets_sql, [$user_id]);
+    $nav = include_template('templates/nav.php',
+        [
+            'categories' => $categories
+        ]);
 
     $content = include_template('templates/my-bets.php',
         [

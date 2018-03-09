@@ -59,7 +59,7 @@ function getPlural($timeStamp, $form1, $form2, $form5)
     return $timeStamp . $form5;
 }
 
-function convertTimeStamp($timeStamp)
+function convertBetTimeStamp($timeStamp)
 {
     // Elapsed timestamp
     $timeLapseStamp = strtotime('now') - $timeStamp;
@@ -91,6 +91,35 @@ function convertTimeStamp($timeStamp)
                 ' часов') .
             ' назад';
     }
+}
+/**
+ * Форматирует
+ * @param $lotTimeStamp метка времени в формате unix
+ * @param $betTimeStamp параметры для строкового форматирования
+ * @param $state состояние лота
+ *
+ * @return правильный формат даты до конца торгов и статус лота
+ *
+ */
+
+function convertLotTimeStamp($lotTimeStamp, $betTimeStamp, $state)
+{
+    /***
+     *
+     * торги окончены, время размещения лота закончилось (lot_date_end)
+     * rates__item--end, timer--end
+     *
+     *
+     * Если срок размещения лота меньше 24ч, время заканчивается
+     * rates__item, timer timer--finishing
+     *
+     *
+     * Ставка выиграла (Если заканчивается время
+     * размения ЛОТА, то ставка текущего пользователя выигрывает
+     * rates__item--win, timer timer--win
+     *
+     ***/
+
 }
 
 // Validates date period

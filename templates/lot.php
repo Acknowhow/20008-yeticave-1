@@ -61,7 +61,7 @@
                         <tr class="history__item">
                             <td class="history__name"><?= $bet['bet_author'] ?></td>
                             <td class="history__price"><?= $bet['bet_value'] ?> р</td>
-                            <td class="history__time"><?= convertTimeStamp($bet['UNIX_TIMESTAMP(b.bet_date_add)']) ?></td>
+                            <td class="history__time"><?= convertBetTimeStamp($bet['UNIX_TIMESTAMP(b.bet_date_add)']) ?></td>
                         </tr>
                     <?php endforeach; ?><?php endif; ?>
 

@@ -2,7 +2,7 @@
 session_start();
 require 'defaults/config.php';
 require 'defaults/var.php';
-require 'util/functions.php';
+require 'resource/functions.php';
 
 require 'defaults/register.php';
 require 'errors/register.php';
@@ -101,7 +101,8 @@ if (isset($_POST['register'])) {
                 'user_name' => $user['user_name'],
                 'user_email' => $user['user_email'],
                 'user_password' => $user['user_password'],
-                'user_img_url' => $user['user_img_url']
+                'user_img_url' => $user['user_img_url'],
+                'user_contacts' => $user['user_contacts']
             ]);
         if(!$user_id) {
             print 'Can\'t get user_id';
