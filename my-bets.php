@@ -12,7 +12,9 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
-$user_id = $_SESSION['user']['user_id'];
+$user_id = $_SESSION['user']['user_id'] ?
+    $_SESSION['user']['user_id'] : '';
+
 $lot_id = $_POST['lot_id'] ?? null;
 
 $bet_value = $_POST['bet_value'] ?? null;
@@ -20,6 +22,9 @@ $bet_value = $_POST['bet_value'] ?? null;
 $lot_value = $_POST['lot_value'] ?? null;
 $lot_step = $_POST['lot_step'] ?? null;
 $lot_min = $lot_value + $lot_step;
+
+$validate = '';
+$_POST = [];
 
 if (!isset($bet_value)) {
     $index = false;
@@ -43,14 +48,14 @@ if (!isset($bet_value)) {
     $markup->get_layout();
 }
 
-$validate = validateBetValue($bet_value, $lot_min);
+if (isset($bet_value)) {
+    $validate = validateBetValue($bet_value, $lot_min);
 
-if (isset($bet_value) && !empty($validate)) {
-    $_SESSION['user'][$user_id]['bet_error'] = $validate;
-    header('Location: lot.php?lot_id=' . $lot_id);
-}
+    if (!empty($validate)) {
+        $_SESSION['user'][$user_id]['bet_error'] = $validate;
+        header('Location: lot.php?lot_id=' . $lot_id);
+    }
 
-elseif (empty($validate)) {
     $lot_update_sql = "UPDATE lots SET lot_value=? WHERE lot_id=?";
 
     mysqli_query($link, 'START TRANSACTION');
@@ -75,3 +80,6 @@ elseif (empty($validate)) {
         mysqli_query($link, "ROLLBACK");
     }
 }
+
+
+
