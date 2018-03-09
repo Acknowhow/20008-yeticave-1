@@ -18,7 +18,6 @@ CREATE TABLE bets (
   bet_value INT,
   bet_date_add TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   user_id INT not null,
-  bet_is_win TINYINT default 0,
   FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 CREATE TABLE lots (

@@ -43,9 +43,8 @@ $offset = ($curr_page - 1) * $page_items;
 
 $pages = range(1, $pages_count);
 
-
 $lots_sql = 'SELECT l.lot_id,l.lot_name,
-l.lot_date_add,l.lot_date_end,
+UNIX_TIMESTAMP(l.lot_date_end),
 l.lot_description,l.lot_img_url,
 l.lot_value,l.lot_step,
 l.user_id,l.category_id,c.category_name 
@@ -73,7 +72,7 @@ JOIN (lots l JOIN categories c ON l.category_id=c.category_id)
 ON l.lot_id = b.lot_id INNER JOIN users u ON u.user_id=l.user_id 
 AND b.user_id=? ORDER BY b.bet_date_add DESC';
 
-$estimate_winner_sql = 'SELECT l.lot_id,l.lot_name,
+$winner_sql = 'SELECT l.lot_id,l.lot_name,
 l.lot_date_add,l.lot_date_end,
 l.lot_description,l.lot_img_url,
 l.lot_value,l.lot_step,
@@ -83,7 +82,6 @@ INNER JOIN categories c ON l.category_id=c.category_id
 JOIN bets b ON UNIX_TIMESTAMP(l.lot_date_end) < UNIX_TIMESTAMP(NOW()) 
 AND l.lot_id=? ORDER BY b.bet_date_add DESC LIMIT 1';
 
-$estimate_winner = select_data_assoc($link, $estimate_winner_sql, [7]);
 
 $layout =
     [
