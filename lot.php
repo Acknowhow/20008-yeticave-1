@@ -19,9 +19,8 @@ $cookie_lot_visited_value =
     isset($_COOKIE['lot_visited']) ? $_COOKIE['lot_visited'] : [];
 $expire = time() + 60 * 60 * 24 * 30;
 $path = '/';
-$category_id_sql = 'SELECT category_id 
-FROM categories WHERE category_name=?';
-$bets = [];
+
+$bets = select_data_assoc($link, $bets_sql, [$lot_id]) ?? [];
 
 $user_id = isset($_SESSION['user']['user_id']) ?
     $_SESSION['user']['user_id'] : null;
@@ -51,10 +50,6 @@ if (!empty($user_id)) {
 
     if (!empty($my_lot_fetched)) {
         $my_lot = true;
-    }
-
-    if (empty($my_lot_fetched)) {
-        $bets = select_data_assoc($link, $bets_sql, [$lot_id]);
     }
 }
 

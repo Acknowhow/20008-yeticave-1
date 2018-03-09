@@ -25,7 +25,7 @@
                     </div>
                 </div>
                 <form class="lot-item__form" action="my-bets.php" method="post">
-                    <?php if (isset($bet_author)) : ?>
+                    <?php if (isset($bet_author)) : ?><!-- fixing button position -->
                         <style>
                             .lot-item__form {
                                 position: relative
@@ -52,7 +52,7 @@
                     </p>
                     <?php if ($my_lot === false && $bet_author === false) : ?><button type="submit" class="button">Сделать ставку</button><?php endif;?>
                 </form>
-            </div><?php endif;?>
+            </div><?php endif; ?>
             <div class="history">
                 <h3>История ставок (<span>4</span>)</h3>
                 <table class="history__list">
