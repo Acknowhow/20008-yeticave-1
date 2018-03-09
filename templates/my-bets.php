@@ -11,7 +11,7 @@
       <td class="rates__category"><?=$value['lot_category']; ?>
       </td>
       <td class="rates__timer">
-        <div class="timer timer--finishing"></div>
+        <div class="timer timer--finishing">Ставка выиграла</div>
       </td>
       <td class="rates__price"><?=$value['bet_value']; ?>
       </td>
