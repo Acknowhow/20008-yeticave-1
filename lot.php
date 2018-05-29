@@ -78,6 +78,7 @@ if (!empty($lot_id)) {
 
     if (!array_key_exists($lot_id, $cookie_lot_visited_value)) {
         $cookie_lot_visited_value[] = $lot_id;
+
     } elseif (empty($cookie_lot_visited_value)) {
         $cookie_lot_visited_value[] = $lot_id;
     }
@@ -93,10 +94,12 @@ if (!empty($lot_id)) {
             'categories' => $categories, 'bets' => $bets,
             'bet_author' => $bet_author, 'my_lot' => $my_lot,
             'bet_error' => $bet_error, 'lot_id' => $lot_id,
+
             'user_id' => $user_id, 'lot_name' => $lot['lot_name'],
             'lot_category' => $lot['lot_category'],
             'lot_value' => $lot['lot_value'], 'lot_step' => $lot['lot_step'],
             'lot_img_url' => $lot['lot_img_url'],
+
             'lot_img_alt' => $lot['lot_name'],
             'lot_description' => $lot['lot_description']
         ]
