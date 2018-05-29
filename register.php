@@ -39,7 +39,6 @@ $users_sql = 'SELECT user_email,user_name,user_password
 FROM users ORDER BY user_id ASC;';
 
 $users = select_data_assoc($link, $users_sql, []);
-var_dump($users);
 
 if (isset($_FILES) && !empty($_FILES['user_img']['size'])) {
     $uploaded = 'uploaded';

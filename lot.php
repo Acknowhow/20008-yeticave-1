@@ -47,7 +47,7 @@ if (!empty($user_id)) {
         $my_lots_sql, [$user_id]);
 
     $my_lot_fetched = filterArrayById($my_lots_fetched,
-        'lot_id', $lot_id);
+        'id', $lot_id);
 
     if (!empty($my_lot_fetched)) {
         $my_lot = true;

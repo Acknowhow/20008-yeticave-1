@@ -22,16 +22,17 @@ $categories_eng =
     ];
 
 $categories_sql = 'SELECT * FROM categories 
-ORDER BY category_id ASC';
+ORDER BY id ASC';
 
 $categories_fetched = select_data_column($link, $categories_sql,
-    [], 'category_name');
+    [], 'name');
 
 $categories = array_combine($categories_eng, $categories_fetched);
 
-
 $lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
+
 $lots_count = select_data_assoc($link, $lots_count_sql, []);
+
 
 $count = $lots_count[0]['count'];
 
@@ -43,14 +44,14 @@ $offset = ($curr_page - 1) * $page_items;
 
 $pages = range(1, $pages_count);
 
-$lots_sql = 'SELECT l.lot_id,l.lot_name,
-UNIX_TIMESTAMP(l.lot_date_end),
-l.lot_description,l.lot_img_url,
-l.lot_value,l.lot_step,
-l.user_id,l.category_id,c.category_name 
+$lots_sql = 'SELECT l.id,l.name,
+UNIX_TIMESTAMP(l.date_end),
+l.description,l.lot_path,
+l.value,l.step,
+l.user_id,l.category_id,c.name 
 AS lot_category FROM lots l
-JOIN categories c ON l.category_id=c.category_id 
-ORDER BY l.lot_date_add DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
+JOIN categories c ON l.category_id=c.id 
+ORDER BY l.date_add DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
 
 $lots = select_data_assoc($link, $lots_sql, []);
 
