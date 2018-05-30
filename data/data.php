@@ -21,16 +21,16 @@ $categories_eng =
         'clothing', 'tools', 'other'
     ];
 
-$categories_sql = 'SELECT * FROM categories 
-ORDER BY id ASC';
+$categories_sql = '
+SELECT * FROM categories ORDER BY id ASC';
 
-$categories_fetched = select_data_column($link, $categories_sql,
-    [], 'name');
+$categories_fetched = select_data_column(
+    $link, $categories_sql, [], 'name');
 
-$categories = array_combine($categories_eng, $categories_fetched);
+$categories = array_combine(
+    $categories_eng, $categories_fetched);
 
 $lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
-
 $lots_count = select_data_assoc($link, $lots_count_sql, []);
 
 
@@ -44,45 +44,58 @@ $offset = ($curr_page - 1) * $page_items;
 
 $pages = range(1, $pages_count);
 
-$lots_sql = 'SELECT l.id,l.name,
-UNIX_TIMESTAMP(l.date_end),
-l.description,l.lot_path,
-l.value,l.step,
-l.user_id,l.category_id,c.name 
-AS lot_category FROM lots l
+$lots_sql = '
+SELECT 
+  l.id,l.name,
+  UNIX_TIMESTAMP(l.date_end),
+  l.description,l.lot_path,
+  l.value,l.step,
+  l.user_id,l.category_id,c.name 
+  AS lot_category 
+FROM lots l
 JOIN categories c ON l.category_id=c.id 
-ORDER BY l.date_add DESC LIMIT ' . $page_items . ' OFFSET ' . $offset;
+ORDER BY l.date_add DESC LIMIT ' .
+    $page_items . ' OFFSET ' . $offset;
 
 $lots = select_data_assoc($link, $lots_sql, []);
 
-
 // Selecting all bets for the current lot by lot_id
-$bets_sql = "SELECT b.id,b.lot_id,
-b.value, UNIX_TIMESTAMP(b.date_add),
-b.user_id,u.name AS bet_author 
-FROM bets b JOIN users u ON b.user_id=u.id 
+$bets_sql = '
+SELECT 
+  b.id,b.lot_id,
+  b.value, UNIX_TIMESTAMP(b.date_add),
+  b.user_id,u.name AS bet_author 
+FROM bets b 
+JOIN users u ON b.user_id=u.id 
 WHERE b.lot_id=? ORDER BY b.date_add 
-DESC LIMIT $bet_display_count";
+DESC LIMIT ' . $bet_display_count;
 
 // Query for my bets
-$my_bets_sql = 'SELECT b.value, UNIX_TIMESTAMP(b.date_add),
-b.user_id,IF(UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()),1,0) AS 
-bet_wins,l.id AS lot_id,l.name AS lot_name,UNIX_TIMESTAMP(l.date_end),
-l.lot_path,c.name AS lot_category,u.contacts FROM bets b 
+$my_bets_sql = '
+SELECT 
+  b.value, UNIX_TIMESTAMP(b.date_add),b.user_id,
+  IF(UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()),1,0) 
+  AS bet_wins,l.id AS lot_id,l.name AS lot_name,
+  UNIX_TIMESTAMP(l.date_end),l.lot_path,c.name 
+  AS lot_category,u.contacts 
+FROM bets b 
 JOIN (lots l JOIN categories c ON l.category_id=c.id) 
 ON l.id = b.lot_id INNER JOIN users u ON u.id=l.user_id 
 AND b.user_id=? ORDER BY b.date_add DESC';
 
-$winner_sql = 'SELECT l.id,l.name,
-l.date_add,l.date_end,
-l.description,l.lot_path,
-l.value,l.step,
-l.user_id,l.category_id,c.name 
-AS lot_category,b.user_id AS lot_winner FROM lots l
+$winner_sql = '
+SELECT 
+  l.id,l.name,
+  l.date_add,l.date_end,
+  l.description,l.lot_path,
+  l.value,l.step,
+  l.user_id,l.category_id,c.name 
+AS lot_category,b.user_id AS lot_winner 
+FROM lots l
 INNER JOIN categories c ON l.category_id=c.id 
-JOIN bets b ON UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()) 
+JOIN bets b 
+ON UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()) 
 AND l.id=? ORDER BY b.date_add DESC LIMIT 1';
-
 
 $layout =
     [
