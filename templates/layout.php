@@ -45,7 +45,7 @@
     </div>
 </header>
 
-<main<?php if ($index === true) :?>class="container"<?php endif; ?>>
+<main<?php if ($index === true) :?> class="container"<?php endif; ?>>
     <?= $nav ?><?= $content ?>
 </main>
 

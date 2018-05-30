@@ -13,12 +13,12 @@ require 'data/data.php';
 require 'markup/markup.php';
 $index = false;
 $title = 'Добавление лота';
-if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
 
-$user_id = $_SESSION['user']['user_id'];
+$user_id = $_SESSION['user']['id'];
 $lot_data = [];
 $lot_errors = [];
 
