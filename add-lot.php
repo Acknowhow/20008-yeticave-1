@@ -31,8 +31,8 @@ $rules = [
     'lot_step' => 'validateLotStep', 'lot_date_end' => 'validateDate'
 ];
 
-$category_id_sql = 'SELECT category_id FROM 
-categories WHERE category_name=?';
+$category_id_sql = 'SELECT id FROM 
+categories WHERE name=?';
 
 $uploaded = '';
 $lot_upload_error = '';
@@ -97,7 +97,8 @@ if (isset($_POST['lot_add'])) {
 
         $category_fetched = select_data_assoc($link, $category_id_sql,
             [$lot['lot_category']]);
-        $category_id = $category_fetched[0]['category_id'];
+        $category_id = $category_fetched[0]['id'];
+
         if(empty($category_id)) {
             echo 'Невозможно определить категорию для лота';
             die();
@@ -108,13 +109,14 @@ if (isset($_POST['lot_add'])) {
 
         $lot_id = insert_data($link, 'lots',
             [
-                'lot_name' => $lot_filtered['lot_name'],
-                'lot_date_add' => $date_current->format('Y.m.d H:i:s'),
-                'lot_date_end' => $lot_filtered['lot_date_end'],
-                'lot_description' => $lot_filtered['lot_description'],
-                'lot_img_url' => $lot_filtered['lot_img_url'],
-                'lot_value' => $lot_filtered['lot_value'],
-                'lot_step' => $lot_filtered['lot_step'],
+                'name' => $lot_filtered['lot_name'],
+                'date_add' => $date_current->format('Y.m.d H:i:s'),
+                'date_end' => $lot_filtered['lot_date_end'],
+                'description' => $lot_filtered['lot_description'],
+
+                'lot_path' => $lot_filtered['lot_img_url'],
+                'value' => $lot_filtered['lot_value'],
+                'step' => $lot_filtered['lot_step'],
                 'user_id' => $lot_filtered['user_id'],
                 'category_id' => $lot_filtered['category_id']
             ]);
