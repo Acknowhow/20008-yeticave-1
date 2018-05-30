@@ -100,7 +100,7 @@ if (isset($_POST['register'])) {
 
     if (empty($user_errors) && (
         !empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
-        $user = filterArray($user_data, 'register');
+        $user = filterArrayByKey($user_data, 'register');
 
         $user['user_img_url'] = $user_data['user_img_url'] ?? 'img/user.jpg';
         $user_id = insert_data($link, 'users',

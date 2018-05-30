@@ -45,15 +45,16 @@ if (!empty($user_id)) {
         $my_lots_sql, [$user_id]);
 
 
-    $my_lot_fetched = filterArrayById($my_lots_fetched,
-        'id', $lot_id);
+    $my_lot_fetched = filterArrayByIds($my_lots_fetched,
+        'id', intval($lot_id), 'user_id', intval($user_id));
+
 
     if (!empty($my_lot_fetched)) {
         $my_lot = true;
     }
 
 }
-
+// Get last bet made
 if (!empty($bets) && $bets[0]['user_id'] === $user_id) {
     $bet_author = true;
 }

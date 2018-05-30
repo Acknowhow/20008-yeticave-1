@@ -90,7 +90,7 @@ if (isset($_POST['lot_add'])) {
 
     if (empty($lot_errors) && (
         !empty($uploaded) && empty($lot_upload_error) || empty($uploaded))) {
-        $lot = filterArray($lot_data, 'lot_add');
+        $lot = filterArrayByKey($lot_data, 'lot_add');
 
         $lot['user_id'] = $user_id;
         $lot['lot_date_end'] = convertDateMySQL($lot['lot_date_end']);
@@ -104,7 +104,7 @@ if (isset($_POST['lot_add'])) {
             die();
         }
 
-        $lot_filtered = filterArray($lot, 'lot_category');
+        $lot_filtered = filterArrayByKey($lot, 'lot_category');
         $lot_filtered['category_id'] = $category_id;
 
         $lot_id = insert_data($link, 'lots',

@@ -329,7 +329,7 @@ function filterArrayWinner($array, $key)
 }
 
 // Filters array by comparing key which is not empty
-function filterArray($array, $key)
+function filterArrayByKey($array, $key)
 {
     return array_filter($array, function ($k) use ($key) {
         return $k !== $key;
@@ -339,10 +339,20 @@ function filterArray($array, $key)
 // Compares both key and value
 function filterArrayById($arr, $key, $value)
 {
-    return array_filter($arr, function ($k, $v) use ($key, $value) {
+    return array_filter($arr, function ($k) use ($key, $value) {
         return $k[$key] === $value;
     }, ARRAY_FILTER_USE_BOTH);
 }
+
+function filterArrayByIds($arr, $key_1, $value_1, $key_2, $value_2)
+{
+    return array_filter($arr, function ($k) use (
+        $key_1, $key_2, $value_1, $value_2) {
+
+        return $k[$key_1] === $value_1 && $k[$key_2] === $value_2;
+
+    }, ARRAY_FILTER_USE_BOTH);
+};
 
 function select_data_column($link, $sql, $data, $columnName)
 {

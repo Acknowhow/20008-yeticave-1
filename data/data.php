@@ -33,7 +33,6 @@ $categories = array_combine(
 $lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
 $lots_count = select_data_assoc($link, $lots_count_sql, []);
 
-
 $count = $lots_count[0]['count'];
 
 $count = $count + 0;
