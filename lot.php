@@ -24,8 +24,6 @@ $path = '/';
 
 $bets = select_data_assoc($link, $bets_sql, [$lot_id]) ?? [];
 
-
-
 $bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
     $_SESSION['user'][$user_id]['bet_error'] : null;
 
@@ -46,6 +44,7 @@ if (!empty($user_id)) {
     $my_lots_fetched = select_data_assoc($link,
         $my_lots_sql, [$user_id]);
 
+
     $my_lot_fetched = filterArrayById($my_lots_fetched,
         'id', $lot_id);
 
@@ -65,7 +64,7 @@ if (!empty($bet_error)) {
 }
 
 if (!empty($lot_id)) {
-    $lot = array_values(filterArrayById($lots, 'lot_id', intval($lot_id)));
+    $lot = array_values(filterArrayById($lots, 'id', intval($lot_id)));
 
     if (empty($lot[0])) {
         print 'Can\'t fetch lot by id';
@@ -87,7 +86,7 @@ if (!empty($lot_id)) {
     setcookie($cookie_lot_visited_name, $cookie_lot_visited_value,
         $expire, $path);
 
-    $title = $lot['lot_name'];
+    $title = $lot['name'];
     $content = include_template('templates/lot.php',
         [
             'is_auth' => $is_auth,
@@ -95,13 +94,13 @@ if (!empty($lot_id)) {
             'bet_author' => $bet_author, 'my_lot' => $my_lot,
             'bet_error' => $bet_error, 'lot_id' => $lot_id,
 
-            'user_id' => $user_id, 'lot_name' => $lot['lot_name'],
+            'user_id' => $user_id, 'lot_name' => $lot['name'],
             'lot_category' => $lot['lot_category'],
-            'lot_value' => $lot['lot_value'], 'lot_step' => $lot['lot_step'],
-            'lot_img_url' => $lot['lot_img_url'],
+            'lot_value' => $lot['value'], 'lot_step' => $lot['step'],
+            'lot_img_url' => $lot['lot_path'],
 
-            'lot_img_alt' => $lot['lot_name'],
-            'lot_description' => $lot['lot_description']
+            'lot_img_alt' => $lot['name'],
+            'lot_description' => $lot['description']
         ]
     );
 }

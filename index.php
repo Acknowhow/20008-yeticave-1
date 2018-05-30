@@ -18,7 +18,6 @@ if (empty($lots)) {
 $winner = [];
 $user_id = isset($user['id']) ? $user['id'] : null;
 
-
 $to_filter = array_values($lots);
 
 foreach ($to_filter as $key => $value) {
