@@ -8,12 +8,11 @@ require_once 'init.php';
 require 'data/data.php';
 
 require 'markup/markup.php';
-if (!isset($_SESSION['user']) || !isset($_SESSION['user']['user_id'])) {
+if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
     http_response_code(403);
     exit('Вы не авторизованы ' . http_response_code() . '');
 }
-$user_id = $_SESSION['user']['user_id'] ?
-    $_SESSION['user']['user_id'] : '';
+$user_id = $_SESSION['user']['id'];
 
 $lot_id = $_POST['lot_id'] ?? null;
 
@@ -29,6 +28,7 @@ $_POST = [];
 if (!isset($bet_value)) {
     $index = false;
     $title = 'Мои ставки';
+
     $my_bets = select_data_assoc($link, $my_bets_sql, [$user_id]);
     $nav = include_template('templates/nav.php',
         [
@@ -60,20 +60,20 @@ if (isset($bet_value)) {
         header('Location: lot.php?lot_id=' . $lot_id);
     }
 
-    $lot_update_sql = "UPDATE lots SET lot_value=? WHERE lot_id=?";
+    $lot_update_sql = "UPDATE lots SET value=? WHERE id=?";
 
     mysqli_query($link, 'START TRANSACTION');
     $bet_id_res = insert_data($link, 'bets',
         [
             'lot_id' => $lot_id,
-            'bet_value' => $bet_value, 'user_id' => $user_id
+            'value' => $bet_value, 'user_id' => $user_id
         ]
     );
 
     $lot_update_res = update_data($link, $lot_update_sql,
         [
-            'lot_value' => $bet_value,
-            'lot_id' => $lot_id
+            'value' => $bet_value,
+            'id' => $lot_id
         ]
     );
 

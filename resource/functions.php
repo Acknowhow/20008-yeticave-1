@@ -272,11 +272,11 @@ function validateUser($email, $users, $password)
     $user = searchUserByEmail($email, $users);
 
     if (is_string($user) || !empty($is_user = password_verify(
-            $password, $user['user_password']))) {
+            $password, $user['password']))) {
         $is_user = $user;
 
     } elseif (is_array($user) && empty($is_user = password_verify(
-            $password, $user['user_password']))) {
+            $password, $user['password']))) {
         $is_user = 'Пароль неверный';
     }
     return $is_user;

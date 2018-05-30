@@ -14,7 +14,9 @@ $my_lot = false;
 $bet_author = false;
 
 $lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : null;
-$user_id = isset($_SESSION['user']) ? $_SESSION['user']['user_id'] : null;
+$user_id = isset($_SESSION['user']) ? $_SESSION['user']['id'] : null;
+
+var_dump($user_id);
 
 $cookie_lot_visited_name = 'lot_visited';
 $cookie_lot_visited_value =

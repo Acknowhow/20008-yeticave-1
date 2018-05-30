@@ -54,10 +54,11 @@
                 </form>
             </div><?php endif; ?>
             <div class="history">
-                <h3>История ставок (<span>4</span>)</h3>
+            <?php if(!empty($bets)) : ?>
+                <h3>История ставок (<span><?php count($bets); ?></span>)</h3>
                 <table class="history__list">
 
-                    <?php if(!empty($bets)) : ?><?php foreach ($bets as $bet) : ?>
+                    <?php foreach ($bets as $bet) : ?>
                         <tr class="history__item">
                             <td class="history__name"><?= $bet['bet_author'] ?></td>
                             <td class="history__price"><?= $bet['bet_value'] ?> р</td>
