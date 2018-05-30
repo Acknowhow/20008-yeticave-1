@@ -286,7 +286,7 @@ function searchUserByEmail($email, $users, $register = false)
 {
     $_result = null;
     foreach ($users as $user) {
-        if ($user['user_email'] == $email) {
+        if ($user['email'] == $email) {
             $_result = $user;
 
             if ($register === true) {

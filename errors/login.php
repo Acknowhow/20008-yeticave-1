@@ -6,7 +6,7 @@ $user_login_errors = [
         'name' => 'user_email', 'error_message' => 'Введите email'
     ],
     'user_password' => [
-        'name' => 'user_password', 'error_message' => 'Выберите пароль'
+        'name' => 'user_password', 'error_message' => 'Введите пароль'
     ]
 
 ];
