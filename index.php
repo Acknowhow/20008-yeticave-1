@@ -16,13 +16,13 @@ if (empty($lots)) {
     exit();
 }
 $winner = [];
-$user_id = isset($user['user_id']) ? $user['user_id'] : null;
+$user_id = isset($user['id']) ? $user['id'] : null;
 
 
 $to_filter = array_values($lots);
 
 foreach ($to_filter as $key => $value) {
-    $winner[] = select_data_assoc($link, $winner_sql, [$value['lot_id']]);
+    $winner[] = select_data_assoc($link, $winner_sql, [$value['id']]);
 }
 function win($k) {
     return $k & !empty($k);
