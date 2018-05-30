@@ -35,8 +35,8 @@ $nav = include_template('templates/nav.php',
         'categories' => $categories
     ]
 );
-$users_sql = 'SELECT user_email,user_name,user_password 
-FROM users ORDER BY user_id ASC;';
+$users_sql = 'SELECT email,password,name 
+FROM users ORDER BY id ASC;';
 
 $users = select_data_assoc($link, $users_sql, []);
 
@@ -105,18 +105,18 @@ if (isset($_POST['register'])) {
         $user['user_img_url'] = $user_data['user_img_url'] ?? 'img/user.jpg';
         $user_id = insert_data($link, 'users',
             [
-                'user_name' => $user['user_name'],
-                'user_email' => $user['user_email'],
+                'name' => $user['user_name'],
+                'email' => $user['user_email'],
 
-                'user_password' => $user['user_password'],
-                'user_img_url' => $user['user_img_url'],
-                'user_contacts' => $user['user_contacts']
+                'password' => $user['user_password'],
+                'avatar_path' => $user['user_img_url'],
+                'contacts' => $user['user_contacts']
             ]);
         if(!$user_id) {
             print 'Can\'t get user_id';
             exit();
         }
-        $user['user_id'] = $user_id;
+        $user['id'] = $user_id;
         $_SESSION['user'] = $user;
         header('Location: index.php');
     }
