@@ -18,39 +18,45 @@
             <input type="search" name="search" placeholder="Поиск лота">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
-        <?php if ($is_auth === true) : ?><a class="main-header__add-lot button" href="add-lot.php">Добавить лот</a><?php endif;?>
+<?php if ($is_auth === true) : ?>
+        <a class="main-header__add-lot button" href="add-lot.php">Добавить лот</a>
+<?php endif;?>
         <nav class="user-menu">
-            <?php if ($is_auth === true): ?>
-                <div class="user-menu__image">
-                    <img src="<?= $user['avatar_path'] ?>" width="40" height="40" alt="Пользователь">
-                </div>
-                <div class="user-menu__logged">
-                <p><?= htmlspecialchars($user['name']); ?></p>
-                <a href="logout.php">Выход</a>
-                </div><?php endif; ?>
-            <?php if ($is_auth === false) : ?>
-                <ul class="user-menu__list">
-                    <li class="user-menu__item">
-                        <a href="register.php">Регистрация</a>
-                    </li>
-                    <li class="user-menu__item">
-                        <a href="login.php">Вход</a>
-                    </li>
-                </ul><?php endif; ?>
+<?php if ($is_auth === true): ?>
+            <div class="user-menu__image">
+                <img src="<?= $user['avatar_path'] ?>" width="40" height="40" alt="Пользователь">
+            </div>
+            <div class="user-menu__logged">
+            <p><?= htmlspecialchars($user['name']); ?></p>
+            <a href="logout.php">Выход</a>
+            </div>
+<?php endif; ?>
+<?php if ($is_auth === false) : ?>
+             <ul class="user-menu__list">
+                 <li class="user-menu__item">
+                     <a href="register.php">Регистрация</a>
+                 </li>
+                 <li class="user-menu__item">
+                     <a href="login.php">Вход</a>
+                 </li>
+             </ul>
+<?php endif; ?>
         </nav>
     </div>
 </header>
 
-<main <?php if ($index === true) :?>class="container"<?php endif; ?>><?= $nav ?><?= $content ?></main>
+<main<?php if ($index === true) :?>class="container"<?php endif; ?>>
+    <?= $nav ?><?= $content ?>
+</main>
 
 <footer class="main-footer">
     <nav class="nav">
         <ul class="nav__list container">
-            <?php foreach ($categories as $category) : ?>
-                <li class="nav__item">
-                    <a href="all-lots.html"><?= htmlspecialchars($category) ?></a>
-                </li>
-            <?php endforeach; ?>
+<?php foreach ($categories as $category) : ?>
+            <li class="nav__item">
+                <a href="all-lots.html"><?= htmlspecialchars($category) ?></a>
+            </li>
+<?php endforeach; ?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
