@@ -18,17 +18,17 @@ $nav = include_template('templates/nav.php',
     ]);
 
 /* Если существует cookie_lot_value, но нет лотов в БД */
-if (empty($cookie_lot_visited_value) || empty($lots)) {
+if (empty($cookie_lot_visited_value) || empty($lots_offset)) {
     $content = 'Здесь отображается история просмотра лотов';
 
-} elseif (!empty($cookie_lot_visited_value) && !empty($lots)) {
+} elseif (!empty($cookie_lot_visited_value) && !empty($lots_offset)) {
     $index = false;
     $lot_ids = json_decode($cookie_lot_visited_value);
 
-    $lots = array_intersect_key($lots, $lot_ids);
+    $lots_offset = array_intersect_key($lots_offset, $lot_ids);
     $content = include_template('templates/history.php',
         [
-            'lots' => $lots
+            'lots' => $lots_offset
         ]);
 }
 $markup = new Markup('templates/layout.php', array_merge_recursive(

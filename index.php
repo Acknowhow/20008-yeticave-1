@@ -9,7 +9,7 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
-if (empty($lots)) {
+if (empty($lots_offset)) {
     mysqli_close($link);
 
     print 'Can\'t resolve lots list';
@@ -18,7 +18,7 @@ if (empty($lots)) {
 $winner = [];
 $user_id = isset($user['id']) ? $user['id'] : null;
 
-$to_filter = array_values($lots);
+$to_filter = array_values($lots_offset);
 
 foreach ($to_filter as $key => $value) {
     $winner[] = select_data_assoc($link, $winner_sql, [$value['id']]);
@@ -39,7 +39,7 @@ $pagination = include_template('templates/pagination.php', [
 $content = include_template('templates/index.php',
     [
         'categories' => $categories,
-        'lots' => $lots, 'pagination' => $pagination,
+        'lots' => $lots_offset, 'pagination' => $pagination,
         'link' => $link, 'winner_sql' => $winner_sql
     ]
 );

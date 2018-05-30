@@ -9,6 +9,7 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
+
 $index = false;
 $my_lot = false;
 $bet_author = false;
@@ -66,6 +67,7 @@ if (!empty($bet_error)) {
 
 if (!empty($lot_id)) {
     $lot = array_values(filterArrayById($lots, 'id', intval($lot_id)));
+
 
     if (empty($lot[0])) {
         print 'Can\'t fetch lot by id';
