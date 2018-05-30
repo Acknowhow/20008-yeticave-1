@@ -55,14 +55,14 @@
             </div><?php endif; ?>
             <div class="history">
             <?php if(!empty($bets)) : ?>
-                <h3>История ставок (<span><?php count($bets); ?></span>)</h3>
+                <h3>История ставок (<span><?= count($bets); ?></span>)</h3>
                 <table class="history__list">
 
                     <?php foreach ($bets as $bet) : ?>
                         <tr class="history__item">
                             <td class="history__name"><?= $bet['bet_author'] ?></td>
-                            <td class="history__price"><?= $bet['bet_value'] ?> р</td>
-                            <td class="history__time"><?= convertBetTimeStamp($bet['UNIX_TIMESTAMP(b.bet_date_add)']) ?></td>
+                            <td class="history__price"><?= $bet['value'] ?> р</td>
+                            <td class="history__time"><?= convertBetTimeStamp($bet['UNIX_TIMESTAMP(b.date_add)']) ?></td>
                         </tr>
                     <?php endforeach; ?><?php endif; ?>
 
