@@ -67,7 +67,7 @@ DESC LIMIT $bet_display_count";
 // Query for my bets
 $my_bets_sql = 'SELECT b.value, UNIX_TIMESTAMP(b.date_add),
 b.user_id,IF(UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()),1,0) AS 
-bet_wins,l.name,UNIX_TIMESTAMP(l.date_end),
+bet_wins,l.id AS lot_id,l.name AS lot_name,UNIX_TIMESTAMP(l.date_end),
 l.lot_path,c.name AS lot_category,u.contacts FROM bets b 
 JOIN (lots l JOIN categories c ON l.category_id=c.id) 
 ON l.id = b.lot_id INNER JOIN users u ON u.id=l.user_id 
