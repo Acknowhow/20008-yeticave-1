@@ -16,10 +16,10 @@ $title = 'Регистрация пользователя';
 $user_data = [];
 $user_errors = [];
 
-$user_email = isset($_POST['user_email']) ?
-    $_POST['user_email'] : '';
-$user_password = isset($_POST['user_password']) ?
-    $_POST['user_password'] : '';
+$email = isset($_POST['email']) ?
+    $_POST['email'] : '';
+$password = isset($_POST['password']) ?
+    $_POST['password'] : '';
 
 $uploaded = '';
 $user_upload_error = '';
@@ -27,8 +27,8 @@ $validation_result = '';
 $user_id = null;
 
 $required = [
-    'user_name', 'user_email',
-    'user_password', 'user_contacts'
+    'name', 'email',
+    'password', 'contacts'
 ];
 $nav = include_template('templates/nav.php',
     [
@@ -40,10 +40,10 @@ FROM users ORDER BY id ASC;';
 
 $users = select_data_assoc($link, $users_sql, []);
 
-if (isset($_FILES) && !empty($_FILES['user_img']['size'])) {
+if (isset($_FILES) && !empty($_FILES['avatar_path']['size'])) {
     $uploaded = 'uploaded';
 
-    $file = $_FILES['user_img'];
+    $file = $_FILES['avatar_path'];
     $allowed = [
         'jpeg' => 'image/jpeg',
         'png' => 'image/png'
@@ -55,7 +55,9 @@ if (isset($_FILES) && !empty($_FILES['user_img']['size'])) {
 }
 
 if (isset($_POST['register'])) {
+
     foreach ($_POST as $key => $value) {
+
         if (in_array($key, $required) && $value == '') {
             $user_errors[$key] = $register_errors[$key]['error_message'];
         }
@@ -63,27 +65,27 @@ if (isset($_POST['register'])) {
         $register_defaults[$key]['input'] = $value;
     }
 
-    if (!empty($_POST['user_email'])) {
+    if (!empty($_POST['email'])) {
         if (!empty($result = call_user_func(
-            'validateEmail', $user_email)) ||
+            'validateEmail', $email)) ||
 
             !empty($result = call_user_func(
                 'searchUserByEmail',
 
-                $user_email, $users, true))) {
-            $user_errors['user_email'] = $result;
+                $email, $users, true))) {
+            $user_errors['email'] = $result;
         }
     }
 
-    if (!empty($_POST['user_password'])) {
+    if (!empty($_POST['password'])) {
         if (is_string($result = call_user_func(
 
-            'validatePassword', $user_password))) {
-            $user_errors['user_password'] = $result;
+            'validatePassword', $password))) {
+            $user_errors['password'] = $result;
         }
         elseif (is_array($password = call_user_func(
-            'validatePassword', $user_password))) {
-            $user_data['user_password'] = $password[0];
+            'validatePassword', $password))) {
+            $user_data['password'] = $password[0];
         }
     }
 
@@ -95,22 +97,22 @@ if (isset($_POST['register'])) {
 
         move_uploaded_file(
             $validation_result['file_name_tmp'], $destination_path);
-        $user_data['user_img_url'] = $validation_result['file_url'];
+        $user_data['avatar_path'] = $validation_result['file_url'];
     }
 
     if (empty($user_errors) && (
         !empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
         $user = filterArrayByKey($user_data, 'register');
 
-        $user['user_img_url'] = $user_data['user_img_url'] ?? 'img/user.jpg';
+        $user['avatar_path'] = $user_data['avatar_path'] ?? 'img/user.jpg';
         $user_id = insert_data($link, 'users',
             [
-                'name' => $user['user_name'],
-                'email' => $user['user_email'],
+                'name' => $user['name'],
+                'email' => $user['email'],
 
-                'password' => $user['user_password'],
-                'avatar_path' => $user['user_img_url'],
-                'contacts' => $user['user_contacts']
+                'password' => $user['password'],
+                'avatar_path' => $user['avatar_path'],
+                'contacts' => $user['contacts']
             ]);
         if(!$user_id) {
             print 'Can\'t get user_id';
@@ -126,13 +128,13 @@ $content = include_template(
     'templates/register.php',
     [
         'errors' => $user_errors, 'upload_error' => $user_upload_error,
-        'user_name' => $register_defaults['user_name'], 'user_email' =>
+        'name' => $register_defaults['name'], 'email' =>
 
-         $register_defaults['user_email'], 'user_password' =>
-         $register_defaults['user_password'], 'user_contacts' =>
+         $register_defaults['email'], 'password' =>
+         $register_defaults['password'], 'contacts' =>
 
-         $register_defaults['user_contacts'], 'user_img' =>
-         $register_defaults['user_img']
+         $register_defaults['contacts'], 'avatar_path' =>
+         $register_defaults['avatar_path']
     ]
 );
 
