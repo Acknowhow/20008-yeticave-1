@@ -9,7 +9,7 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
-if (empty($lots_offset)) {
+if (!isset($lots_offset)) {
     mysqli_close($link);
 
     print 'Can\'t resolve lots list';
