@@ -57,9 +57,8 @@ ALTER TABLE `bets` ADD FOREIGN KEY (`lot_id`) REFERENCES `lots`(`id`);
 
 ALTER TABLE `categories` ADD UNIQUE INDEX (`name`);
 ALTER TABLE `users` ADD UNIQUE INDEX (`email`);
-ALTER TABLE `bets` ADD UNIQUE INDEX (`user_id`, `lot_id`);
-ALTER TABLE `lots` ADD UNIQUE INDEX (`user_id`, `category_id`);
 
+ALTER TABLE `categories` ADD INDEX (`name`);
 ALTER TABLE `users` ADD INDEX (`name`);
-ALTER TABLE `bets` ADD INDEX (`date_add`);
-ALTER TABLE `lots` ADD INDEX (`name`, `date_add`, `date_end`);
+ALTER TABLE `bets` ADD INDEX (`user_id`, `lot_id`, `date_add`);
+ALTER TABLE `lots` ADD INDEX (`name`, `date_add`, `date_end`, `user_id`,`category_id`);
