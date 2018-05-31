@@ -65,8 +65,9 @@ if (isset($bet_value)) {
     mysqli_query($link, 'START TRANSACTION');
     $bet_id_res = insert_data($link, 'bets',
         [
-            'lot_id' => $lot_id,
-            'value' => $bet_value, 'user_id' => $user_id
+            'lot_id' => $lot_id, 'value' => $bet_value,
+            'date_add' => $date_current->format('Y.m.d H:i:s'),
+            'user_id' => $user_id
         ]
     );
 

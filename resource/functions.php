@@ -29,7 +29,7 @@ function include_template($templatePath, $templateData)
 
     return $tpl;
 }
-// Converting date formats
+// Converting date formats from 'd.m.Y' to 'Y-m-d H:i:s'
 function convertDateMySQL($date, $format = 'd.m.Y')
 {
     $dateTime = DateTime::createFromFormat($format, $date);

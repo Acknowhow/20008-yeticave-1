@@ -110,6 +110,8 @@ if (isset($_POST['lot_add'])) {
         $lot_id = insert_data($link, 'lots',
             [
                 'name' => $lot_filtered['lot_name'],
+
+                // Gets current date in required format
                 'date_add' => $date_current->format('Y.m.d H:i:s'),
                 'date_end' => $lot_filtered['lot_date_end'],
                 'description' => $lot_filtered['lot_description'],
@@ -137,12 +139,13 @@ $content = include_template('templates/add-lot.php',
         'categories' => $categories,
         'lot_name' => $lot_add_defaults['lot_name'],
         'lot_category' => $lot_add_defaults['lot_category'],
+
         'lot_description' => $lot_add_defaults['lot_description'],
         'lot_img' => $lot_add_defaults['lot_img'],
         'lot_value' => $lot_add_defaults['lot_value'],
         'lot_step' => $lot_add_defaults['lot_step'],
-        'lot_date_end' => $lot_add_defaults['lot_date_end']
 
+        'lot_date_end' => $lot_add_defaults['lot_date_end']
     ]);
 
 $markup = new Markup('templates/layout.php',

@@ -26,7 +26,8 @@
                     </div>
                 </div>
                 <form class="lot-item__form" action="my-bets.php" method="post">
-<?php if (isset($bet_author)) : ?><!-- fixing button position -->
+<?php if (isset($bet_author)) : ?>
+                        <!-- fixing button position -->
                         <style>
                             .lot-item__form {
                                 position: relative
@@ -59,18 +60,18 @@
             </div>
 <?php endif; ?>
             <div class="history">
-        <?php if(!empty($bets)) : ?>
+<?php if(!empty($bets)) : ?>
                 <h3>История ставок (<span><?= count($bets); ?></span>)</h3>
                 <table class="history__list">
-            <?php foreach ($bets as $bet) : ?>
-                        <tr class="history__item">
-                            <td class="history__name"><?= $bet['bet_author'] ?></td>
-                            <td class="history__price"><?= $bet['value'] ?> р</td>
-                            <td class="history__time"><?= convertBetTimeStamp($bet['UNIX_TIMESTAMP(b.date_add)']) ?></td>
-                        </tr>
-            <?php endforeach; ?>
+<?php foreach ($bets as $bet) : ?>
+                    <tr class="history__item">
+                        <td class="history__name"><?= $bet['bet_author'] ?></td>
+                        <td class="history__price"><?= $bet['value'] ?> р</td>
+                        <td class="history__time"><?= convertBetTimeStamp($bet['UNIX_TIMESTAMP(b.date_add)']) ?></td>
+                    </tr>
+<?php endforeach; ?>
                 </table>
-        <?php endif; ?>
+<?php endif; ?>
             </div>
         </div>
     </div>
