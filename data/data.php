@@ -46,13 +46,13 @@ $pages = range(1, $pages_count);
 $lots_offset_sql = '
 SELECT 
   l.id,l.name,
-  UNIX_TIMESTAMP(l.date_end),
   l.description,l.lot_path,
   l.value,l.step,
   l.user_id,l.category_id,c.name 
   AS lot_category 
 FROM lots l
 JOIN categories c ON l.category_id=c.id 
+WHERE UNIX_TIMESTAMP(l.date_end) > UNIX_TIMESTAMP(NOW()) 
 ORDER BY l.date_add DESC LIMIT ' .
     $page_items . ' OFFSET ' . $offset;
 
@@ -94,6 +94,7 @@ FROM bets b
 JOIN (lots l JOIN categories c ON l.category_id=c.id) 
 ON l.id = b.lot_id INNER JOIN users u ON u.id=l.user_id 
 AND b.user_id=? ORDER BY b.date_add DESC';
+
 
 $winner_sql = '
 SELECT 
