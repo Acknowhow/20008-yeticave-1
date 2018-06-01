@@ -32,7 +32,10 @@
                         <span class="lot__amount">Стартовая цена</span>
                         <span class="lot__cost"><?= convertNum(htmlspecialchars($lot['value'])); ?></span>
                     </div>
-                    <div class="lot__timer timer <?php if (is_array(convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)'])) === true) : ?> timer--finishing<?php endif;?>"><?= convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)']) ?></div>
+                    <div class="lot__timer timer <?php if (is_array(convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)'])) === true) : ?> timer--finishing<?php endif;?>">
+<?php if (is_array(convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)']))) : ?><?= convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)'])[0] ?>
+<?php else : ?><?= convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)']) ?><?php endif; ?>
+                    </div>
                 </div>
             </div>
         </li>
