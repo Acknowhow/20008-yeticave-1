@@ -18,8 +18,6 @@ if (!isset($lots_offset)) {
 $winner = [];
 $user_id = isset($user['id']) ? $user['id'] : null;
 
-$my_bets = '';
-
 $to_filter = array_values($lots_offset);
 
 foreach ($to_filter as $key => $value) {
@@ -32,20 +30,15 @@ function win($k) {
 // is winning lot
 $filter_1 = array_filter($winner, 'win');
 
-if (!empty($user_id)) {
-    $my_bets = select_data_assoc($link, $my_bets_sql, [$user_id]);
-}
-
 $pagination = include_template('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,
     'pages_count' => $pages_count, 'curr_page' => $curr_page
 ]);
 
-
 $content = include_template('templates/index.php',
     [
-        'categories' => $categories, 'lots' => $lots_offset,
-        'pagination' => $pagination, 'my_bets' => $my_bets,
+        'categories' => $categories,
+        'lots' => $lots_offset, 'pagination' => $pagination,
         'link' => $link, 'winner_sql' => $winner_sql
     ]
 );

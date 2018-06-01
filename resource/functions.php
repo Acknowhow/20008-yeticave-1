@@ -131,6 +131,7 @@ function convertLotTimeStamp($timeStamp)
     }
 }
 
+
 // Validates date period
 function validateDate($date)
 {

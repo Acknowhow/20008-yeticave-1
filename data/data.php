@@ -46,6 +46,7 @@ $pages = range(1, $pages_count);
 $lots_offset_sql = '
 SELECT 
   l.id,l.name,
+  UNIX_TIMESTAMP(l.date_end),
   l.description,l.lot_path,
   l.value,l.step,
   l.user_id,l.category_id,c.name 
