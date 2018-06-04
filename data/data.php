@@ -94,7 +94,7 @@ SELECT
   AS lot_category,u.contacts 
 FROM bets b 
 JOIN (lots l JOIN categories c ON l.category_id=c.id) 
-ON l.id = b.lot_id INNER JOIN users u ON u.id=l.user_id 
+ON l.id = b.lot_id JOIN users u ON u.id=l.user_id 
 AND b.user_id=? ORDER BY b.date_add DESC';
 
 
@@ -107,7 +107,7 @@ SELECT
   l.user_id,l.category_id,c.name 
 AS lot_category,b.user_id AS lot_winner 
 FROM lots l
-INNER JOIN categories c ON l.category_id=c.id 
+JOIN categories c ON l.category_id=c.id 
 JOIN bets b 
 ON UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()) 
 AND l.id=? ORDER BY b.date_add DESC LIMIT 1';

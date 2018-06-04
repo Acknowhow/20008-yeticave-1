@@ -15,7 +15,7 @@
             <img src="img/logo.svg" width="160" height="39" alt="Логотип компании YetiCave">
         </a>
         <form class="main-header__search" method="get" action="search.php">
-            <input type="search" name="search" placeholder="Поиск лота" ">
+            <input type="search" name="search" placeholder="Поиск лота" value="<?= htmlspecialchars($search)?>">
             <input class="main-header__search-btn" type="submit" name="find" value="Найти">
         </form>
 <?php if ($is_auth === true) : ?>
