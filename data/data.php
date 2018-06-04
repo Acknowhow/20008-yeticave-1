@@ -72,6 +72,7 @@ JOIN categories c ON l.category_id=c.id';
 
 $lots = select_data_assoc($link, $lots_sql, []);
 
+
 // Selecting all bets for the current lot by lot_id
 $bets_sql = '
 SELECT 

@@ -31,6 +31,55 @@ $rules = [
     'lot_step' => 'validateLotStep', 'lot_date_end' => 'validateDate'
 ];
 
+$lot_add_defaults = [
+    'lot_name' => [
+        'name' => 'lot_name', 'title' => 'Наименование',
+        'input' => '', 'placeholder' => 'Введите наименование лота'
+    ],
+    'lot_category' => [
+        'name' => 'lot_category',
+        'title' => 'Категория', 'input' => 'Выберите категорию'
+    ],
+    'lot_description' => [
+        'name' => 'lot_description', 'title' => 'Описание',
+        'input' => '', 'placeholder' => 'Добавьте описание лота'
+    ],
+    'lot_img' => [
+        'name' => 'lot_img', 'title' => 'Изображение',
+        'lot_img_alt' => 'Изображение лота', 'input' => ''
+    ],
+    'lot_value' => [
+        'name' => 'lot_value', 'title' => 'Начальная цена', 'input' => ''
+    ],
+    'lot_step' => [
+        'name' => 'lot_step', 'title' => 'Шаг ставки', 'input' => ''
+    ],
+    'lot_date_end' => [
+        'name' => 'lot_date_end',
+        'title' => 'Дата завершения торгов', 'input' => ''
+    ]
+];
+$lot_add_errors = [
+    'lot_name' => [
+        'name' => 'lot_name', 'error_message' => 'Введите наименование лота'
+    ],
+    'lot_category' => [
+        'name' => 'lot_category', 'error_message' => 'Выберите категорию'
+    ],
+    'lot_description' => [
+        'name' => 'lot_description', 'error_message' => 'Добавьте описание лота'
+    ],
+    'lot_value' => [
+        'name' => 'lot_value', 'error_message' => 'Введите начальную цену'
+    ],
+    'lot_step' => [
+        'name' => 'lot_step', 'error_message' => 'Введите шаг ставки'
+    ],
+    'lot_date_end' => [
+        'name' => 'lot_date_end', 'error_message' => 'Введите дату завершения торгов'
+    ]
+];
+
 $category_id_sql = 'SELECT id FROM 
 categories WHERE name=?';
 

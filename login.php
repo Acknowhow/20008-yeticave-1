@@ -26,6 +26,26 @@ $rules = [
     'email' => 'validateEmail', 'password' => 'validateUser'
 ];
 
+$login_defaults = [
+    'email' => [
+        'name' => 'email', 'title' => 'E-mail*',
+        'input' => '', 'placeholder' => 'Введите e-mail'
+    ],
+    'password' => [
+        'name' => 'password', 'title' => 'Пароль*',
+        'input' => '', 'placeholder' => 'Введите пароль'
+    ]
+];
+$login_errors = [
+    'email' => [
+        'name' => 'email', 'error_message' => 'Введите email'
+    ],
+    'password' => [
+        'name' => 'password', 'error_message' => 'Введите пароль'
+    ]
+
+];
+
 $users_sql = 'SELECT id,name,email,
 password,avatar_path FROM users ORDER BY id ASC;';
 

@@ -1,5 +1,7 @@
 <?php
 date_default_timezone_set('Europe/Moscow');
+$search = '';
+
 $bet_display_count = 4;
 $is_auth = false;
 $user = isset($_SESSION['user']) ?
