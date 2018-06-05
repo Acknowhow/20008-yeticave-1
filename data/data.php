@@ -97,6 +97,19 @@ JOIN (lots l JOIN categories c ON l.category_id=c.id)
 ON l.id = b.lot_id JOIN users u ON u.id=l.user_id 
 AND b.user_id=? ORDER BY b.date_add DESC';
 
+$search_sql = '
+SELECT 
+  id
+FROM lots 
+WHERE MATCH (name,description) AGAINST (?) 
+AND UNIX_TIMESTAMP(`date_end`) < UNIX_TIMESTAMP(NOW())';
+
+$search_result_sql = '
+SELECT 
+ c.name,l.name,l.value,l.date_end
+ FROM bets b
+ JOIN (lots l JOIN categories c ON l.category_id=c.id) ON b.lot_id = l.id
+ WHERE lot_id=? ORDER BY l.date_add DESC';
 
 $winner_sql = '
 SELECT 

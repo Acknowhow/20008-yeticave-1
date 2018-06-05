@@ -4,9 +4,6 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-require 'defaults/register.php';
-require 'errors/register.php';
-
 require_once 'init.php';
 require 'data/data.php';
 
