@@ -58,7 +58,6 @@ WHERE UNIX_TIMESTAMP(l.date_end) > UNIX_TIMESTAMP(NOW())
 ORDER BY l.date_add DESC LIMIT ' .
     $page_items . ' OFFSET ' . $offset;
 
-var_dump($offset);
 
 $lots_offset = select_data_assoc($link, $lots_offset_sql, []);
 
@@ -100,16 +99,8 @@ JOIN (lots l JOIN categories c ON l.category_id=c.id)
 ON l.id = b.lot_id JOIN users u ON u.id=l.user_id 
 AND b.user_id=? ORDER BY b.date_add DESC';
 
-$search_sql = '
-SELECT 
-  id
-FROM lots 
-WHERE MATCH (name,description) AGAINST (?) 
-AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())';
-
 $count_bets = "
 SELECT count(value) FROM bets WHERE lot_id=?";
-
 
 
 $winner_sql = '

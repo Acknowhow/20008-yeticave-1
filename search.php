@@ -31,6 +31,14 @@ var_dump($search);
 if (empty($search)) {
     header('Location: index.php');
 }
+$search_sql = '
+SELECT 
+  id
+FROM lots 
+WHERE MATCH (name,description) AGAINST (?) 
+AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())
+ORDER BY date_add DESC LIMIT ' .
+    $page_items . ' OFFSET ' . $offset;
 
 $search_result_ids = select_data_assoc($link, $search_sql, [$search]);
 $count = count($search_result_ids);
@@ -44,13 +52,13 @@ $offset = ($curr_page - 1) * $page_items;
 
 $pages = range(1, $pages_count);
 
+
 $search_result_sql = '
 SELECT 
 l.id,c.name AS category_name,l.name,l.value,l.date_end,l.lot_path 
 FROM lots l 
 JOIN categories c ON l.category_id=c.id
-WHERE l.id=? ORDER BY l.date_end DESC LIMIT ' .
-    $page_items . ' OFFSET ' . $offset;
+WHERE l.id=?';
 
 foreach($search_result_ids as $search_result_id) {
     select_data_assoc(
@@ -68,6 +76,8 @@ foreach($search_result_ids as $search_result_id) {
     $search_result_array[] = $search_result_item;
 }
 
+var_dump($search_result_array);
+
 
 
 echo 'Count is ' . $count;
@@ -75,6 +85,10 @@ echo 'Count is ' . $count;
 echo ' Pages items are ' . $page_items;
 
 echo ' Pages count is ' . ceil($count / $page_items);
+
+var_dump($pages);
+
+echo 'Current page is ' . $curr_page;
 
 
 $pagination_search = include_template('templates/pagination-search.php', [
