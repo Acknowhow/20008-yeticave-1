@@ -25,4 +25,4 @@
     </ul>
 <?php endif; ?>
 
-<?=$pagination ?>
+<?=$pagination_search ?>

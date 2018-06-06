@@ -40,7 +40,7 @@ $filter_1 = array_filter($winner, 'win');
 
 $pagination = include_template('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,
-    'pages_count' => $pages_count, 'curr_page' => $curr_page, 'search' => $search
+    'pages_count' => $pages_count, 'curr_page' => $curr_page
 ]);
 
 $content = include_template('templates/index.php',
@@ -50,6 +50,7 @@ $content = include_template('templates/index.php',
         'link' => $link, 'winner_sql' => $winner_sql
     ]
 );
+
 
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
