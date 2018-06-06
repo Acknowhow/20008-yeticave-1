@@ -102,15 +102,16 @@ SELECT
   id
 FROM lots 
 WHERE MATCH (name,description) AGAINST (?) 
-AND UNIX_TIMESTAMP(`date_end`) < UNIX_TIMESTAMP(NOW())';
+AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())';
 
-$count_bets = "SELECT count(value) FROM bets WHERE lot_id = ?";
+$count_bets = "
+SELECT count(value) FROM bets WHERE lot_id=?";
 
-$search_result_sql = "
+$search_result_sql = '
 SELECT c.name,l.name,l.value,l.date_end 
 FROM lots l 
 JOIN categories c ON l.category_id=c.id
-WHERE l.id=?";
+WHERE l.id=?';
 
 $winner_sql = '
 SELECT 
@@ -123,7 +124,7 @@ AS lot_category,b.user_id AS lot_winner
 FROM lots l
 JOIN categories c ON l.category_id=c.id 
 JOIN bets b 
-ON UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW()) 
+ON UNIX_TIMESTAMP(l.date_end) > UNIX_TIMESTAMP(NOW()) 
 AND l.id=? ORDER BY b.date_add DESC LIMIT 1';
 
 $layout =

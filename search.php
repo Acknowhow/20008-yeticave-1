@@ -15,6 +15,8 @@ $search_result_ids = '';
 $search_result_array = [];
 $search_result_item = '';
 
+$bets_total = '';
+
 $nav = include_template('templates/nav.php',
     [
         'categories' => $categories
@@ -25,14 +27,26 @@ $nav = include_template('templates/nav.php',
 $search = $_GET['search'] ?? '';
 
 if ($search) {
-    $search_result = select_data_assoc($link, $search_result_sql, [3]);
+    $search_result_ids = select_data_assoc($link, $search_sql, [$search]);
 
-    $bets_result = select_data_assoc($link, $count_bets, [3]);
+    foreach($search_result_ids as $search_result_id) {
+        select_data_assoc(
+            $link, $count_bets, [$search_result_id['id']]);
 
-    var_dump($bets_result);
+        $bets_total = select_data_assoc(
+            $link, $count_bets, [$search_result_id['id']]);
 
-    var_dump($search_result);
+        $search_result_item = select_data_assoc(
+            $link, $search_result_sql, [$search_result_id['id']]);
 
+        $search_result_item = $search_result_item[0];
+
+        $search_result_item['count(value)'] = $bets_total[0]['count(value)'];
+        $search_result_array[] = $search_result_item;
+    }
+
+
+    var_dump($search_result_array);
 }
 
 
