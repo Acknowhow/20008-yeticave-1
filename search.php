@@ -9,7 +9,7 @@ require 'data/data.php';
 
 require 'markup/markup.php';
 
-$index = false;
+$index = true;
 $search_result_ids = '';
 
 $search_result_array = [];
@@ -23,12 +23,19 @@ $nav = include_template('templates/nav.php',
     ]
 );
 
+$pagination = include_template('templates/pagination.php', [
+    'page_items' => $page_items, 'pages' => $pages,
+    'pages_count' => $pages_count, 'curr_page' => $curr_page
+]);
+
 // sql query: search result
 $search = $_GET['search'] ?? '';
 
-if ($search) {
-    $search_result_ids = select_data_assoc($link, $search_sql, [$search]);
+if (empty($search)) {
+    header('Location: index.php');
+} else {
 
+    $search_result_ids = select_data_assoc($link, $search_sql, [$search]);
     foreach($search_result_ids as $search_result_id) {
         select_data_assoc(
             $link, $count_bets, [$search_result_id['id']]);
@@ -44,9 +51,20 @@ if ($search) {
         $search_result_item['count(value)'] = $bets_total[0]['count(value)'];
         $search_result_array[] = $search_result_item;
     }
-
-
-    var_dump($search_result_array);
 }
 
+$content = include_template('templates/search.php',
+    [
+        'result' => $search_result_array,
+        'search' => $search, 'pagination' => $pagination
+    ]);
+
+$markup = new Markup('templates/layout.php',
+    array_merge_recursive($layout,
+        [
+            'index' => $index, 'title' => $title,
+            'nav' => $nav, 'content' => $content
+        ]));
+
+$markup->get_layout();
 

@@ -108,7 +108,8 @@ $count_bets = "
 SELECT count(value) FROM bets WHERE lot_id=?";
 
 $search_result_sql = '
-SELECT c.name,l.name,l.value,l.date_end 
+SELECT 
+l.id,c.name AS category_name,l.name,l.value,l.date_end,l.lot_path 
 FROM lots l 
 JOIN categories c ON l.category_id=c.id
 WHERE l.id=?';
