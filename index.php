@@ -29,11 +29,6 @@ function win($k) {
     return $k & !empty($k);
 }
 
-echo 'Count is ' . $count . '.';
-
-echo ' Pages items are ' . $page_items;
-
-echo ' Pages count is ' . $pages_count;
 
 // is winning lot
 $filter_1 = array_filter($winner, 'win');
