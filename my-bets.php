@@ -45,7 +45,7 @@ if (!isset($bet_value)) {
             $layout,
             [
                 'index' => $index, 'title' => $title,
-                'nav' => $nav, 'content' => $content
+                'nav' => $nav, 'content' => $content, 'search' => $search
             ]
         )
     );

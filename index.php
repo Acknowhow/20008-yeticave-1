@@ -15,6 +15,8 @@ if (!isset($lots_offset)) {
     print 'Can\'t resolve lots list';
     exit();
 }
+
+
 $winner = [];
 $user_id = isset($user['id']) ? $user['id'] : null;
 
@@ -27,12 +29,18 @@ function win($k) {
     return $k & !empty($k);
 }
 
+echo 'Count is ' . $count . '.';
+
+echo ' Pages items are ' . $page_items;
+
+echo ' Pages count is ' . $pages_count;
+
 // is winning lot
 $filter_1 = array_filter($winner, 'win');
 
 $pagination = include_template('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,
-    'pages_count' => $pages_count, 'curr_page' => $curr_page
+    'pages_count' => $pages_count, 'curr_page' => $curr_page, 'search' => $search
 ]);
 
 $content = include_template('templates/index.php',

@@ -35,6 +35,7 @@ $lots_count = select_data_assoc($link, $lots_count_sql, []);
 
 $count = $lots_count[0]['count'];
 
+
 $count = $count + 0;
 $page_items = $page_items + 0;
 
@@ -112,7 +113,8 @@ SELECT
 l.id,c.name AS category_name,l.name,l.value,l.date_end,l.lot_path 
 FROM lots l 
 JOIN categories c ON l.category_id=c.id
-WHERE l.id=?';
+WHERE l.id=? ORDER BY l.date_end DESC LIMIT ' .
+    $page_items . ' OFFSET ' . $offset;
 
 $winner_sql = '
 SELECT 

@@ -17,16 +17,12 @@ $search_result_item = '';
 
 $bets_total = '';
 
+
 $nav = include_template('templates/nav.php',
     [
         'categories' => $categories
     ]
 );
-
-$pagination = include_template('templates/pagination.php', [
-    'page_items' => $page_items, 'pages' => $pages,
-    'pages_count' => $pages_count, 'curr_page' => $curr_page
-]);
 
 // sql query: search result
 $search = $_GET['search'] ?? '';
@@ -51,7 +47,31 @@ if (empty($search)) {
         $search_result_item['count(value)'] = $bets_total[0]['count(value)'];
         $search_result_array[] = $search_result_item;
     }
+
+    $count = count($search_result_array);
+
+    $count = $count + 0;
+    $page_items = $page_items + 0;
+
+    $pages_count = ceil($count / $page_items);
+
+    $offset = ($curr_page - 1) * $page_items;
+
+    $pages = range(1, $pages_count);
 }
+
+echo 'Count is ' . $count;
+
+echo ' Pages items are ' . $page_items;
+
+echo ' Pages count is ' . ceil($count / $page_items);
+
+
+
+$pagination = include_template('templates/pagination.php', [
+    'page_items' => $page_items, 'pages' => $pages,
+    'pages_count' => $pages_count, 'curr_page' => $curr_page, 'search' => $search
+]);
 
 $content = include_template('templates/search.php',
     [
@@ -63,7 +83,7 @@ $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
         [
             'index' => $index, 'title' => $title,
-            'nav' => $nav, 'content' => $content
+            'nav' => $nav, 'content' => $content, 'search' => $search
         ]));
 
 $markup->get_layout();
