@@ -25,29 +25,14 @@ $nav = include_template('templates/nav.php',
 $search = $_GET['search'] ?? '';
 
 if ($search) {
-    $search_result_ids = select_data_assoc($link, $search_sql, [$search]) ?? '';
+    $search_result = select_data_assoc($link, $search_result_sql, [3]);
 
-    var_dump(select_data_assoc($link, $search_result_sql, ['3']));
+    $bets_result = select_data_assoc($link, $count_bets, [3]);
 
+    var_dump($bets_result);
 
-    if (!empty($search_result_ids)) {
+    var_dump($search_result);
 
-        foreach($search_result_ids as $search_result) {
-
-//            $search_result_item = select_data_assoc($link, $search_result_sql, [$search_result['id']]);
-
-
-        }
-
-    }
-
-
-
-//    $content = include_template('templates/search.php',
-//        [
-//            'search_result' => $search_result
-//        ]
-//    );
 }
 
 

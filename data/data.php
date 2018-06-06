@@ -104,12 +104,13 @@ FROM lots
 WHERE MATCH (name,description) AGAINST (?) 
 AND UNIX_TIMESTAMP(`date_end`) < UNIX_TIMESTAMP(NOW())';
 
-$search_result_sql = '
-SELECT 
- c.name,l.name,l.value,l.date_end
- FROM bets b
- JOIN (lots l JOIN categories c ON l.category_id=c.id) ON b.lot_id = l.id
- WHERE lot_id=? ORDER BY l.date_add DESC';
+$count_bets = "SELECT count(value) FROM bets WHERE lot_id = ?";
+
+$search_result_sql = "
+SELECT c.name,l.name,l.value,l.date_end 
+FROM lots l 
+JOIN categories c ON l.category_id=c.id
+WHERE l.id=?";
 
 $winner_sql = '
 SELECT 
