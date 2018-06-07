@@ -16,7 +16,7 @@ $search_result_array = [];
 $search_result_item = '';
 
 $bets_total = '';
-
+$search = $_GET['search'] ?? '';
 
 $nav = include_template('templates/nav.php',
     [
@@ -24,37 +24,19 @@ $nav = include_template('templates/nav.php',
     ]
 );
 
-$search = $_GET['search'] ?? '';
-
-
 if (empty($search)) {
     header('Location: index.php');
 }
 
-// Maybe use caching here in order to make a query
-// And then to apply offset to it
-
-$search_sql = '
-SELECT
-  id
-FROM lots 
-WHERE MATCH (name,description) AGAINST (?) 
-AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())';
-
 // Only making this query to count Ids!
-$search_result_ids = select_data_assoc($link, $search_sql, [$search]);
+$search_result_ids = select_data_assoc(
+    $link, $search_sql, [$search]);
+
+// Determine pagination count
 $count = count($search_result_ids);
 
-$search_sql_offset = '
-SELECT 
-  id
-FROM lots 
-WHERE MATCH (name,description) AGAINST (?) 
-AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())
-ORDER BY date_add DESC LIMIT ' .
-    $page_items . ' OFFSET ' . $offset;
-
-$search_result_ids_offset = select_data_assoc($link, $search_sql_offset, [$search]);
+$search_result_ids_offset = select_data_assoc(
+    $link, $search_sql_offset, [$search]);
 
 $count = $count + 0;
 $page_items = $page_items + 0;
@@ -64,13 +46,6 @@ $pages_count = ceil($count / $page_items);
 $offset = ($curr_page - 1) * $page_items;
 $pages = range(1, $pages_count);
 
-
-$search_result_sql = '
-SELECT 
-l.id,c.name AS category_name,l.name,l.value,l.date_end,l.lot_path 
-FROM lots l 
-JOIN categories c ON l.category_id=c.id
-WHERE l.id=?';
 
 foreach($search_result_ids_offset as $search_result_id) {
     select_data_assoc(
@@ -89,10 +64,13 @@ foreach($search_result_ids_offset as $search_result_id) {
 }
 
 
-$pagination_search = include_template('templates/pagination-search.php', [
+$pagination_search = include_template(
+    'templates/pagination-search.php', [
+
     'page_items' => $page_items, 'pages' => $pages,
     'pages_count' => $pages_count, 'curr_page' => $curr_page, 'search' => $search
-]);
+    ]
+);
 
 
 $content = include_template('templates/search.php',
@@ -109,4 +87,3 @@ $markup = new Markup('templates/layout.php',
         ]));
 
 $markup->get_layout();
-
