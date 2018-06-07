@@ -351,6 +351,7 @@ function filterArrayByIds($arr, $key_1, $value_1, $key_2, $value_2)
 
 function select_data_column($link, $sql, $data, $columnName)
 {
+    $arr_test = [];
     $arr = [];
     $stmt = db_get_prepare_stmt($link, $sql, $data);
 
@@ -362,7 +363,10 @@ function select_data_column($link, $sql, $data, $columnName)
     }
     while ($row = mysqli_fetch_array($result)) {
         $arr[] = $row[$columnName];
+        $arr_test[] = $row;
     };
+
+    var_dump($arr_test);
     return $arr;
 }
 

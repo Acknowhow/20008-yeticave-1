@@ -24,6 +24,7 @@ $categories_eng =
 $categories_sql = '
 SELECT * FROM categories ORDER BY id ASC';
 
+
 $categories_fetched = select_data_column(
     $link, $categories_sql, [], 'name');
 

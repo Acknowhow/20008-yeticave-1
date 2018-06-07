@@ -15,6 +15,8 @@ class Database
         }
     }
 
+    public function exec
+
     public function select_data_column($sql, $data, $columnName)
     {
         // Maybe omit this line later
