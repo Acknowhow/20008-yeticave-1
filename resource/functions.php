@@ -49,14 +49,14 @@ function getDateFormat($date, $format = 'd.m.Y')
     return $_date;
 }
 
-function getPlural($timeStamp, $form1, $form2, $form5)
+function getPlural($numericValue, $form1, $form2, $form5)
 {
-    $n = $timeStamp % 100;
+    $n = $numericValue % 100;
     $n1 = $n % 10;
-    if ($n > 10 && $n < 20) return $timeStamp . $form5;
-    if ($n1 > 1 && $n1 < 5) return $timeStamp . $form2;
-    if ($n1 == 1) return $timeStamp . $form1;
-    return $timeStamp . $form5;
+    if ($n > 10 && $n < 20) return $numericValue . ' ' . $form5;
+    if ($n1 > 1 && $n1 < 5) return $numericValue . ' ' . $form2;
+    if ($n1 == 1) return $numericValue . ' ' . $form1;
+    return $numericValue . ' ' . $form5;
 }
 
 function convertBetTimeStamp($timeStamp)
