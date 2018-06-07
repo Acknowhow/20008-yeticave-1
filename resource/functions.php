@@ -23,6 +23,7 @@ function include_template($templatePath, $templateData)
         extract($templateData);
     }
     ob_start();
+
     require_once $templatePath;
     $tpl = ob_get_contents();
     ob_clean();
@@ -320,13 +321,6 @@ function validatePassword($password)
     }
 
     return 'Длина пароля должна быть не больше 72 символов';
-}
-//Special case for detecting winner
-function filterArrayWinner($array, $key)
-{
-    return array_filter($array, function ($k) use ($key) {
-        return $k === $key;
-    }, ARRAY_FILTER_USE_BOTH);
 }
 
 // Filters array by comparing key which is not empty
