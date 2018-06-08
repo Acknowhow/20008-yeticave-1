@@ -51,7 +51,7 @@ class DatabaseHelper
     }
 
     public function getAssocArray() {
-        return mysqli_fetch_assoc($this->last_result);
+        return mysqli_fetch_all($this->last_result, MYSQLI_ASSOC);
     }
 
     public function getLastId() {

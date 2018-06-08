@@ -60,11 +60,16 @@ else {
     }
 }
 
-$lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
-$lots_count = select_data_assoc($link, $lots_count_sql, []);
+$dbHelper->executeQuery('SELECT COUNT(*) as count FROM lots');
+
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+
+} else {
+    $lots_count = $dbHelper->getAssocArray();
+}
 
 $count = $lots_count[0]['count'];
-
 
 $count = $count + 0;
 $page_items = $page_items + 0;
@@ -73,6 +78,8 @@ $pages_count = ceil($count / $page_items);
 $offset = ($curr_page - 1) * $page_items;
 
 $pages = range(1, $pages_count);
+
+$lots_offset = '';
 
 $lots_offset_sql = '
 SELECT 
@@ -88,7 +95,15 @@ WHERE UNIX_TIMESTAMP(l.date_end) > UNIX_TIMESTAMP(NOW())
 ORDER BY l.date_add DESC LIMIT ' .
     $page_items . ' OFFSET ' . $offset;
 
-$lots_offset = select_data_assoc($link, $lots_offset_sql, []);
+$dbHelper->executeQuery($lots_offset_sql);
+
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+
+} else {
+    $lots_offset = $dbHelper->getAssocArray();
+
+}
 
 $lots_sql = '
 SELECT 

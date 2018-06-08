@@ -8,9 +8,8 @@ require 'database/database.php';
 
 require 'markup/markup.php';
 
-
-
 $user_id = isset($user['id']) ? $user['id'] : null;
+
 
 $pagination = includeTemplate('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,
