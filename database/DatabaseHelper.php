@@ -1,5 +1,5 @@
 <?php
-class Database
+class DatabaseHelper
 {
     private $db_resource;
     private $last_error = null;
@@ -51,7 +51,7 @@ class Database
     }
 
     public function getAssocArray() {
-        return mysqli_fetch_assoc($this->last_result, MYSQLI_ASSOC);
+        return mysqli_fetch_assoc($this->last_result);
     }
 
     public function getLastId() {

@@ -6,7 +6,7 @@ require 'resource/functions.php';
 
 
 require_once 'init.php';
-require 'db/db.php';
+require 'database/database.php';
 
 require 'markup/markup.php';
 $user = [];

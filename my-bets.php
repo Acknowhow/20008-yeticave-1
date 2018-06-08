@@ -5,7 +5,7 @@ require 'defaults/var.php';
 require 'resource/functions.php';
 
 require_once 'init.php';
-require 'db/db.php';
+require 'database/database.php';
 
 require 'markup/markup.php';
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {

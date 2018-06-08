@@ -4,21 +4,13 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-
-require 'db/db.php';
+require 'database/database.php';
 
 require 'markup/markup.php';
 
-//if (!isset($lots_offset)) {
-//    mysqli_close($link);
-//
-//    print 'Can\'t resolve lots list';
-//    exit();
-//}
 
 
 $user_id = isset($user['id']) ? $user['id'] : null;
-
 
 $pagination = includeTemplate('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,

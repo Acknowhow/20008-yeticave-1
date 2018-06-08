@@ -1,8 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . 'init.php';
-require_once 'database.php';
-
-
+require_once 'DatabaseHelper.php';
 
 
 $title = 'Главная';
@@ -39,7 +37,7 @@ $categories_eng =
 
 $categories = '';
 
-$dbHelper = new Database(
+$dbHelper = new DatabaseHelper(
     'localhost', 'root', 'vadi4ka365', 'yeti'
 );
 

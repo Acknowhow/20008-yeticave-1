@@ -5,9 +5,10 @@ require 'defaults/var.php';
 require 'resource/functions.php';
 
 require_once 'init.php';
-require 'db/db.php';
+require 'database/database.php';
 
 require 'markup/markup.php';
+
 $index = false;
 $title = 'История просмотров';
 $cookie_lot_visited_value = isset($_COOKIE['lot_visited']) ?
