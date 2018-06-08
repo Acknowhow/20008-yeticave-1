@@ -13,7 +13,7 @@ function convertNum($num)
     return $num  .'&#8381';
 }
 
-function include_template($templatePath, $templateData)
+function includeTemplate($templatePath, $templateData)
 {
     if (!file_exists($templatePath)) {
 
@@ -152,7 +152,7 @@ function validateDate($date)
     return $_date;
 }
 
-function get_integer($val)
+function getInteger($val)
 {
     $_val = $val + 0;
     if (is_int($_val)) {
@@ -161,7 +161,7 @@ function get_integer($val)
     return 0;
 }
 
-function get_numeric($val)
+function getNumeric($val)
 {
     $_val = $val + 0;
     if (is_numeric($_val)) {
@@ -174,7 +174,7 @@ function validateLotValue($lotValue)
 {
     $_lotValue = $lotValue;
 
-    $is_numeric = get_numeric($_lotValue);
+    $is_numeric = getNumeric($_lotValue);
     $is_positive = $_lotValue > 0;
 
     if (!$is_numeric) {
@@ -190,7 +190,7 @@ function validateLotStep($lotStep)
 {
     $_lotStep = $lotStep;
 
-    $is_integer = get_integer($_lotStep);
+    $is_integer = getInteger($_lotStep);
     $is_positive = $_lotStep > 0;
 
     if (!$is_integer) {
@@ -204,7 +204,7 @@ function validateLotStep($lotStep)
 
 function validateBetValue($betValue, $lotMin)
 {
-    $is_integer = get_integer($betValue);
+    $is_integer = getInteger($betValue);
     if ($is_integer === 0) {
         return 'Введите целое числовое значение';
     }
@@ -361,11 +361,10 @@ function select_data_column($link, $sql, $data, $columnName)
     if (!$result) {
         return false;
     }
-    while ($row = mysqli_fetch_array($result)) {
+    while ($row = mysqli_fetch_assoc($result)) {
         $arr[] = $row[$columnName];
         $arr_test[] = $row;
     };
-
     var_dump($arr_test);
     return $arr;
 }

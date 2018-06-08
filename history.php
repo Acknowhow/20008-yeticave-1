@@ -12,7 +12,7 @@ $index = false;
 $title = 'История просмотров';
 $cookie_lot_visited_value = isset($_COOKIE['lot_visited']) ?
     $_COOKIE['lot_visited'] : '';
-$nav = include_template('templates/nav.php',
+$nav = includeTemplate('templates/nav.php',
     [
         'categories' => $categories
     ]);
@@ -26,7 +26,7 @@ if (empty($cookie_lot_visited_value) || empty($lots_offset)) {
     $lot_ids = json_decode($cookie_lot_visited_value);
 
     $lots_offset = array_intersect_key($lots_offset, $lot_ids);
-    $content = include_template('templates/history.php',
+    $content = includeTemplate('templates/history.php',
         [
             'lots' => $lots_offset
         ]);

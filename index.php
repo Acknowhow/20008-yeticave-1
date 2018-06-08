@@ -16,7 +16,6 @@ if (!isset($lots_offset)) {
     exit();
 }
 
-
 $winner = [];
 $user_id = isset($user['id']) ? $user['id'] : null;
 
@@ -33,12 +32,12 @@ function win($k) {
 // is winning lot
 $filter_1 = array_filter($winner, 'win');
 
-$pagination = include_template('templates/pagination.php', [
+$pagination = includeTemplate('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,
     'pages_count' => $pages_count, 'curr_page' => $curr_page
 ]);
 
-$content = include_template('templates/index.php',
+$content = includeTemplate('templates/index.php',
     [
         'categories' => $categories,
         'lots' => $lots_offset, 'pagination' => $pagination,

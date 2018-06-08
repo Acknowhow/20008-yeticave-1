@@ -9,6 +9,6 @@ class Markup {
     }
 
     public function get_layout() {
-        print include_template($this->url, $this->layout);
+        print includeTemplate($this->url, $this->layout);
     }
 }

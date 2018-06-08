@@ -84,7 +84,7 @@ $uploaded = '';
 $lot_upload_error = '';
 $validation_result = '';
 
-$nav = include_template('templates/nav.php', [
+$nav = includeTemplate('templates/nav.php', [
     'categories' => $categories
 ]);
 
@@ -179,7 +179,7 @@ if (isset($_POST['lot_add'])) {
     }
 }
 
-$content = include_template('templates/add-lot.php',
+$content = includeTemplate('templates/add-lot.php',
     [
         'errors' => $lot_errors, 'upload_error' => $lot_upload_error,
         'categories' => $categories,

@@ -18,7 +18,7 @@ $search_result_item = '';
 $bets_total = '';
 $search = $_GET['search'] ?? '';
 
-$nav = include_template('templates/nav.php',
+$nav = includeTemplate('templates/nav.php',
     [
         'categories' => $categories
     ]
@@ -64,7 +64,7 @@ foreach($search_result_ids_offset as $search_result_id) {
 }
 
 
-$pagination_search = include_template(
+$pagination_search = includeTemplate(
     'templates/pagination-search.php', [
 
     'page_items' => $page_items, 'pages' => $pages,
@@ -73,7 +73,7 @@ $pagination_search = include_template(
 );
 
 
-$content = include_template('templates/search.php',
+$content = includeTemplate('templates/search.php',
     [
         'result' => $search_result_array,
         'search' => $search, 'pagination_search' => $pagination_search

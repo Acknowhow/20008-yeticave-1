@@ -53,7 +53,7 @@ $email_check = '';
 $password_check = '';
 $index = false;
 
-$nav = include_template('templates/nav.php',
+$nav = includeTemplate('templates/nav.php',
     [
         'categories' => $categories
     ]);
@@ -91,7 +91,7 @@ if (isset($_POST['login']))
     }
 }
 
-$content = include_template('templates/login.php',
+$content = includeTemplate('templates/login.php',
     [
         'email' => $login_defaults['email'],
         'password' => $login_defaults['password'],

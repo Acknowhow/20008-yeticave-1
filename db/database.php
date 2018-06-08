@@ -15,31 +15,18 @@ class Database
         }
     }
 
-    public function exec
-
-    public function select_data_column($sql, $data, $columnName)
-    {
+    public function execQuery($sql, $data = []) {
         // Maybe omit this line later
         $this->last_error = null;
-
-        $arr = [];
-        $res = '';
         $stmt = db_get_prepare_stmt($this->db_resource, $sql, $data);
 
         if (mysqli_stmt_execute($stmt) &&
             $result = mysqli_stmt_get_result($stmt)) {
-
-            while ($row = mysqli_fetch_array($result)) {
-                $arr[] = $row[$columnName];
-            };
-
-            $this->last_result = $arr;
             $res = true;
 
         } else {
             $this->last_error = mysqli_error($this->db_resource);
             $res = false;
-
         }
 
         return $res;
@@ -48,4 +35,15 @@ class Database
     public function getLastError() {
         return $this->last_error;
     }
+
+    public function getArrayByColumnName($columnName) {
+        $arr = [];
+
+        while ($row = mysqli_fetch_assoc($this->last_result)) {
+            $arr[$columnName] = $row;
+        };
+
+        return $arr;
+    }
+
 }

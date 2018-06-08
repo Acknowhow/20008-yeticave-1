@@ -65,7 +65,7 @@ $register_errors = [
     ]
 ];
 
-$nav = include_template('templates/nav.php',
+$nav = includeTemplate('templates/nav.php',
     [
         'categories' => $categories
     ]
@@ -159,7 +159,7 @@ if (isset($_POST['register'])) {
     }
 }
 
-$content = include_template(
+$content = includeTemplate(
     'templates/register.php',
     [
         'errors' => $user_errors, 'upload_error' => $user_upload_error,

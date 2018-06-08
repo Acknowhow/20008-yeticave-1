@@ -27,7 +27,7 @@ $bets = select_data_assoc($link, $bets_sql, [$lot_id]) ?? [];
 $bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
     $_SESSION['user'][$user_id]['bet_error'] : null;
 
-$nav = include_template('templates/nav.php',
+$nav = includeTemplate('templates/nav.php',
     [
         'categories' => $categories
     ]
@@ -35,7 +35,7 @@ $nav = include_template('templates/nav.php',
 
 if (empty($lot_id)) {
     $title = 'Страница не существует';
-    $content = include_template('templates/404.php', []
+    $content = includeTemplate('templates/404.php', []
     );
 
     die();
@@ -82,7 +82,7 @@ setcookie($cookie_lot_visited_name, $cookie_lot_visited_value,
     $expire, $path);
 
 $title = $lot['name'];
-$content = include_template('templates/lot.php',
+$content = includeTemplate('templates/lot.php',
     [
         'is_auth' => $is_auth,
         'categories' => $categories, 'bets' => $bets,

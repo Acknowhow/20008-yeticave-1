@@ -30,12 +30,12 @@ if (!isset($bet_value)) {
     $title = 'Мои ставки';
 
     $my_bets = select_data_assoc($link, $my_bets_sql, [$user_id]);
-    $nav = include_template('templates/nav.php',
+    $nav = includeTemplate('templates/nav.php',
         [
             'categories' => $categories
         ]);
 
-    $content = include_template('templates/my-bets.php',
+    $content = includeTemplate('templates/my-bets.php',
         [
             'my_bets' => $my_bets
         ]
