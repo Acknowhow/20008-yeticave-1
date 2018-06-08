@@ -79,31 +79,6 @@ $offset = ($curr_page - 1) * $page_items;
 
 $pages = range(1, $pages_count);
 
-$lots_offset = '';
-
-$lots_offset_sql = '
-SELECT 
-  l.id,l.name,
-  UNIX_TIMESTAMP(l.date_end),
-  l.description,l.lot_path,
-  l.value,l.step,
-  l.user_id,l.category_id,c.name 
-  AS lot_category 
-FROM lots l
-JOIN categories c ON l.category_id=c.id 
-WHERE UNIX_TIMESTAMP(l.date_end) > UNIX_TIMESTAMP(NOW()) 
-ORDER BY l.date_add DESC LIMIT ' .
-    $page_items . ' OFFSET ' . $offset;
-
-$dbHelper->executeQuery($lots_offset_sql);
-
-if ($dbHelper->getLastError()) {
-    print $dbHelper->getLastError();
-
-} else {
-    $lots_offset = $dbHelper->getAssocArray();
-
-}
 
 $lots_sql = '
 SELECT 
@@ -118,17 +93,6 @@ JOIN categories c ON l.category_id=c.id';
 
 $lots = select_data_assoc($link, $lots_sql, []);
 
-
-// Selecting all bets for the current lot by lot_id
-$bets_sql = '
-SELECT 
-  b.id,b.lot_id,
-  b.value, UNIX_TIMESTAMP(b.date_add),
-  b.user_id,u.name AS bet_author 
-FROM bets b 
-JOIN users u ON b.user_id=u.id 
-WHERE b.lot_id=? ORDER BY b.date_add 
-DESC LIMIT ' . $bet_display_count;
 
 // Query for my bets
 $my_bets_sql = '

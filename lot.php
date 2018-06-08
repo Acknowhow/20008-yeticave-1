@@ -4,7 +4,6 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-require 'init.php';
 require 'database/database.php';
 
 require 'markup/markup.php';
@@ -14,26 +13,8 @@ $my_lot = false;
 $bet_author = false;
 
 $lot_id = isset($_GET['lot_id']) ? $_GET['lot_id'] : null;
-$user_id = isset($_SESSION['user']) ? $_SESSION['user']['id'] : null;
-
-$cookie_lot_visited_name = 'lot_visited';
-$cookie_lot_visited_value =
-    isset($_COOKIE['lot_visited']) ? $_COOKIE['lot_visited'] : [];
-$expire = time() + 60 * 60 * 24 * 30;
-$path = '/';
-
-$bets = select_data_assoc($link, $bets_sql, [$lot_id]) ?? [];
-
-$bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
-    $_SESSION['user'][$user_id]['bet_error'] : null;
-
-$nav = includeTemplate('templates/nav.php',
-    [
-        'categories' => $categories
-    ]
-);
-
 if (empty($lot_id)) {
+
     $title = 'Страница не существует';
     $content = includeTemplate('templates/404.php', []
     );
@@ -44,8 +25,49 @@ if (empty($lot_id)) {
     $lot = array_values(filterArrayById(
         $lots, 'id', intval($lot_id)));
 
+    if (empty($lot)) {
+        print 'Can\'t fetch lot by id';
+        exit();
+    }
+
     $lot = $lot[0];
 }
+$bets = [];
+$user_id = isset($_SESSION['user']) ? $_SESSION['user']['id'] : null;
+
+$cookie_lot_visited_name = 'lot_visited';
+$cookie_lot_visited_value =
+    isset($_COOKIE['lot_visited']) ? $_COOKIE['lot_visited'] : [];
+$expire = time() + 60 * 60 * 24 * 30;
+$path = '/';
+
+$bets_sql = '
+SELECT 
+  b.id,b.lot_id,
+  b.value, UNIX_TIMESTAMP(b.date_add),
+  b.user_id,u.name AS bet_author 
+FROM bets b 
+JOIN users u ON b.user_id=u.id 
+WHERE b.lot_id=? ORDER BY b.date_add 
+DESC LIMIT ' . $bet_display_count;
+
+$dbHelper->executeQuery($bets_sql, [$lot_id]);
+
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+
+} else {
+    $bets = $dbHelper->getAssocArray();
+}
+
+$bet_error = isset($_SESSION['user'][$user_id]['bet_error']) ?
+    $_SESSION['user'][$user_id]['bet_error'] : null;
+
+$nav = includeTemplate('templates/nav.php',
+    [
+        'categories' => $categories
+    ]
+);
 
 if (!empty($user_id)) {
     $my_lot = $lot['user_id'] === $user_id ? true : false;
@@ -62,10 +84,7 @@ if (!empty($bet_error)) {
     unset($_SESSION['user'][$user_id]['bet_error']);
 }
 
-if (empty($lot)) {
-    print 'Can\'t fetch lot by id';
-    exit();
-}
+
 
 $cookie_lot_visited_value = json_decode($cookie_lot_visited_value,
     true);
