@@ -5,32 +5,41 @@ require 'defaults/var.php';
 require 'resource/functions.php';
 
 require_once 'init.php';
+require_once 'db/database.php';
 require 'db/db.php';
 
 require 'markup/markup.php';
 
-if (!isset($lots_offset)) {
-    mysqli_close($link);
-
-    print 'Can\'t resolve lots list';
-    exit();
-}
+//if (!isset($lots_offset)) {
+//    mysqli_close($link);
+//
+//    print 'Can\'t resolve lots list';
+//    exit();
+//}
 
 $winner = [];
 $user_id = isset($user['id']) ? $user['id'] : null;
 
-$to_filter = array_values($lots_offset);
+$dbHelper = new Database(
+    'localhost', 'root', 'vadi4ka365', 'yeti'
+);
 
-foreach ($to_filter as $key => $value) {
-    $winner[] = select_data_assoc($link, $winner_sql, [$value['id']]);
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+    exit();
 }
-function win($k) {
-    return $k & !empty($k);
+
+else {
+
+    $dbHelper->executeQuery('SELECT * FROM categories ORDER BY id ASC');
+
+    if ($dbHelper->getLastError()) {
+        print $dbHelper->getLastError();
+    }
+    else {
+        $categories_fetched = $dbHelper->getArrayByColumnName('name');
+    }
 }
-
-
-// is winning lot
-$filter_1 = array_filter($winner, 'win');
 
 $pagination = includeTemplate('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,

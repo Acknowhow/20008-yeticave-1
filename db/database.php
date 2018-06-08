@@ -15,13 +15,15 @@ class Database
         }
     }
 
-    public function execQuery($sql, $data = []) {
+    public function executeQuery($sql, $data = []) {
         // Maybe omit this line later
         $this->last_error = null;
         $stmt = db_get_prepare_stmt($this->db_resource, $sql, $data);
 
         if (mysqli_stmt_execute($stmt) &&
             $result = mysqli_stmt_get_result($stmt)) {
+
+            $this->last_result = $result;
             $res = true;
 
         } else {
@@ -39,11 +41,19 @@ class Database
     public function getArrayByColumnName($columnName) {
         $arr = [];
 
-        while ($row = mysqli_fetch_assoc($this->last_result)) {
+        while ($row = mysqli_fetch_array($this->last_result)) {
             $arr[$columnName] = $row;
         };
 
         return $arr;
+    }
+
+    public function getAssocArray() {
+        return mysqli_fetch_array($this->last_result, MYSQLI_ASSOC);
+    }
+
+    public function getLastId() {
+        return mysqli_insert_id($this->db_resource);
     }
 
 }
