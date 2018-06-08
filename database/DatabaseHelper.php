@@ -35,6 +35,25 @@ class DatabaseHelper
         return $res;
     }
 
+    public function makeTransaction(
+        $sql_1, $sql_1_data = [], $sql_2, $sql_2_data = []) {
+
+        $this->last_error = null;
+        mysqli_query($this->db_resource, 'START TRANSACTION');
+
+        $first_transaction = $this->executeQuery($sql_1, $sql_1_data);
+
+        var_dump($sql_1_data);
+        $second_transaction = $this->executeQuery($sql_2, $sql_2_data);
+        var_dump($second_transaction);
+
+        if ($first_transaction && $second_transaction) {
+            mysqli_query($this->db_resource, 'COMMIT');
+        } else {
+            mysqli_query($this->db_resource, 'ROLLBACK');
+        }
+    }
+
     public function getLastError() {
         return $this->last_error;
     }

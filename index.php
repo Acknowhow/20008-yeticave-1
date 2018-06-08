@@ -5,7 +5,6 @@ require 'defaults/var.php';
 require 'resource/functions.php';
 
 require 'database/database.php';
-
 require 'markup/markup.php';
 
 $user_id = isset($user['id']) ? $user['id'] : null;
@@ -44,7 +43,6 @@ $content = includeTemplate('templates/index.php',
     [
         'categories' => $categories,
         'lots' => $lots_offset, 'pagination' => $pagination,
-        'link' => $link, 'winner_sql' => $winner_sql
     ]
 );
 

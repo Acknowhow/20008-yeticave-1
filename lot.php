@@ -91,7 +91,7 @@ if (empty($lot_id)) {
         $my_lot = $lot['user_id'] === $user_id ? true : false;
     }
 
-// Get last bet made
+    // Get last bet made
     if (!empty($bets) && $bets[0]['user_id'] === $user_id) {
         $bet_author = true;
     }
