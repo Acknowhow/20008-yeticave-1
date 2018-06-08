@@ -8,7 +8,7 @@ class Database
     public function __construct($host, $login, $password, $db)
     {
         $this->db_resource = mysqli_connect($host, $login, $password, $db);
-        mysqli_set_charset($this->db_resource, 'utf-8');
+        mysqli_set_charset($this->db_resource, 'utf8');
 
         if (!$this->db_resource) {
             $this->last_error = mysqli_connect_error();
@@ -24,6 +24,7 @@ class Database
             $result = mysqli_stmt_get_result($stmt)) {
 
             $this->last_result = $result;
+
             $res = true;
 
         } else {
@@ -41,15 +42,16 @@ class Database
     public function getArrayByColumnName($columnName) {
         $arr = [];
 
-        while ($row = mysqli_fetch_array($this->last_result)) {
-            $arr[$columnName] = $row;
+        while ($row = mysqli_fetch_assoc($this->last_result)) {
+            $arr[] = $row[$columnName];
         };
+
 
         return $arr;
     }
 
     public function getAssocArray() {
-        return mysqli_fetch_array($this->last_result, MYSQLI_ASSOC);
+        return mysqli_fetch_assoc($this->last_result, MYSQLI_ASSOC);
     }
 
     public function getLastId() {

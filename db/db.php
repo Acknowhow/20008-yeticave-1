@@ -1,4 +1,10 @@
 <?php
+require_once $_SERVER['DOCUMENT_ROOT'] . 'init.php';
+require_once 'database.php';
+
+
+
+
 $title = 'Главная';
 $error_title = 'This page is lost';
 $container = 'main';
@@ -21,15 +27,40 @@ $categories_eng =
         'clothing', 'tools', 'other'
     ];
 
-$categories_sql = '
-SELECT * FROM categories ORDER BY id ASC';
+//$categories_sql = '
+//SELECT * FROM categories ORDER BY id ASC';
+//
+//
+//$categories_fetched = select_data_column(
+//    $link, $categories_sql, [], 'name');
+//
+//$categories = array_combine(
+//    $categories_eng, $categories_fetched);
 
+$categories = '';
 
-$categories_fetched = select_data_column(
-    $link, $categories_sql, [], 'name');
+$dbHelper = new Database(
+    'localhost', 'root', 'vadi4ka365', 'yeti'
+);
 
-$categories = array_combine(
-    $categories_eng, $categories_fetched);
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+    exit();
+}
+
+else {
+
+    $dbHelper->executeQuery('SELECT * FROM categories ORDER BY id ASC');
+
+    if ($dbHelper->getLastError()) {
+        print $dbHelper->getLastError();
+    }
+    else {
+        $categories_fetched = $dbHelper->getArrayByColumnName('name');
+        $categories = array_combine(
+            $categories_eng, $categories_fetched);
+    }
+}
 
 $lots_count_sql = 'SELECT COUNT(*) as count FROM lots';
 $lots_count = select_data_assoc($link, $lots_count_sql, []);
