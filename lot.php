@@ -19,6 +19,26 @@ if (empty($lot_id)) {
     $my_lot = false;
 
     $bet_author = false;
+    $lots_sql = '
+    SELECT 
+      l.id,l.name,
+      UNIX_TIMESTAMP(l.date_end),
+      l.description,l.lot_path,
+      l.value,l.step,
+      l.user_id,l.category_id,c.name 
+      AS lot_category 
+    FROM lots l
+    JOIN categories c ON l.category_id=c.id';
+
+    $dbHelper->executeQuery($lots_sql);
+
+    if ($dbHelper->getLastError()) {
+        print $dbHelper->getLastError();
+
+    } else {
+        $lots = $dbHelper->getAssocArray();
+    }
+
     $lot = array_values(filterArrayById(
         $lots, 'id', intval($lot_id)));
 
@@ -26,26 +46,28 @@ if (empty($lot_id)) {
         print 'Can\'t fetch lot by id';
         exit();
     }
-
     $lot = $lot[0];
     $bets = [];
-    $user_id = isset($_SESSION['user']) ? $_SESSION['user']['id'] : null;
+
+    $user_id = isset($_SESSION['user']) ?
+        $_SESSION['user']['id'] : null;
 
     $cookie_lot_visited_name = 'lot_visited';
-    $cookie_lot_visited_value =
-        isset($_COOKIE['lot_visited']) ? $_COOKIE['lot_visited'] : [];
+    $cookie_lot_visited_value = isset($_COOKIE['lot_visited'])
+        ? $_COOKIE['lot_visited'] : [];
+
     $expire = time() + 60 * 60 * 24 * 30;
     $path = '/';
 
     $bets_sql = '
-SELECT 
-  b.id,b.lot_id,
-  b.value, UNIX_TIMESTAMP(b.date_add),
-  b.user_id,u.name AS bet_author 
-FROM bets b 
-JOIN users u ON b.user_id=u.id 
-WHERE b.lot_id=? ORDER BY b.date_add 
-DESC LIMIT ' . $bet_display_count;
+    SELECT 
+      b.id,b.lot_id,
+      b.value, UNIX_TIMESTAMP(b.date_add),
+      b.user_id,u.name AS bet_author 
+    FROM bets b 
+    JOIN users u ON b.user_id=u.id 
+    WHERE b.lot_id=? ORDER BY b.date_add 
+    DESC LIMIT ' . $bet_display_count;
 
     $dbHelper->executeQuery($bets_sql, [$lot_id]);
 
@@ -81,8 +103,8 @@ DESC LIMIT ' . $bet_display_count;
     }
 
 
-    $cookie_lot_visited_value = json_decode($cookie_lot_visited_value,
-        true);
+    $cookie_lot_visited_value = json_decode(
+        $cookie_lot_visited_value, true);
 
     if (!array_key_exists($lot_id, $cookie_lot_visited_value)) {
         $cookie_lot_visited_value[] = $lot_id;
@@ -91,7 +113,9 @@ DESC LIMIT ' . $bet_display_count;
         $cookie_lot_visited_value[] = $lot_id;
     }
 
-    $cookie_lot_visited_value = json_encode($cookie_lot_visited_value);
+    $cookie_lot_visited_value = json_encode(
+        $cookie_lot_visited_value);
+
     setcookie($cookie_lot_visited_name, $cookie_lot_visited_value,
         $expire, $path);
 
@@ -113,8 +137,6 @@ DESC LIMIT ' . $bet_display_count;
         ]
     );
 }
-
-
 
 $markup = new Markup('templates/layout.php',
     array_merge_recursive($layout,
