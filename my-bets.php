@@ -25,8 +25,6 @@ $lot_min = $lot_value + $lot_step;
 $validate = '';
 $_POST = [];
 
-var_dump($bet_value);
-
 if (!isset($bet_value)) {
     $index = false;
     $title = 'Мои ставки';
@@ -81,58 +79,33 @@ if (isset($bet_value)) {
         $_SESSION['user'][$user_id]['bet_error'] = $validate;
         header('Location: lot.php?lot_id=' . $lot_id);
     }
-    $bet_insert_sql = '
+    $bet_insert_sql = "
     INSERT INTO
      bets (lot_id,value,date_add,user_id) 
-    VALUES (?,?,?,?)';
+    VALUES (?, ?, ?, ?)";
 
-    $lot_update_sql = '
-    UPDATE lots SET value=? WHERE id=?';
+    $lot_update_sql = "
+    UPDATE lots SET value=? WHERE id=?";
 
-    var_dump($dbHelper);
-    $dbHelper->makeTransaction(
-        $bet_insert_sql, [
 
-        'lot_id' => $lot_id, 'value' => $bet_value,
-        'date_add' => $date_current->format('Y.m.d H:i:s'),
-        'user_id' => $user_id
-        ],
+    $dbHelper->executeSafeQuery('START TRANSACTION');
 
-        $lot_update_sql, [
-        'value' => $bet_value,
-        'id' => $lot_id
-        ]
-    );
-    if ($dbHelper->getLastError()) {
-        print $dbHelper->getLastError();
+    $dbHelper->executeQuery($bet_insert_sql, [
+        $lot_id, $bet_value, $date_current->format('Y.m.d H:i:s'),
+        $user_id
+    ]);
+    $error_insert = $dbHelper->getLastError();
+
+    $dbHelper->executeQuery($lot_update_sql, [$bet_value, $lot_id]);
+    $error_update = $dbHelper->getLastError();
+
+    if (!$error_insert && !$error_update) {
+        $dbHelper->executeSafeQuery('COMMIT');
+        header('Location: lot.php?lot_id=' . $lot_id);
 
     } else {
-        header('Location: lot.php?lot_id=' . $lot_id);
+        $dbHelper->executeSafeQuery('ROLLBACK');
+        print 'Can\'t complete transaction';
     }
-
-//    mysqli_query($link, 'START TRANSACTION');
-//    $bet_id_res = insert_data($link, 'bets',
-//        [
-//            'lot_id' => $lot_id, 'value' => $bet_value,
-//            'date_add' => $date_current->format('Y.m.d H:i:s'),
-//            'user_id' => $user_id
-//        ]
-//    );
-//
-//    $lot_update_res = update_data($link, $lot_update_sql,
-//        [
-//            'value' => $bet_value,
-//            'id' => $lot_id
-//        ]
-//    );
-
-//    if ($bet_id_res && $lot_update_res) {
-//        mysqli_query($link, 'COMMIT');
-//        header('Location: lot.php?lot_id=' . $lot_id);
-//    } else {
-//        mysqli_query($link, 'ROLLBACK');
-//    }
 }
-
-
 
