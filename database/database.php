@@ -1,7 +1,6 @@
 <?php
 require_once 'DatabaseHelper.php';
 
-
 $title = 'Главная';
 $error_title = 'This page is lost';
 $container = 'main';
@@ -101,7 +100,6 @@ if ($dbHelper->getLastError()) {
     $lots_offset = $dbHelper->getAssocArray();
 
 }
-
 
 $count_bets = "
 SELECT count(value) FROM bets WHERE lot_id=?";

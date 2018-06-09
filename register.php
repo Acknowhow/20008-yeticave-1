@@ -4,7 +4,6 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-require_once 'init.php';
 require 'database/database.php';
 
 require 'markup/markup.php';
@@ -13,10 +12,8 @@ $title = 'Регистрация пользователя';
 $user_data = [];
 $user_errors = [];
 
-$email = isset($_POST['email']) ?
-    $_POST['email'] : '';
-$password = isset($_POST['password']) ?
-    $_POST['password'] : '';
+$email = isset($_POST['email']) ? $_POST['email'] : '';
+$password = isset($_POST['password']) ? $_POST['password'] : '';
 
 $uploaded = '';
 $user_upload_error = '';
@@ -70,10 +67,20 @@ $nav = includeTemplate('templates/nav.php',
         'categories' => $categories
     ]
 );
-$users_sql = 'SELECT email,password,name 
+
+$users_sql = '
+SELECT email,password,name 
 FROM users ORDER BY id ASC;';
 
-$users = select_data_assoc($link, $users_sql, []);
+$dbHelper->executeQuery($users_sql);
+
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+    exit();
+} else {
+    $users = $dbHelper->getAssocArray();
+}
+
 
 if (isset($_FILES) && !empty($_FILES['avatar_path']['size'])) {
     $uploaded = 'uploaded';
@@ -94,7 +101,8 @@ if (isset($_POST['register'])) {
     foreach ($_POST as $key => $value) {
 
         if (in_array($key, $required) && $value == '') {
-            $user_errors[$key] = $register_errors[$key]['error_message'];
+            $user_errors[$key] =
+                $register_errors[$key]['error_message'];
         }
         $user_data[$key] = $value;
         $register_defaults[$key]['input'] = $value;
@@ -135,24 +143,33 @@ if (isset($_POST['register'])) {
         $user_data['avatar_path'] = $validation_result['file_url'];
     }
 
-    if (empty($user_errors) && (
-        !empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
+    if (empty($user_errors) &&
+        (!empty($uploaded) && empty($user_upload_error) || empty($uploaded))) {
         $user = filterArrayByKey($user_data, 'register');
 
         $user['avatar_path'] = $user_data['avatar_path'] ?? 'img/user.jpg';
-        $user_id = insert_data($link, 'users',
-            [
-                'name' => $user['name'],
-                'email' => $user['email'],
 
-                'password' => $user['password'],
-                'avatar_path' => $user['avatar_path'],
-                'contacts' => $user['contacts']
-            ]);
+        $user_sql = '
+        INSERT INTO 
+          users (name,email,password,avatar_path,contacts) 
+        VALUES (?,?,?,?,?)';
+
+        $dbHelper->executeQuery($user_sql, [
+            $user['name'], $user['email'], $user['password'],
+            $user['avatar_path'],$user['contacts']
+        ]);
+        if ($dbHelper->getLastError()) {
+            print $dbHelper->getLastError();
+
+        } else {
+            $user_id = $dbHelper->getLastId();
+        }
+
         if(!$user_id) {
             print 'Can\'t get user_id';
             exit();
         }
+
         $user['id'] = $user_id;
         $_SESSION['user'] = $user;
         header('Location: index.php');

@@ -10,8 +10,6 @@ require 'markup/markup.php';
 $user_id = isset($user['id']) ? $user['id'] : null;
 
 
-
-
 $pagination = includeTemplate('templates/pagination.php', [
     'page_items' => $page_items, 'pages' => $pages,
     'pages_count' => $pages_count, 'curr_page' => $curr_page
