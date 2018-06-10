@@ -36,15 +36,13 @@ AGAINST (?)
 AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())';
 
 $dbHelper->executeQuery($search_sql, [$search]);
+
 if($dbHelper->getLastError()) {
     print $dbHelper->getLastError();
 
 } else {
     $search_result_ids = $dbHelper->getAssocArray();
 }
-
-//$search_result_ids = select_data_assoc(
-//    $link, $search_sql, [$search]);
 
 // Determine pagination count
 $count = count($search_result_ids);
@@ -67,9 +65,6 @@ if($dbHelper->getLastError()) {
     $search_result_ids_offset = $dbHelper->getAssocArray();
 }
 
-//$search_result_ids_offset = select_data_assoc(
-//    $link, $search_sql_offset, [$search]);
-
 $count = $count + 0;
 $page_items = $page_items + 0;
 
@@ -80,9 +75,6 @@ $pages = range(1, $pages_count);
 
 
 foreach($search_result_ids_offset as $search_result_id) {
-
-//    $bets_total = select_data_assoc(
-//        $link, $count_bets, [$search_result_id['id']]);
 
     $search_result_sql = '
     SELECT 
@@ -100,15 +92,10 @@ foreach($search_result_ids_offset as $search_result_id) {
     } else {
         $search_result_item = $dbHelper->getAssocArray();
     }
-//    $search_result_item = select_data_assoc(
-//        $link, $search_result_sql, [$search_result_id['id']]);
 
     $search_result_item = $search_result_item[0];
-
-    $search_result_item['count(b.value)'] = $bets_total[0]['count(b.value)'];
     $search_result_array[] = $search_result_item;
 }
-
 
 $pagination_search = includeTemplate(
     'templates/pagination-search.php', [
@@ -117,7 +104,6 @@ $pagination_search = includeTemplate(
     'pages_count' => $pages_count, 'curr_page' => $curr_page, 'search' => $search
     ]
 );
-
 
 $content = includeTemplate('templates/search.php',
     [
