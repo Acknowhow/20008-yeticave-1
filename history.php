@@ -4,8 +4,7 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-require_once 'init.php';
-require 'database/database.php';
+require_once 'database/database.php';
 
 require 'markup/markup.php';
 
@@ -18,7 +17,12 @@ $nav = includeTemplate('templates/nav.php',
         'categories' => $categories
     ]);
 
-/* Если существует cookie_lot_value, но нет лотов в БД */
+$pagination = includeTemplate('templates/pagination.php', [
+    'page_items' => $page_items, 'pages' => $pages,
+    'pages_count' => $pages_count, 'curr_page' => $curr_page
+]);
+
+/* Если существует cookie_lot_value, или нет добавленных лотов в БД */
 if (empty($cookie_lot_visited_value) || empty($lots_offset)) {
     $content = 'Здесь отображается история просмотра лотов';
 
@@ -29,7 +33,8 @@ if (empty($cookie_lot_visited_value) || empty($lots_offset)) {
     $lots_offset = array_intersect_key($lots_offset, $lot_ids);
     $content = includeTemplate('templates/history.php',
         [
-            'lots' => $lots_offset
+
+            'lots' => $lots_offset, 'pagination' => $pagination
         ]);
 }
 $markup = new Markup('templates/layout.php', array_merge_recursive(
