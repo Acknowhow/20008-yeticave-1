@@ -100,31 +100,9 @@ if ($dbHelper->getLastError()) {
     $lots_offset = $dbHelper->getAssocArray();
 }
 
-$count_bets = "
-SELECT count(value) FROM bets WHERE lot_id=?";
+//$count_bets = '
+//SELECT count(value) FROM bets WHERE lot_id=?';
 
-$search_sql = '
-SELECT
-  id
-FROM lots 
-WHERE MATCH (name,description) AGAINST (?) 
-AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())';
-
-$search_sql_offset = '
-SELECT 
-  id
-FROM lots 
-WHERE MATCH (name,description) AGAINST (?) 
-AND UNIX_TIMESTAMP(`date_end`) > UNIX_TIMESTAMP(NOW())
-ORDER BY date_add DESC LIMIT ' .
-    $page_items . ' OFFSET ' . $offset;
-
-$search_result_sql = '
-SELECT 
-l.id,c.name AS category_name,l.name,l.value,l.date_end,l.lot_path 
-FROM lots l 
-JOIN categories c ON l.category_id=c.id
-WHERE l.id=?';
 
 
 $layout =
