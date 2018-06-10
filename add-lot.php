@@ -4,10 +4,9 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-require_once 'init.php';
 require 'database/database.php';
-
 require 'markup/markup.php';
+
 $index = false;
 $title = 'Добавление лота';
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
@@ -18,6 +17,10 @@ if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
 $user_id = $_SESSION['user']['id'];
 $lot_data = [];
 $lot_errors = [];
+
+$uploaded = '';
+$lot_upload_error = '';
+$validation_result = '';
 
 $required = [
     'lot_name', 'lot_category',
@@ -77,12 +80,6 @@ $lot_add_errors = [
     ]
 ];
 
-$category_id_sql = 'SELECT id FROM 
-categories WHERE name=?';
-
-$uploaded = '';
-$lot_upload_error = '';
-$validation_result = '';
 
 $nav = includeTemplate('templates/nav.php', [
     'categories' => $categories
@@ -141,9 +138,17 @@ if (isset($_POST['lot_add'])) {
         $lot['user_id'] = $user_id;
         $lot['lot_date_end'] = convertDateMySQL($lot['lot_date_end']);
 
-        $category_fetched = select_data_assoc($link, $category_id_sql,
-            [$lot['lot_category']]);
-        $category_id = $category_fetched[0]['id'];
+        $category_id_sql = 'SELECT id FROM categories WHERE name=?';
+
+        $dbHelper->executeQuery($category_id_sql, [$lot['lot_category']]);
+
+        if ($dbHelper->getLastError()) {
+            print $dbHelper->getLastError();
+        } else {
+
+            $category_fetched = $dbHelper->getAssocArray();
+            $category_id = $category_fetched[0]['id'];
+        }
 
         if(empty($category_id)) {
             echo 'Невозможно определить категорию для лота';
@@ -153,21 +158,41 @@ if (isset($_POST['lot_add'])) {
         $lot_filtered = filterArrayByKey($lot, 'lot_category');
         $lot_filtered['category_id'] = $category_id;
 
-        $lot_id = insert_data($link, 'lots',
+        $add_lot_sql = '
+        INSERT INTO 
+          lots(name,date_add,date_end,
+               description,lot_path,value,
+               step,user_id,category_id)
+        VALUES(?,?,?,?,?,?,?,?,?)';
+
+        $dbHelper->executeQuery($add_lot_sql,
             [
-                'name' => $lot_filtered['lot_name'],
+                $lot_filtered['lot_name'],
+                $date_current->format('Y.m.d H:i:s'),
+                $lot_filtered['lot_date_end'], $lot_filtered['lot_description'],
 
-                // Gets current date in required format
-                'date_add' => $date_current->format('Y.m.d H:i:s'),
-                'date_end' => $lot_filtered['lot_date_end'],
-                'description' => $lot_filtered['lot_description'],
+                $lot_filtered['lot_img_url'], $lot_filtered['lot_value'],
+                $lot_filtered['lot_step'], $lot_filtered['user_id'],
+                $lot_filtered['category_id']
+            ]
+        );
+        $lot_id = $dbHelper->getLastId();
 
-                'lot_path' => $lot_filtered['lot_img_url'],
-                'value' => $lot_filtered['lot_value'],
-                'step' => $lot_filtered['lot_step'],
-                'user_id' => $lot_filtered['user_id'],
-                'category_id' => $lot_filtered['category_id']
-            ]);
+//        $lot_id = insert_data($link, 'lots',
+//            [
+//                'name' => $lot_filtered['lot_name'],
+//
+//                // Gets current date in required format
+//                'date_add' => $date_current->format('Y.m.d H:i:s'),
+//                'date_end' => $lot_filtered['lot_date_end'],
+//                'description' => $lot_filtered['lot_description'],
+//
+//                'lot_path' => $lot_filtered['lot_img_url'],
+//                'value' => $lot_filtered['lot_value'],
+//                'step' => $lot_filtered['lot_step'],
+//                'user_id' => $lot_filtered['user_id'],
+//                'category_id' => $lot_filtered['category_id']
+//            ]);
 
         if (empty($lot_id)) {
             echo 'Невозможно добавить лот';

@@ -4,11 +4,9 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-
-require_once 'init.php';
 require 'database/database.php';
-
 require 'markup/markup.php';
+
 $user = [];
 $errors = [];
 
@@ -47,7 +45,14 @@ $login_errors = [
 $users_sql = 'SELECT id,name,email,
 password,avatar_path FROM users ORDER BY id ASC;';
 
-$users = select_data_assoc($link, $users_sql, []);
+$dbHelper->executeQuery($users_sql);
+
+if ($dbHelper->getLastError()) {
+    print $dbHelper->getLastError();
+} else {
+    $users = $dbHelper->getAssocArray();
+}
+
 $email_check = '';
 
 $password_check = '';

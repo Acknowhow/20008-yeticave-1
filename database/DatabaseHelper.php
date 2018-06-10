@@ -20,6 +20,8 @@ class DatabaseHelper
         $this->last_error = null;
         $stmt = db_get_prepare_stmt($this->db_resource, $sql, $data);
 
+
+
         if (mysqli_stmt_execute($stmt) &&
             $result = mysqli_stmt_get_result($stmt)) {
 
