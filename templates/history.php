@@ -15,8 +15,9 @@
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?= $lot['value'] ?><b class="rub">&#8381</b></span>
                         </div>
-                        <div class="lot__timer timer">
-                            16:54:12
+                        <div class="lot__timer timer <?php if (is_array(convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)']))) : ?> timer--finishing<?php endif;?>">
+                            <?php if (is_array(convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)']))) : ?><?= convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)'])[0] ?>
+                            <?php else : ?><?= convertLotTimeStamp($lot['UNIX_TIMESTAMP(l.date_end)']) ?><?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -25,5 +26,3 @@
     </section>
     <?= $pagination ?>
 </div>
-
-

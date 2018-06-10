@@ -1,4 +1,9 @@
 <section class="lot-item container">
+    <style>
+        .lot-item__timer {
+            width: 97px
+        }
+    </style>
     <h2><?= htmlspecialchars($lot_name) ?></h2>
     <div class="lot-item__content">
         <div class="lot-item__left">
@@ -13,8 +18,9 @@
         <div class="lot-item__right">
 <?php if ($is_auth === true) : ?>
             <div class="lot-item__state">
-                <div class="lot-item__timer timer">
-                    10:54:12
+                <div class="lot-item__timer timer <?php if (is_array(convertLotTimeStamp($lot_time_left))) : ?> timer--finishing<?php endif;?>">
+<?php if (is_array(convertLotTimeStamp($lot_time_left))) : ?><?= convertLotTimeStamp($lot_time_left)[0] ?>
+<?php else : ?><?= convertLotTimeStamp($lot_time_left) ?><?php endif; ?>
                 </div>
                 <div class="lot-item__cost-state">
                     <div class="lot-item__rate">

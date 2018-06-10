@@ -22,7 +22,7 @@ if (empty($lot_id)) {
     $lots_sql = '
     SELECT 
       l.id,l.name,
-      UNIX_TIMESTAMP(l.date_end),
+      UNIX_TIMESTAMP(l.date_end) AS lot_time_left,
       l.description,l.lot_path,
       l.value,l.step,
       l.user_id,l.category_id,c.name 
@@ -128,6 +128,7 @@ if (empty($lot_id)) {
             'bet_error' => $bet_error, 'lot_id' => $lot_id,
 
             'user_id' => $user_id, 'lot_name' => $lot['name'],
+            'lot_time_left' => $lot['lot_time_left'],
             'lot_category' => $lot['lot_category'],
             'lot_value' => $lot['value'], 'lot_step' => $lot['step'],
             'lot_img_url' => $lot['lot_path'],
