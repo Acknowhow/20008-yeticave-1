@@ -4,9 +4,7 @@ require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
 
-require 'init.php';
-require 'db/db.php';
-
+require_once 'database/database.php';
 require 'markup/markup.php';
 
 $index = true;
