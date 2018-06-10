@@ -15,10 +15,12 @@
         <div class="rates__img">
           <img src="<?= $bet['lot_path']; ?>" width="54" height="40" alt="<?= $bet['lot_category'] ?>">
         </div>
-        <h3 class="rates__title"><a href="lot.php?lot_id=<?= $bet['lot_id'] ?>"><?= $bet['lot_name'] ?></a></h3>
-<?php if (!empty($bet['user_contacts'])) : ?>
-        <p><?= $bet['user_contacts'] ?></p>
+        <div>
+          <h3 class="rates__title"><a href="lot.php?lot_id=<?= $bet['lot_id'] ?>"><?= $bet['lot_name'] ?></a></h3>
+<?php if (!empty($bet['contacts'])) : ?>
+          <p><?= $bet['contacts'] ?></p>
 <?php endif; ?>
+        </div>
       </td>
       <td class="rates__category"><?=$bet['lot_category']; ?></td>
 
