@@ -45,63 +45,21 @@ if ($dbHelper->getLastError()) {
 }
 
 else {
-
     $dbHelper->executeQuery('SELECT * FROM categories ORDER BY id ASC');
 
     if ($dbHelper->getLastError()) {
         print $dbHelper->getLastError();
     }
     else {
-        $categories_fetched = $dbHelper->getArrayByColumnName('name');
+        $categories_fetched = $dbHelper->getAssocArray();
         $categories = array_combine(
             $categories_eng, $categories_fetched);
     }
 }
 
-$dbHelper->executeQuery('SELECT COUNT(*) as count FROM lots');
 
-if ($dbHelper->getLastError()) {
-    print $dbHelper->getLastError();
 
-} else {
-    $lots_count = $dbHelper->getAssocArray();
-}
 
-$count = $lots_count[0]['count'];
-
-$count = $count + 0;
-$page_items = $page_items + 0;
-
-$pages_count = ceil($count / $page_items);
-$offset = ($curr_page - 1) * $page_items;
-
-$pages = range(1, $pages_count);
-
-$lots_offset_sql = '
-SELECT 
-  l.id,l.name,
-  UNIX_TIMESTAMP(l.date_end),
-  l.description,l.lot_path,
-  l.value,l.step,
-  l.user_id,l.category_id,c.name 
-  AS lot_category 
-FROM lots l
-JOIN categories c ON l.category_id=c.id 
-WHERE UNIX_TIMESTAMP(l.date_end) > UNIX_TIMESTAMP(NOW()) 
-ORDER BY l.date_add DESC LIMIT ' .
-    $page_items . ' OFFSET ' . $offset;
-
-$dbHelper->executeQuery($lots_offset_sql);
-
-if ($dbHelper->getLastError()) {
-    print $dbHelper->getLastError();
-
-} else {
-    $lots_offset = $dbHelper->getAssocArray();
-}
-
-//$count_bets = '
-//SELECT count(value) FROM bets WHERE lot_id=?';
 
 
 
