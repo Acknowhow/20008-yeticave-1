@@ -25,7 +25,7 @@
               name="<?=$lot_category['name'] ?>">
         <option><?=$lot_category['input'] ?></option>
         <?php foreach ($categories as $category => $value) : ?>
-        <option><?=$value ?></option><?php endforeach; ?>
+        <option><?=$value['name'] ?></option><?php endforeach; ?>
       </select>
 
       <span class="form__error"><?php if (!empty($errors['lot_category'])) : ?><?=$errors['lot_category'] ?><?php endif; ?></span>
