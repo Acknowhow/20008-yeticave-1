@@ -19,7 +19,6 @@ class DatabaseHelper
         // Maybe omit this line later
         $this->last_error = null;
 
-        var_dump($sql);
         $stmt = db_get_prepare_stmt($this->db_resource, $sql, $data);
 
 
