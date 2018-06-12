@@ -1,0 +1,7 @@
+{
+    "name": "vadimkorabelnik/email-notification",
+    "description": "Sends email notifications when lot wins",
+    "type": "project",
+    "license": "MIT",
+    "require": {}
+}
