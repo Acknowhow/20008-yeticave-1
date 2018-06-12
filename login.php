@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once 'vendor/autoload.php';
+
 require 'defaults/config.php';
 require 'defaults/var.php';
 require 'resource/functions.php';
