@@ -10,7 +10,6 @@ require 'markup/markup.php';
 $user_id = isset($user['id']) ? $user['id'] : null;
 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
 
-
 if ($category_id) {
     $lots_count_sql = '
     SELECT COUNT(*) as count 
@@ -35,7 +34,6 @@ if ($dbHelper->getLastError()) {
 }
 
 $count = $lots_count[0]['count'];
-
 $page_items = $page_items + 0;
 
 $pages_count = ceil($count / $page_items);
@@ -54,7 +52,9 @@ if ($category_id) {
       AS lot_category 
     FROM lots l
     JOIN categories c ON l.category_id=c.id  
-    WHERE category_id=' . $category_id . ' ORDER BY l.date_add DESC LIMIT ' .
+    WHERE category_id=' . $category_id .
+    ' AND UNIX_TIMESTAMP(date_end) > UNIX_TIMESTAMP(NOW())' .
+    'ORDER BY l.date_add DESC LIMIT ' .
         $page_items . ' OFFSET ' . $offset;
 } else {
     $lots_offset_sql = '
@@ -66,7 +66,8 @@ if ($category_id) {
       l.user_id,l.category_id,c.name 
       AS lot_category 
     FROM lots l
-    JOIN categories c ON l.category_id=c.id  
+    JOIN categories c ON l.category_id=c.id 
+    WHERE UNIX_TIMESTAMP(date_end) > UNIX_TIMESTAMP(NOW())  
     ORDER BY l.date_add DESC LIMIT ' .
         $page_items . ' OFFSET ' . $offset;
 }
@@ -80,10 +81,12 @@ if ($dbHelper->getLastError()) {
     $lots_offset = $dbHelper->getAssocArray();
 }
 
-$pagination = includeTemplate('templates/pagination.php', [
-    'page_items' => $page_items, 'pages' => $pages,
-    'pages_count' => $pages_count, 'curr_page' => $curr_page
-]);
+$pagination = includeTemplate('templates/pagination.php',
+    [
+        'page_items' => $page_items, 'pages' => $pages,
+        'pages_count' => $pages_count, 'curr_page' => $curr_page
+    ]
+);
 
 $content = includeTemplate('templates/index.php',
     [
