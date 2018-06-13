@@ -87,8 +87,8 @@ $nav = includeTemplate('templates/nav.php', [
     'categories' => $categories
 ]);
 
-if (isset($_FILES)) {
-    $lot_data['lot_img_url'] = 'img/lot-default.png';
+if (isset($_FILES) && empty($_FILES['lot_img']['size'])) {
+    $lot_upload_error = 'Загрузите фотографию лота';
 }
 
 if (isset($_FILES) && !empty($_FILES['lot_img']['size'])) {
@@ -133,8 +133,7 @@ if (isset($_POST['lot_add'])) {
         $lot_data['lot_img_url'] = $validation_result['file_url'];
     }
 
-    if (empty($lot_errors) && (
-        !empty($uploaded) && empty($lot_upload_error) || empty($uploaded))) {
+    if (empty($lot_errors) && empty($lot_upload_error)) {
         $lot = filterArrayByKey($lot_data, 'lot_add');
 
         $lot['user_id'] = $user_id;
@@ -179,22 +178,6 @@ if (isset($_POST['lot_add'])) {
             ]
         );
         $lot_id = $dbHelper->getLastId();
-
-//        $lot_id = insert_data($link, 'lots',
-//            [
-//                'name' => $lot_filtered['lot_name'],
-//
-//                // Gets current date in required format
-//                'date_add' => $date_current->format('Y.m.d H:i:s'),
-//                'date_end' => $lot_filtered['lot_date_end'],
-//                'description' => $lot_filtered['lot_description'],
-//
-//                'lot_path' => $lot_filtered['lot_img_url'],
-//                'value' => $lot_filtered['lot_value'],
-//                'step' => $lot_filtered['lot_step'],
-//                'user_id' => $lot_filtered['user_id'],
-//                'category_id' => $lot_filtered['category_id']
-//            ]);
 
         if (empty($lot_id)) {
             echo 'Невозможно добавить лот';
