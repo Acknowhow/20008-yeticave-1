@@ -61,8 +61,6 @@ else {
 
 
 
-
-
 $layout =
     [
         'is_auth' => $is_auth, 'user' => $user,

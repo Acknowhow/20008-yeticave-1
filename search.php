@@ -48,6 +48,13 @@ if($dbHelper->getLastError()) {
 
 // Determine pagination count
 $count = count($search_result_ids);
+$count = $count + 0;
+$page_items = $page_items + 0;
+
+$pages_count = ceil($count / $page_items);
+
+$offset = ($curr_page - 1) * $page_items;
+$pages = range(1, $pages_count);
 
 $search_sql_offset = '
 SELECT 
@@ -66,14 +73,6 @@ if($dbHelper->getLastError()) {
 } else {
     $search_result_ids_offset = $dbHelper->getAssocArray();
 }
-
-$count = $count + 0;
-$page_items = $page_items + 0;
-
-$pages_count = ceil($count / $page_items);
-
-$offset = ($curr_page - 1) * $page_items;
-$pages = range(1, $pages_count);
 
 
 foreach($search_result_ids_offset as $search_result_id) {
