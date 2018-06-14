@@ -9,10 +9,14 @@ require 'resource/functions.php';
 require 'database/database.php';
 require 'markup/markup.php';
 
+$index_title = '';
+$category_title = '';
+
 $user_id = isset($user['id']) ? $user['id'] : null;
 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
 
 if ($category_id) {
+    $category_title = 'Все лоты в категории';
     $lots_count_sql = '
     SELECT COUNT(*) as count 
     FROM lots 
@@ -20,6 +24,7 @@ if ($category_id) {
     AND category_id=' . $category_id;
 
 } else {
+    $index_title = 'Открытые лоты';
     $lots_count_sql = '
     SELECT COUNT(*) as count 
     FROM lots 
@@ -92,7 +97,8 @@ $pagination = includeTemplate('templates/pagination.php',
 
 $content = includeTemplate('templates/index.php',
     [
-        'categories' => $categories,
+        'categories' => $categories, 'index_title' => $index_title,
+        'category_title' => $category_title,
         'lots' => $lots_offset, 'pagination' => $pagination,
     ]
 );

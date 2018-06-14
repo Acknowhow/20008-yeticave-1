@@ -10,10 +10,9 @@
 <?php endforeach; ?>
     </ul>
 </section>
-
 <section class="lots">
     <div class="lots__header">
-        <h2>Открытые лоты</h2>
+        <h2><?php if (!empty($category_title) && array_key_exists(0, $lots)) : ?><?= $category_title . ' «' . mb_strtolower($lots[0]['lot_category'], 'UTF-8') . '»'; ?><?php else : ?><?= $index_title ?><?php endif;?></h2>
     </div>
 
     <ul class="lots__list">
