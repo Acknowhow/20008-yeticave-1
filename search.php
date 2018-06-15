@@ -9,7 +9,7 @@ require 'resource/functions.php';
 require_once 'database/database.php';
 require 'markup/markup.php';
 
-$index = true;
+$index = false;
 $search_result_ids = '';
 
 $search_result_array = [];
