@@ -1,7 +1,6 @@
 <?php
 require 'mysql_helper.php';
-function convertNum($num)
-{
+function convertNum($num) {
     $num = ceil($num);
     if ($num > 10000) {
         $start = substr($num, 0, 2);
@@ -13,8 +12,7 @@ function convertNum($num)
     return $num  .'&#8381';
 }
 
-function includeTemplate($templatePath, $templateData)
-{
+function includeTemplate($templatePath, $templateData) {
     if (!file_exists($templatePath)) {
 
         return '';
@@ -31,16 +29,14 @@ function includeTemplate($templatePath, $templateData)
     return $tpl;
 }
 // Converting date formats from 'd.m.Y' to 'Y-m-d H:i:s'
-function convertDateMySQL($date, $format = 'd.m.Y')
-{
+function convertDateMySQL($date, $format = 'd.m.Y') {
     $dateTime = DateTime::createFromFormat($format, $date);
 
     return $dateTime->format('Y-m-d H:i:s');
 }
 
 // Validates date format
-function getDateFormat($date, $format = 'd.m.Y')
-{
+function getDateFormat($date, $format = 'd.m.Y') {
     $_date = DateTime::createFromFormat($format, $date);
 
     $_date && $_date->format($format) == $date ?
@@ -50,8 +46,7 @@ function getDateFormat($date, $format = 'd.m.Y')
     return $_date;
 }
 
-function getPlural($numericValue, $form1, $form2, $form5)
-{
+function getPlural($numericValue, $form1, $form2, $form5) {
     $n = $numericValue % 100;
     $n1 = $n % 10;
     if ($n > 10 && $n < 20) return $numericValue . ' ' . $form5;
@@ -60,8 +55,7 @@ function getPlural($numericValue, $form1, $form2, $form5)
     return $numericValue . ' ' . $form5;
 }
 
-function convertBetTimeStamp($timeStamp)
-{
+function convertDailyTimeStamp($timeStamp) {
     // Elapsed timestamp
     $timeLapseStamp = strtotime('now') - $timeStamp;
     // Elapsed time in hours
@@ -95,8 +89,7 @@ function convertBetTimeStamp($timeStamp)
 }
 
 
-function convertLotTimeStamp($timeStamp)
-{
+function convertLotTimeStamp($timeStamp) {
     /***
      *
      * торги окончены, время размещения лота закончилось (lot_date_end)
@@ -123,7 +116,7 @@ function convertLotTimeStamp($timeStamp)
         if ($timeLapseStamp < 0) {
             return 'lot_end';
         }
-        $date = date('h:i:s');
+        $date = date('h:i:s', $timeStamp);
 
         return [$date];
 
@@ -134,8 +127,7 @@ function convertLotTimeStamp($timeStamp)
 
 
 // Validates date period
-function validateDate($date)
-{
+function validateDate($date) {
     $now = strtotime('now');
 
     $_date = getDateFormat($date);
@@ -152,8 +144,7 @@ function validateDate($date)
     return $_date;
 }
 
-function getInteger($val)
-{
+function getInteger($val) {
     $_val = $val + 0;
     if (is_int($_val)) {
         return $_val;
@@ -161,8 +152,7 @@ function getInteger($val)
     return 0;
 }
 
-function getNumeric($val)
-{
+function getNumeric($val) {
     $_val = $val + 0;
     if (is_numeric($_val)) {
         return $_val;
@@ -170,8 +160,7 @@ function getNumeric($val)
     return 0;
 }
 
-function validateLotValue($lotValue)
-{
+function validateLotValue($lotValue) {
     $_lotValue = $lotValue;
 
     $is_numeric = getNumeric($_lotValue);
@@ -186,8 +175,7 @@ function validateLotValue($lotValue)
     return '';
 }
 
-function validateLotStep($lotStep)
-{
+function validateLotStep($lotStep) {
     $_lotStep = $lotStep;
 
     $is_integer = getInteger($_lotStep);
@@ -202,8 +190,7 @@ function validateLotStep($lotStep)
     return '';
 }
 
-function validateBetValue($betValue, $lotMin)
-{
+function validateBetValue($betValue, $lotMin) {
     $is_integer = getInteger($betValue);
     if ($is_integer === 0) {
         return 'Введите целое числовое значение';
@@ -215,8 +202,7 @@ function validateBetValue($betValue, $lotMin)
     return '';
 }
 
-function validateUpload($array, $fileType, $fileSize)
-{
+function validateUpload($array, $fileType, $fileSize) {
     $_result = in_array($fileType, $array);
     if (empty($_result)) {
         return 'Пожалуйста, выберите файл правильного формата';
@@ -226,8 +212,7 @@ function validateUpload($array, $fileType, $fileSize)
     return '';
 }
 
-function validateFile($fileReceived, $allowedTypes)
-{
+function validateFile($fileReceived, $allowedTypes) {
     $upload_params = [];
     $file_name = $fileReceived['name'];
     $file_name_tmp = $fileReceived['tmp_name'];
@@ -255,8 +240,7 @@ function validateFile($fileReceived, $allowedTypes)
     return $upload_params;
 }
 
-function validateEmail($email)
-{
+function validateEmail($email) {
     $_result = null;
     if (empty($_result = filter_var($email,
         FILTER_VALIDATE_EMAIL))) {
@@ -268,8 +252,7 @@ function validateEmail($email)
     return $_result;
 }
 
-function validateUser($email, $users, $password)
-{
+function validateUser($email, $users, $password) {
     $is_user = null;
     $user = searchUserByEmail($email, $users);
 
@@ -284,8 +267,7 @@ function validateUser($email, $users, $password)
     return $is_user;
 }
 
-function searchUserByEmail($email, $users, $register = false)
-{
+function searchUserByEmail($email, $users, $register = false) {
     $_result = null;
     foreach ($users as $user) {
         if ($user['email'] == $email) {
@@ -306,8 +288,7 @@ function searchUserByEmail($email, $users, $register = false)
     return $_result;
 }
 
-function validatePassword($password)
-{
+function validatePassword($password) {
     $_result = [];
 
     if (strlen($password) < 11) {
@@ -324,23 +305,20 @@ function validatePassword($password)
 }
 
 // Filters array by comparing key which is not empty
-function filterArrayByKey($array, $key)
-{
+function filterArrayByKey($array, $key) {
     return array_filter($array, function ($k) use ($key) {
         return $k !== $key;
     }, ARRAY_FILTER_USE_KEY);
 }
 
 // Compares both key and value
-function filterArrayById($arr, $key, $value)
-{
+function filterArrayById($arr, $key, $value) {
     return array_filter($arr, function ($k) use ($key, $value) {
         return $k[$key] === $value;
     }, ARRAY_FILTER_USE_BOTH);
 }
 
-function filterArrayByIds($arr, $key_1, $value_1, $key_2, $value_2)
-{
+function filterArrayByIds($arr, $key_1, $value_1, $key_2, $value_2) {
     return array_filter($arr, function ($k) use (
         $key_1, $key_2, $value_1, $value_2) {
 
@@ -349,68 +327,3 @@ function filterArrayByIds($arr, $key_1, $value_1, $key_2, $value_2)
     }, ARRAY_FILTER_USE_BOTH);
 };
 
-function select_data_column($link, $sql, $data, $columnName)
-{
-    $arr = [];
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    if (!$result) {
-        return false;
-    }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $arr[] = $row[$columnName];
-    };
-
-    return $arr;
-}
-
-function select_data_assoc($link, $sql, $data)
-{
-    $arr = [];
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-
-    if (!$result) {
-        return false;
-
-    }
-    while ($row = mysqli_fetch_assoc($result)) {
-        $arr[] = $row;
-    };
-    return $arr;
-}
-
-function insert_data($link, $table, $arr)
-{
-    $columns = implode(", ", array_keys($arr));
-    $values = array_values($arr);
-
-    $values_fill = array_fill_keys(array_keys($values), '?');
-    $values_implode = implode(", ", $values_fill);
-
-
-    $sql = "INSERT into $table ($columns) VALUES ($values_implode)";
-    $stmt = db_get_prepare_stmt($link, $sql, $arr);
-    $result = mysqli_stmt_execute($stmt);
-
-    if (!$result) {
-
-        return false;
-    }
-    $id = mysqli_insert_id($link);
-    return $id;
-}
-
-function update_data($link, $sql, $data)
-{
-    $stmt = db_get_prepare_stmt($link, $sql, $data);
-
-    $exec = mysqli_stmt_execute($stmt);
-
-    return $exec;
-}

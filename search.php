@@ -80,7 +80,7 @@ foreach($search_result_ids_offset as $search_result_id) {
     $search_result_sql = '
     SELECT 
      l.id,c.name AS category_name,
-     l.name,l.value,l.date_end,l.lot_path,count(b.value) 
+     l.name,l.value,UNIX_TIMESTAMP(l.date_end),l.lot_path,count(b.value) 
     FROM bets b 
     JOIN (lots l JOIN categories c ON l.category_id=c.id)
     ON b.lot_id = l.id

@@ -23,16 +23,6 @@ $categories_eng =
         'clothing', 'tools', 'other'
     ];
 
-//$categories_sql = '
-//SELECT * FROM categories ORDER BY id ASC';
-//
-//
-//$categories_fetched = select_data_column(
-//    $link, $categories_sql, [], 'name');
-//
-//$categories = array_combine(
-//    $categories_eng, $categories_fetched);
-
 $categories = '';
 
 $dbHelper = new DatabaseHelper(

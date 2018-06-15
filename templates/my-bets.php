@@ -28,7 +28,6 @@
         <div class="timer<?php if (convertLotTimeStamp($bet['UNIX_TIMESTAMP(l.date_end)']) === 'lot_end' && !$bet['bet_wins']) : ?> timer--end<?php elseif ($bet['bet_wins'] === 1) : ?> timer--win<?php elseif (is_array(convertLotTimeStamp($bet['UNIX_TIMESTAMP(l.date_end)'])) === true) : ?> timer--finishing<?php endif;?>">
 <?php if (convertLotTimeStamp($bet['UNIX_TIMESTAMP(l.date_end)']) === 'lot_end' && !$bet['bet_wins']) : ?>Торги окончены
 <?php elseif ($bet['bet_wins'] === 1) : ?>Ставка выиграла
-<!-- returns converted date value -->
 <?php elseif (is_array(convertLotTimeStamp($bet['UNIX_TIMESTAMP(l.date_end)']))) : ?><?= convertLotTimeStamp($bet['UNIX_TIMESTAMP(l.date_end)'])[0]?>
 <?php else :?><?= convertLotTimeStamp($bet['UNIX_TIMESTAMP(l.date_end)'])?>
 <?php endif; ?>
@@ -36,7 +35,7 @@
       </td>
 
       <td class="rates__price"><?=$bet['value']; ?></td>
-      <td class="rates__time"><?= convertBetTimeStamp($bet['UNIX_TIMESTAMP(b.date_add)']) ?></td>
+      <td class="rates__time"><?= convertDailyTimeStamp($bet['UNIX_TIMESTAMP(b.date_add)']) ?></td>
       </tr><?php endforeach; ?>
   </table>
 </section>

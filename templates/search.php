@@ -17,8 +17,9 @@
 <?php if (!empty($result_query['count(b.value)'])) :?><?= ' ' . getPlural($result_query['count(b.value)'], 'ставка', 'ставки', 'ставок') ?><?php else: ?>Стартовая цена<?php endif; ?></span>
                             <span class="lot__cost"><?= $result_query['value'] ?><b class="rub">р</b></span>
                         </div>
-                        <div class="lot__timer timer">
-                            16:54:12
+                        <div class="lot__timer timer <?php if (is_array(convertLotTimeStamp($result_query['UNIX_TIMESTAMP(l.date_end)']))) : ?> timer--finishing<?php endif;?>">
+                            <?php if (is_array(convertLotTimeStamp($result_query['UNIX_TIMESTAMP(l.date_end)']))) : ?><?= convertLotTimeStamp($result_query['UNIX_TIMESTAMP(l.date_end)'])[0] ?>
+                            <?php else : ?><?= convertLotTimeStamp($result_query['UNIX_TIMESTAMP(l.date_end)']) ?><?php endif; ?>
                         </div>
                     </div>
                 </div>

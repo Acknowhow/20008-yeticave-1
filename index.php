@@ -12,8 +12,6 @@ require 'markup/markup.php';
 $index_title = '';
 $category_title = '';
 
-var_dump($date_current);
-
 $user_id = isset($user['id']) ? $user['id'] : null;
 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
 
