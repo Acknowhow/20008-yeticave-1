@@ -15,6 +15,13 @@ $category_title = '';
 $user_id = isset($user['id']) ? $user['id'] : null;
 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
 
+if (!empty($user_id) &&
+    !isset($_SESSION['user']['winner_check'])) {
+    header('Location: winner.php');
+}
+
+unset($_SESSION['user']['winner_check']);
+
 if ($category_id) {
     $category_title = 'Все лоты в категории';
     $lots_count_sql = '

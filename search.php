@@ -18,6 +18,7 @@ $search_result_item = '';
 $bets_total = '';
 $search = $_GET['search'] ?? '';
 
+
 $nav = includeTemplate('templates/nav.php',
     [
         'categories' => $categories
