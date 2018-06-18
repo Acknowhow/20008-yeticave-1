@@ -3,5 +3,7 @@
     "description": "Sends email notifications when lot wins",
     "type": "project",
     "license": "MIT",
-    "require": {}
+    "require": {
+        "swiftmailer/swiftmailer": "^6.0"
+    }
 }

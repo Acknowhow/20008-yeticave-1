@@ -7,6 +7,7 @@ require 'defaults/var.php';
 require 'resource/functions.php';
 
 require_once 'database/database.php';
+require 'markup/markup.php';
 
 if (!isset($_SESSION['user']) || !isset($_SESSION['user']['id'])) {
     http_response_code(403);
@@ -45,6 +46,13 @@ if ($winning_lots) {
         $_SESSION['user']['winner_check'] = 'checked';
         header('Location:index.php');
     }
+    // Create the Transport
+    $transport = (new Swift_SmtpTransport('smtp.mail.ru', 465))
+        ->setUsername('doingsdone@gmail.com')
+        ->setPassword('rds7BgcL');
+
+// Create the Mailer using your created Transport
+    $mailer = new Swift_Mailer($transport);
 
 
     foreach ($winner_lots as $winner_lot) {
@@ -55,6 +63,18 @@ if ($winning_lots) {
         if ($dbHelper->getLastError()) {
             print $dbHelper->getLastError();
         }
+
+// Create a message
+        $message = (new Swift_Message('Wonderful Subject'))
+            ->setFrom(['john@doe.com' => 'John Doe'])
+            ->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
+            ->setBody('Here is the message itself')
+        ;
+
+// Send the message
+        $result = $mailer->send($message);
+
+
     }
 }
 $_SESSION['user']['winner_check'] = 'checked';
