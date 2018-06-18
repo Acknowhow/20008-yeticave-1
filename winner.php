@@ -18,13 +18,21 @@ $user_id = $_SESSION['user']['id'];
 
 // Select lots which are due date and not won
 // by other users
-$winning_lots_sql = 'SELECT b.lot_id,user_id,b.value
+$winning_lots_sql = '
+SELECT 
+b.lot_id,b.user_id,b.value,
+lot_name,lot_path,
+u.name AS user_name,u.email
 FROM bets b
-JOIN (SELECT id,date_end,bet_wins,MAX(value) AS value
+JOIN users u ON u.id = b.user_id
+JOIN (SELECT id,name AS lot_name,
+      date_end,lot_path,
+      bet_wins,MAX(value) AS value
       FROM lots 
       GROUP BY id) AS l
       ON b.lot_id = l.id AND b.value = l.value
-      WHERE UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW())
+      WHERE 
+      UNIX_TIMESTAMP(l.date_end) < UNIX_TIMESTAMP(NOW())
       AND l.bet_wins = 0';
 
 $dbHelper->executeQuery($winning_lots_sql);
@@ -46,6 +54,8 @@ if ($winning_lots) {
         $_SESSION['user']['winner_check'] = 'checked';
         header('Location:index.php');
     }
+
+
     // Create the Transport
     $transport = (new Swift_SmtpTransport('smtp.mail.ru', 465))
         ->setUsername('doingsdone@gmail.com')
@@ -64,16 +74,21 @@ if ($winning_lots) {
             print $dbHelper->getLastError();
         }
 
+        $content = includeTemplate('templates/email.php', [
+            'lot_name' => $winner_lot['lot_name'],
+            'lot_path' => $winner_lot['lot_path'],
+            'my_bets' => 'http://localhost/my-bets.php'
+        ]);
+
 // Create a message
-        $message = (new Swift_Message('Wonderful Subject'))
-            ->setFrom(['john@doe.com' => 'John Doe'])
-            ->setTo(['receiver@domain.org', 'other@domain.org' => 'A name'])
-            ->setBody('Here is the message itself')
+        $message = (new Swift_Message('Ваша ставка победила'))
+            ->setFrom(['doingsdone@gmail.com' => 'HTML Academy'])
+            ->setTo([$winner_lot['email'] => $winner_lot['user_name']])
+            ->setBody(print $content)
         ;
 
 // Send the message
         $result = $mailer->send($message);
-
 
     }
 }
