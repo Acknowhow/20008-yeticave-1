@@ -16,7 +16,7 @@ $user_id = isset($user['id']) ? $user['id'] : null;
 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
 
 if (!empty($user_id) &&
-    !isset($_SESSION['user']['winner_check'])) {
+    !isset($_SESSION['user']['winner_check']) && !isset($category_id)) {
     header('Location: winner.php');
 }
 
@@ -94,6 +94,8 @@ if ($dbHelper->getLastError()) {
 } else {
     $lots_offset = $dbHelper->getAssocArray();
 }
+
+var_dump($lots_offset);
 
 $pagination = includeTemplate('templates/pagination.php',
     [
