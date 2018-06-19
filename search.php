@@ -52,7 +52,7 @@ $count = count($search_result_ids);
 $count = $count + 0;
 $page_items = $page_items + 0;
 
-$pages_count = ceil($count / $page_items);
+$pages_count = floor($count / $page_items);
 
 $offset = ($curr_page - 1) * $page_items;
 $pages = range(1, $pages_count);
