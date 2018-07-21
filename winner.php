@@ -45,7 +45,6 @@ if ($dbHelper->getLastError()) {
 }
 
 
-
 if ($winning_lots) {
     $winner_lots = array_values(filterArrayById(
         $winning_lots, 'user_id', intval($user_id)));
@@ -57,13 +56,12 @@ if ($winning_lots) {
 
 
     // Create the Transport
-    $transport = (new Swift_SmtpTransport('smtp-relay.gmail.com', 587))
+    $transport = (new Swift_SmtpTransport('smtp-relay.gmail.com', 465, 'ssl'))
         ->setUsername('info@oblako9.ru')
         ->setPassword('vadi4ka1');
 
 // Create the Mailer using your created Transport
     $mailer = new Swift_Mailer($transport);
-
 
 
     foreach ($winner_lots as $winner_lot) {
@@ -85,8 +83,9 @@ if ($winning_lots) {
         $message = (new Swift_Message('Ваша ставка победила'))
             ->setFrom(['doingsdone@gmail.com' => 'HTML Academy'])
             ->setTo([$winner_lot['email'] => $winner_lot['user_name']])
-            ->setBody(print 'bla')
+            ->setBody(print 'bla', 'text/plain')
         ;
+
 
 // Send the message
         $result = $mailer->send($message);
